@@ -1,37 +1,25 @@
-# 自动驾驶
+# 仓库介绍说明
 
-#### 介绍
-整理自动驾驶相关的内容，为车路协同自动驾驶提供资料和笔记
-
-#### 软件架构
-软件架构说明
+因为目前工作的主要方向为车路协同自动驾驶，对于目前的能力来讲，还有很多需要去研究和学习的，所以仓库主要作为个人对车路协同或者自动驾驶的研究学习。
 
 
-#### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+里面的资料、博文都来自于各位大佬，自己目前在这个行业还属于一个学习的阶段，只能先走前辈们走过的路，不断积累和学习。
 
 
-#### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+仓库会时常更新，推荐阅读工具：Typora。
+
+主要是用Typora完成的笔记摘录工作。
+
+
+
+也欢迎各位朋友共同交流。
+
+
+
+## 免责声明
+
+- 本站所有文章为了记录工作、编程及生活随笔，不当之处，仅供参考；
+- 本站文章引用或转载写明来源，感谢原作者的辛苦写作，如果有异议或侵权，及时联系我处理，谢谢；
+- 本站所有文章仅代表个人当时意见和想法；
