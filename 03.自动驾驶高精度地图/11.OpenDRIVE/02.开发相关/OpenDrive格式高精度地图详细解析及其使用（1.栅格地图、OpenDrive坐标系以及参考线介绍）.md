@@ -54,21 +54,33 @@ uv坐标系目前看来只有在参数多项式那里使用了，你目前只需
 下面要介绍的参考线是弧线，也可以理解为弧度一致的曲线，在OpenDrive中使用arc来表示，弧线的属性除了直线所有的一切以外还包括一个curvature弧度，因为弧线本身就是弧度恒定的曲线，这样通过上述属性我们就可以确定一个弧线了，还是给出大致的示意图，希望能够对你有帮助，注意观察，此时弧线的起始S值与上一条直线的length一致（一定要完全掌握S值的概念和st坐标系，要不然后面会出问题）弧度是一致的，我画工有点菜，凑活看。
 ![请添加图片描述](https://img-blog.csdnimg.cn/8ca6dea5579f483a851ffec5180bbb4d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVlTGVl5piv5LiA5Liq5bCP5a2m55Sf,size_20,color_FFFFFF,t_70,g_se,x_16)
 再介绍一个螺旋线，用spiral表示，螺旋线特点是他是弧度线性变化的曲线，所以在包含所有直线的属性以外，还包含一curvStart和curvEnd属性，为线性变化的起始点和终止点。我手中的OpenDrive实例是没有spiral元素的，所以只能给你官方的图实例，看出弧度线性变化的效果了么？
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/3e75d26e502f457c9f13212b42940138.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVlTGVl5piv5LiA5Liq5bCP5a2m55Sf,size_8,color_FFFFFF,t_70,g_se,x_16)
 下面还有一个参数三次多项式，放在过两天再更吧，今天已经写了很多了。
 
 （2021.11.20更新）
 接下来我们讲解最后一个几何线，即参数三次多项式，本来应该还有一个三次多项式的，但是已经被OpenDrive官方取消了，以参数三次多项式代替，但是我们还是要首先介绍一下三次多项式，以便更好的理解参数三次多项式。我们先给出参数三次多项式的方程：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/ada7e0a18ac9464c969e3738b7084230.png)
 
+
+
 三次多项式我们会用到一个前文提到的很少用到的坐标系，那就是uv坐标系，前面说过，uv坐标系是根据st坐标系给出偏移生成的一个坐标系，那么是如何给定参数确定的这种偏移呢，答案是通过上面给出的a、b参数，参数b负责给出相对于st坐标系的航向角/偏向角，角度为arctan(b)，参数a负责给出当u = 0时，沿v坐标轴的偏移量。那么聪明的你此刻一定意识到了，当uv坐标系与st坐标系重合时，a = b = 0。当我们想将uv坐标转换为xy坐标时，使用下述公式：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/4930fee7bfac4642b941f6256c8df0ad.png)
+
 参数三次多项式就暂时讲这么多，接下来就是参数三次多项式，参数多项式稍稍有些复杂，我并不知道我是否能够讲好，如果你没看懂可以去看看官方文档或者其他人写的。参数三次多项式有很多属性:aU、bU、cU、dU、aV、bV、cV、dV、pRange，下面结合公式：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/1a1e6b4353114ff99ca1bf77f9a845a3.png)
-可以看出参数三次多项式与三次多项式不同，将uv坐标系的两个值uv**分开**，并引入公共参数p,注意这里的p并不是给的属性pRange，p是需要你自己去算的插值，而这个p的取值范围就是（0，pRange），那么我们计算p呢，下面给出我的算法：
+
+可以看出参数三次多项式与三次多项式不同，将uv坐标系的两个值uv**分开**，并引入公共参数p,注意这里的p并不是给的属性pRange，p是需要你自己去算的插值，而这个p的取值范围就是（0，pRange)，那么我们计算p呢，下面给出我的算法：
 **dis / length \* pRange**
 其中dis就是你希望在这条线上每隔多少取一个点，length就是这条参考线的实际长度，这个算法实际上很简单，你一定能看懂，这样迭代dis就可以获得一系列的p,通过这些p就可以获得一系列的u、v，再通过上面给出的式子就可以获得x、y，语言很抽象，下面看图：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/e5ae44dcad0a49cc9d25b03fb0d1393c.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVlTGVl5piv5LiA5Liq5bCP5a2m55Sf,size_10,color_FFFFFF,t_70,g_se,x_16)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/43ff2d7878334f83ac9005321ee10267.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVlTGVl5piv5LiA5Liq5bCP5a2m55Sf,size_10,color_FFFFFF,t_70,g_se,x_16)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/8f9213832983466dad2e400f039c03eb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVlTGVl5piv5LiA5Liq5bCP5a2m55Sf,size_10,color_FFFFFF,t_70,g_se,x_16)
+
 重点看第三幅图,上面有各个参数的几何意义，希望看到这你能够大致理解参数三次多项式的结构和格式。
