@@ -16,6 +16,7 @@
 以下内容都是对`OpenDrive-Unity-Renderer`的解读。本次使用Unity解析OpenDRIVE生成路网的模型如下：
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200628200921284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjIyMDA5,size_16,color_FFFFFF,t_70#pic_center)
+
 有路网和建筑模型，车跑上去效果还行，但是交叉口没有处理，还是模型重叠的状态。
 
 ### 二、OpenDrive概述
@@ -61,6 +62,7 @@ OpenDRIVE被开发出来是为了创建一种标准的地图数据格式，方�
 这是我做的一个XML节点和属性的导图。“【】”表示这个节点一般有多个。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200628195626147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjIyMDA5,size_16,color_FFFFFF,t_70#pic_center)
+
 在OpenDRIVE中，所有的道路都由一条定义基本几何图形(弧线，直线等)的reference line组成。沿着reference line，可以定义道路的各种属性。例如:高程轮廓线、交通标志等。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200629185012318.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjIyMDA5,size_16,color_FFFFFF,t_70)

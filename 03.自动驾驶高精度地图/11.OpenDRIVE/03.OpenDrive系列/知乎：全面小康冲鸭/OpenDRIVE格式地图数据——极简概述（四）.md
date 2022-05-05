@@ -11,51 +11,51 @@
 1、首先肯定是实例化一个XMLDocument类的对象。
 
 ```cpp
-    tinyxml2::XMLDocument document;
+tinyxml2::XMLDocument document;
 ```
 
 2、我们需要加载XML文件，并通过返回值判断是否成功。
 
 ```cpp
-    std::string filename = "borregasave.xodr";
-    if (document.LoadFile(file_name.c_str()) != tinyxml2::XML_SUCCESS) {
-        ERROR("load failed");    // 这个ERROR是我自己定义的函数,下同
-    }
+std::string filename = "borregasave.xodr";
+if (document.LoadFile(file_name.c_str()) != tinyxml2::XML_SUCCESS) {
+    ERROR("load failed");    // 这个ERROR是我自己定义的函数,下同
+}
 ```
 
 3、获得XML的根元素，后面就用这个根元素来访问XML中的各个元素。
 
 ```cpp
-    const tinyxml2::XMLElement* root_node = document.RootElement();
+const tinyxml2::XMLElement* root_node = document.RootElement();
 ```
 
 4、找到该元素（可以是任一元素）下面的第一个具名子元素。
 
 ```cpp
-    auto road_node = xml_node.FirstChildElement("road");
-    if (!road_node) {
-        ERROR("xml data missing road node");
-    }
+auto road_node = xml_node.FirstChildElement("road");
+if (!road_node) {
+    ERROR("xml data missing road node");
+}
 ```
 
 5、找到子元素的下一个兄弟元素，往往和4中的函数一起使用，用于遍历一个元素下的所有同名子元素。
 
 ```cpp
-    road_node = road_node->NextSiblingElement("road");
+road_node = road_node->NextSiblingElement("road");
 ```
 
 6、查询元素中的某个属性，将该属性值存入到std::string类型的对象。
 
 ```cpp
-    std::string road_id = "";    
-    road_node->QueryStringAttribute("id", &road.id);
+std::string road_id = "";    
+road_node->QueryStringAttribute("id", &road.id);
 ```
 
 7、查询元素中的某个属性，将该属性值存入到double类型的对象。
 
 ```cpp
-    double road_length = 0;    
-    road_node->QueryDoubleAttribute("length", &road.length);
+double road_length = 0;    
+road_node->QueryDoubleAttribute("length", &road.length);
 ```
 
 OK，以上大概就是从XML中加载元素和属性数据会用到的函数，其实我们简单的思考一下，无非就是要从.xodr文件中获得我们需要的“元素”和“元素的各种属性”。忘了“元素”和“属性”区分的请看下面这张图，红色的是元素，绿色的是该元素具有的属性。
@@ -104,6 +104,7 @@ typedef struct MXYZ {
 	double y;
 	double z; 
 }MXYZ;
+
 /* 基于道路参考线的Frenet坐标系下表示的位置 */
 typedef struct MSLZ {
 	MLaneUId lane_uid;
@@ -165,17 +166,17 @@ void OpenDriveParse::ParseToDiscretePoints()
 再看一下代码是如何实现的：
 
 ```cpp
-    double delta_s = 0.2;   // 采样间隔
-    int sample_num = int(geometry.length / delta_s);    // 采样的点数
-    for (int k = 0; k < sample_num + 1; k++)
-    {
-        double x = geometry.x + (delta_s * k) * std::cos(geometry.hdg);
-        double y = geometry.y + (delta_s * k) * std::sin(geometry.hdg);
-        // 这里保存"x, y, hdg, s, l"
-        road_reference_points.push_back(Point{ x, y, geometry.hdg, s, 0 });
+double delta_s = 0.2;   // 采样间隔
+int sample_num = int(geometry.length / delta_s);    // 采样的点数
+for (int k = 0; k < sample_num + 1; k++)
+{
+    double x = geometry.x + (delta_s * k) * std::cos(geometry.hdg);
+    double y = geometry.y + (delta_s * k) * std::sin(geometry.hdg);
+    // 这里保存"x, y, hdg, s, l"
+    road_reference_points.push_back(Point{ x, y, geometry.hdg, s, 0 });
 
-        s += delta_s; 
-    }
+    s += delta_s; 
+}
 ```
 
 （2）下图是一个“**Parampoly3**”型的道路中心线，同样我们可以根据<geometry>中的属性值来计算离散坐标点，只不过较为麻烦。

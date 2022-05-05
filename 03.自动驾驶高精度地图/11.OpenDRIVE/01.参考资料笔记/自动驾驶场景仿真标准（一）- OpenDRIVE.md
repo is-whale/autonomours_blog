@@ -1,6 +1,6 @@
 - [自动驾驶场景仿真标准（一）- OpenDRIVE - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/352422886)
 
-**1. OpenDRIVE的概况**
+## 1. OpenDRIVE的概况
 
 OpenDRIVE格式是以可扩展标记语言(XML)为基础，文件后缀为xodr格式的描述道路及道路网的通用标准。存储在OpenDRIVE文件中的数据描述了道路的几何形状以及沿线的特征并且定义了可以影响交通逻辑的交通标志以及道路基础设施，例如车道和信号灯。
 
@@ -10,9 +10,11 @@ OpenDRIVE根据XML的格式以节点和元素描述道路中各类信息。这�
 
 本文介绍了OpenDRIVE格式以及OpenDRIVE描述道路的方法。因为OpenDRIVE以XML格式为拓展格式，所以描述道路的每一元素和单元都有一定的从属关系，本文当中的元素从属关系若读者想有一个笼统的结构请参考：
 
-[OpenDRIVE结构图github.com/ruomusim/Intro_OpenDRIVE](https://link.zhihu.com/?target=https%3A//github.com/ruomusim/Intro_OpenDRIVE)
+>  [OpenDRIVE结构图github.com/ruomusim/Intro_OpenDRIVE](https://link.zhihu.com/?target=https%3A//github.com/ruomusim/Intro_OpenDRIVE)
 
-![img](https://pic1.zhimg.com/80/v2-f1cdf08de89d8f6ac87f45d7d021a1ec_720w.jpg)OpenDRIVE结构图
+![img](https://pic1.zhimg.com/80/v2-f1cdf08de89d8f6ac87f45d7d021a1ec_720w.jpg)
+
+OpenDRIVE结构图
 
 OpenDRIVE的例子可以参考如下的xodr文件：
 
@@ -42,7 +44,9 @@ OpenDRIVE中使用的所有浮点数都是IEEE 754双精度浮点数的数字。
 - 种类： 描述一个属性的数据类型， 可以是一个原始数据类型，例如，string、double、float，或者是指代对象的复杂数据类型。
 - 值： 值决定了给定属性的值范围，例如：
 
+```xml
 <geometry s="4.9957524872074799e+02" x="4.9469346060416666e+02" y="5.3447643627860181e+01" hdg="5.8804473418180125e-02" length="6.2079164697363019e+01"> <line/> </geometry>
+```
 
 其中geometry代表了当前元素所要描述的道路单元，其中geometry的属性有s，x，y，hdg和length，他们的值跟随在后面。
 

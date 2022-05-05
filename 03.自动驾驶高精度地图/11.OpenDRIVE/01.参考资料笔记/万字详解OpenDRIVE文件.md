@@ -1,16 +1,47 @@
+- [opendrive简介_whuzhang16的博客-CSDN博客_opendrive](https://blog.csdn.net/whuzhang16/article/details/110198356)
 - [一文读懂opendrive的xodr文件内容_布拉德先生的博客-CSDN博客_xodr格式](https://blog.csdn.net/weixin_44108388/article/details/111303985?ops_request_misc=%7B%22request%5Fid%22%3A%22164718048216780255286689%22%2C%22scm%22%3A%2220140713.130102334.pc%5Fblog.%22%7D&request_id=164718048216780255286689&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-6-111303985.nonecase&utm_term=OpenDrive&spm=1018.2226.3001.4450)
+- [自动驾驶场景仿真标准（一）- OpenDRIVE - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/352422886)
+- [opendrive坐标系_whuzhang16的博客-CSDN博客_opendrive坐标系](https://blog.csdn.net/whuzhang16/article/details/110388309)
 
-## 1 xml opendrive xodr
+## 1 OpenDRIVE概要
 
-OpenDRIVE格式使用文件拓展名为**xodr**的可扩展标记语言（**XML**）作为描述路网的基础。
+ASAM OpenDRIVE描述了**自动驾驶仿真应用**所需的静态道路交通网络，并提供了标准交换格式说明文档。该标准的主要任务是对道路及道路上的物体进行描述。OpenDRIVE说明文档涵盖对如**道路、车道、交叉路口**等内容进行建模的描述，但其中并不包含动态内容。
 
-存储在OpenDRIVE文件中的数据描述了道路的几何形状以及可影响路网逻辑的相关特征(features)，例如车道和标志。
+OpenDRIVE格式使用文件拓展名为xodr的可扩展标记语言（XML）作为描述路网的基础。存储在OpenDRIVE文件中的数据描述了道路的几何形状以及可影响路网逻辑的相关特征(features)，例如车道和标志。
 
-OpenDRIVE中描述的路网可以是人工生成或来自于真实世界的。OpenDRIVE的主要目的是提供可用于仿真的路网描述，并使这些路网描述之间可以进行交换。
+OpenDRIVE中描述的路网可以是人工生成或来自于真实世界的。OpenDRIVE的主要目的是**提供可用于仿真的路网描述，并使这些路网描述之间可以进行交换。**
 
 该格式将通过节点(nodes)而被构建，用户可通过自定义的数据扩展节点。这使得各类应用（通常为仿真）具有高度的针对性，同时还保证不同应用之间在交换数据时所需的互通性。
 
-## 0) 说明是opendrive
+### 1.1 OpenDRIVE文件结构
+
+OpenDRIVE数据存储在扩展名为.xodr的XML文件中。OpenDRIVE文件结构符合XML规则。元素按XML格式的等级进行排列，级别大于零（0）的元素为 子元素。级别为（1）的元素称为主元素。每个元素都可以用户定义的数据进行扩展。每个OpenDRIVE文件都会有一个主元素`<OpenDRIVE>`，所有描述道路的特征类都是它的子元素。
+
+OpenDRIVE中使用的所有浮点数都是IEEE 754双精度浮点数的数字。为了保证浮点数字在XML中的准确表示，在XML中的浮点数表示应该使用一个已知的正确精度，一般使用保留17位有效数字来描述数字。
+
+所有可以在 OpenDRIVE 文件中使用的属性都在 UML 模型中被完全注释：
+
+- 单位： 道路长度或速度等的单位
+- 种类： 描述一个属性的数据类型， 可以是一个原始数据类型，例如，string、double、float，或者是指代对象的复杂数据类型。
+- 值： 值决定了给定属性的值范围，例如：
+
+```xml
+<geometry s="4.9957524872074799e+02" x="4.9469346060416666e+02" y="5.3447643627860181e+01" hdg="5.8804473418180125e-02" length="6.2079164697363019e+01"> <line/> </geometry>
+```
+
+其中geometry代表了当前元素所要描述的道路单元，其中geometry的属性有s，x，y，hdg和length，他们的值跟随在后面。
+
+### 1.2 OpenDrive重要节点介绍
+
+> [Unity解析OpenDRIVE地图数据，并生成路网模型_方寸想法，编码宇宙-CSDN博客_opendrive unity](https://blog.csdn.net/qq_36622009/article/details/107006508?ops_request_misc=&request_id=&biz_id=102&utm_term=OpenDrive&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~sobaiduweb~default-6-107006508.nonecase&spm=1018.2226.3001.4450)
+
+XML节点和属性的导图。“【】”表示这个节点一般有多个。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200628195626147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjIyMDA5,size_16,color_FFFFFF,t_70#pic_center)
+
+## 2 格式说明
+
+范例：
 
 ```xml
 <?xml version="1.0"?>
@@ -19,17 +50,21 @@ OpenDRIVE中描述的路网可以是人工生成或来自于真实世界的。Op
 </OpenDRIVE>
 ```
 
-## 1) header 描述文件整体属性 （仅一个）
+OpenDRIVE的例子可以参考如下的xodr文件：
+
+[.xord示例文件github.com/ruomusim/Intro_OpenDRIVE](https://link.zhihu.com/?target=https%3A//github.com/ruomusim/Intro_OpenDRIVE)
+
+### 2.1 header 描述文件整体属性 （仅一个）
 
 `<header>`元素是 `<OpenDRIVE>`中的第一个元素。
-属性：
 
-注意：instances 意思是实例数，而该实例数要求是1
+注意：instances 意思是实例数，而该实例数要求是1。
 
 说明：
-（1）revMajor.revMinor就是最终的版本号，比如1.6
 
-（2）north，south，east，west指的是惯性坐标系下的东南西北方向的位置坐标值，也就是惯性坐标系下对应的x，y最大最小值等。
+1. revMajor.revMinor就是最终的版本号，比如1.6；
+
+2. north，south，east，west指的是惯性坐标系下的东南西北方向的位置坐标值，也就是惯性坐标系下对应的x，y最大最小值等。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215246449.PNG)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215246519.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
@@ -41,11 +76,13 @@ OpenDRIVE中描述的路网可以是人工生成或来自于真实世界的。Op
 <header date="XXXX日期" west="-10" revMinor="2" name="XXX名称" revMajor="1" east="10" north="10" version="1" south="-10"/>
 ```
 
-## 2) road 描述道路属性 （可多个）
+### 2.2 road 描述道路属性 （可多个）
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215351340.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 完整道路的表示方式：
+
 ①道路参考线 —— `<planView>`
+
 ②一条道路上的单独车道 ——
 
 ```xml
@@ -57,12 +94,16 @@ OpenDRIVE中描述的路网可以是人工生成或来自于真实世界的。Op
 ```
 
 ③沿道路放置的道路特征（如标志）
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215427535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
-属性：
 解释：
-1.length就是所有路径geometry长度的累加
-2.junction：交叉口的ID，道路作为联接道路属于该交叉口（无（none）使用= -1）
-3.使用道路的基本规则； RHT =靠右行车，LHT =靠左行车。当缺少此属性时，将假定为RHT。
+
+1. length就是所有路径geometry长度的累加
+
+2. junction：交叉口的ID，道路作为联接道路属于该交叉口（无（none）使用= -1）
+
+3. 使用道路的基本规则； RHT =靠右行车，LHT =靠左行车。当缺少此属性时，将假定为RHT。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215449635.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215449636.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
 示例：
@@ -77,7 +118,7 @@ OpenDRIVE中描述的路网可以是人工生成或来自于真实世界的。Op
 <road id="3" name="prototype" length="5" junction="0">
 ```
 
-### 2.0)link
+#### 2.2.1 link
 
 ```
 t_road_link
@@ -86,9 +127,10 @@ t_road_link
 在OpenDRIVE中，道路连接用 `<road>` 元素里的 `<link>` 元素来表示。 `<predecessor>` 以及 `<successor>` 元素在 `<link>` 元素中被定义。对于虚拟和常规的交叉口来说， `<predecessor>` 以及 `<successor>` 元素必须使用（shall）不同的属性组。
 
 属性：
-![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-EVvbaNeA-1608126737951)()]](https://img-blog.csdnimg.cn/2020121621552491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
-#### 2.0.1) `Successor`
+![](https://img-blog.csdnimg.cn/2020121621552491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
+
+##### 2.2.1.1 Successor
 
 前驱
 
@@ -96,10 +138,11 @@ t_road_link
 t_road_link_predecessorSuccessor
 ```
 
-必须（shall）将不同属性用于虚拟以及常规的交叉口。@contactPoint须（shall）用于常规交叉口；@elementS 和 @elementDir则须（shall）用于虚拟交叉口。
+- 必须（shall）将不同属性用于虚拟以及常规的交叉口。
 
-要求：
-只有在连接（linkage）清晰的情况下，才能（shall）直接连接两条道路。如果与前驱或后继的关系模糊，则必须（shall）使用交叉口。
+- @contactPoint须（shall）用于常规交叉口；@elementS 和 @elementDir则须（shall）用于虚拟交叉口。
+
+**只有在连接（linkage）清晰的情况下，才能（shall）直接连接两条道路。如果与前驱或后继的关系模糊，则必须（shall）使用交叉口。**
 
 示例：
 
@@ -118,7 +161,7 @@ t_road_link_predecessorSuccessor
 </link>
 ```
 
-#### 2.0.2) `predecessor`
+##### 2.2.1.2 predecessor
 
 后继
 
@@ -126,18 +169,21 @@ t_road_link_predecessorSuccessor
 t_road_link_predecessorSuccessor
 ```
 
-必须（shall）将不同属性用于虚拟以及常规的交叉口。@contactPoint须（shall）用于常规交叉口；@elementS 和 @elementDir则须（shall）用于虚拟交叉口。
+- 必须（shall）将不同属性用于虚拟以及常规的交叉口。
 
-### 2.1)planView
+- @contactPoint须（shall）用于常规交叉口；@elementS 和 @elementDir则须（shall）用于虚拟交叉口。
+
+#### 2.2.2 planView
 
 `<planView>` 元素是每个 `<road>` 元素里必须要用到的元素。
 
-#### 2.1.1) `planView -> geometry`
+##### 2.2.2.1 planView -> geometry
 
 在OpenDRIVE中，参考线的几何形状用`<planView>`元素里的 `<geometry>` 元素来表示。
 
 通用属性（对于不同类型的参考线形式，比如螺旋线、样条曲线等，可能有新增的附属属性，通用属性写在`<geometry>`标签里，而新增的附属属性在`<geometry>`标签下再写一层）：
-![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-7deSCCgK-1608126737952)()]](https://img-blog.csdnimg.cn/20201216215557491.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
+
+![](https://img-blog.csdnimg.cn/20201216215557491.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
 以下规则适用于道路参考线：
 
@@ -155,15 +201,15 @@ t_road_link_predecessorSuccessor
 1. 直线
 2. 螺旋线
 3. 线
+4. 直线
+5. 螺旋线或回旋曲线（曲率以线性方式改变）
+6. 有恒定曲率的弧线
+7. 三次多项式曲线
+8. 参数三次多项式曲线
+
+![](https://img-blog.csdnimg.cn/20201216215620393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
 1. 直线
-2. 螺旋线或回旋曲线（曲率以线性方式改变）
-3. 有恒定曲率的弧线
-4. 三次多项式曲线
-5. 参数三次多项式曲线
-   ![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-vs7L95sZ-1608126737952)()]](https://img-blog.csdnimg.cn/20201216215620393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
-
-1.直线
 
 在OpenDRIVE中，直线用`<geometry>` 元素里的 `<line>` 元素来表示。
 
@@ -182,7 +228,7 @@ t_road_link_predecessorSuccessor
 </planView>
 ```
 
-2.螺旋线Spiral
+2. 螺旋线Spiral
 
 `t_road_planView_geometry_spiral`里描述了层次关系，先是`road`，然后`planView`是`road`的下一层，同理，`geometry`和`spiral`。
 
@@ -196,7 +242,9 @@ t_road_link_predecessorSuccessor
 示例：
 
 注意：曲率：
+
 正曲率：左曲线（逆时针运动）
+
 负曲率：右曲线（顺时针运动）
 
 ```xml
@@ -217,7 +265,9 @@ t_road_link_predecessorSuccessor
 示例：
 
 注意：曲率：
+
 正曲率：左曲线（逆时针运动）
+
 负曲率：右曲线（顺时针运动）
 
 ```xml
@@ -233,12 +283,13 @@ t_road_link_predecessorSuccessor
 </planView>
 ```
 
-4.组合曲线，连接处
+4. 组合曲线，连接处
 
 通过对OpenDRIVE中所有可用的几何形状元素进行组合，便可以创建诸多种类的道路线。
 
 示意图：
-![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-x7uNtsdH-1608126737954)()]](https://img-blog.csdnimg.cn/20201216215723247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
+
+![](https://img-blog.csdnimg.cn/20201216215723247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
 示例：
 
@@ -274,10 +325,12 @@ v(u) = a + b*u + c*u2 + d*u³
 ```
 
 不能用全局三次多项式，原因：
-![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-csJSo3EA-1608126737954)()];](https://img-blog.csdnimg.cn/20201216215745320.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
+![](https://img-blog.csdnimg.cn/20201216215745320.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
 而全局坐标系和局部坐标系之间的转换：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215805686.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216215805478.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
 
 在OpenDRIVE中，三次多项式用 `<geometry>` 元素里的 `<poly3>` 元素来表示。
@@ -286,6 +339,7 @@ v(u) = a + b*u + c*u2 + d*u³
 ![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-gH54co3F-1608126737955)()]](https://img-blog.csdnimg.cn/20201216215836855.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
 要求：
+
 `<geometry>`元素的起始点(@x,@y)定位在局部u/v坐标系的v轴上。
 
 示例：
@@ -340,9 +394,10 @@ u(p) = aU + bU*p + cU*p2 + dU*p³`
 在OpenDRIVE中，参数三次曲线用 `<geometry>` 元素里的 `<paramPoly3>` 元素来表示。
 
 要求：
-若@pRange=“arcLength”，那么p可（may）在[0, @length from ]范围内对其赋值。
 
-若@pRange=“normalized”，那么p可（may）在[0, 1]范围内对其赋值。
+- 若@pRange=“arcLength”，那么p可（may）在[0, @length from ]范围内对其赋值。
+
+- 若@pRange=“normalized”，那么p可（may）在[0, 1]范围内对其赋值。
 
 属性：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020121622000094.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
@@ -373,9 +428,9 @@ u(p) = aU + bU*p + cU*p2 + dU*p³`
 </planView>
 ```
 
-### 2.2) elevationProfile
+#### 2.2.3 elevationProfile
 
-#### 2.2.1) elevationProfile -> elevation
+##### 2.2.3.1 elevationProfile -> elevation
 
 ```
 t_road_elevationProfile_elevation
@@ -404,9 +459,9 @@ elev(ds) = a + b*ds + c*ds² + d*ds³
 </elevationProfile>
 ```
 
-### 2.3) lateralProfile
+#### 2.2.4 lateralProfile
 
-#### 2.3.1) lateralProfile -> superelevation
+##### 2.2.4.1 lateralProfile -> superelevation
 
 ```
 t_road_lateralProfile_superelevation
@@ -437,7 +492,7 @@ sElev (ds) = a + b*ds + c*ds2 + d*ds3
 </lateralProfile>
 ```
 
-#### 2.3.2) lateralProfile -> shape
+##### 2.2.4.2 lateralProfile -> shape
 
 ```
 t_road_lateralProfile_shape
@@ -451,47 +506,7 @@ t_road_lateralProfile_shape
 hShape (ds)= a + b*dt + c*dt2 + d*dt3
 ```
 
-### 2.4) lanes
-
-### 2.5) type
-
-```
-t_road_type
-```
-
-Road type 道路类型
-
-![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Wq3NTYeY-1608126737960)()]](https://img-blog.csdnimg.cn/20201216220101693.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
-
-示例：
-
-```
-  <type s="0" type="motorway"/>
-```
-
-#### 2.5.1）type -> speed
-
-```
-t_road_type_speed
-```
-
-在OpenDRIVE中，速度限制用 `<type>` 元素里的 `<speed>` 元素来表示。
-
-![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-wCSWnhs4-1608126737961)()]](https://img-blog.csdnimg.cn/20201216220116541.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
-
-示例：
-
-```xml
-<speed max="-1" sOffset="0" unit="m/s"/>
-```
-
-### 2.6) surface
-
-```
-t_road_surface_CRG
-```
-
-### 2.7) Lanes
+#### 2.2.5 lanes
 
 在OpenDRIVE中，所有道路都包含了车道。每条道路必须（shall）拥有至少一条宽度大于0的车道，并且每条道路的车道数量不受限制。
 
@@ -538,7 +553,7 @@ t_road_surface_CRG
 </lanes>
 ```
 
-#### 2.7.1) Lanes -> laneSection
+##### 2.2.5.1 Lanes -> laneSection
 
 ```
 t_road_lanes_laneSection
@@ -558,13 +573,13 @@ t_road_lanes_laneSection
 </laneSection>
 ```
 
-#### 2.7.1.1 Lanes -> laneSection -> center
+##### 2.2.5.2 Lanes -> laneSection -> center
 
 ```
 t_road_lanes_laneSection_center
 ```
 
-##### 2.7.1.1.1 Lanes -> laneSection -> center -> lane
+###### 2.2.5.2.1 Lanes -> laneSection -> center -> lane
 
 ```
 t_road_lanes_laneSection_center_lane
@@ -572,8 +587,7 @@ t_road_lanes_laneSection_center_lane
 
 车道元素被包括在左/中/右元素中。车道元素必须（should）使用降序ID从左到右展示车道。
 
-lane属性：
-level, type
+lane属性：level, type
 
 **level**: 0 —— 不采用超高程；1 —— 采用超高程。
 
@@ -583,22 +597,38 @@ level, type
 ![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-g6Yf8ewI-1608126737962)()]](https://img-blog.csdnimg.cn/2020121622023391.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
 包括：
-路肩shoulder：描述了道路边缘的软边界。
-边界border：描述了道路边缘的硬边界。其与正常可供行驶的车道拥有同样高度。
-驾驶driving：描述了一条“正常”可供行驶、不属于其他类型的道路。
-停stop：高速公路的硬路肩，用于紧急停车。
-无none：描述了道路最远边缘处的空间，并无实际内容。其唯一用途是在（人类）驾驶员离开道路的情况下，让应用记录OpenDRIVE仍在运行。
-限制restricted：描述了不应有车辆在上面行驶的车道。该车道与行车道拥有相同高度。通常会使用实线以及虚线来隔开这类车道。
-泊车parking：描述了带停车位的车道。
-分隔带median：描述了位于不同方向车道间的车道。在城市中通常用来分隔大型道路上不同方向的交通。
-自行车道biking：描述了专为骑自行车者保留的车道。
-人行道sidewalk：描述了允许行人在上面行走的道路。
-路缘curb：描述了路缘石。路缘石与相邻的行车道在高度有所不同。
-出口exit：描述了用于平行于主路路段的车道。主要用于减速。
-入口entry：描述了用于平行于主路路段的车道。主要用于加速。
-加速车道onramp：由乡村或城市道路引向高速公路的匝道。
-减速车道offRamp：驶出高速公路，驶向乡村或城市道路所需的匝道。
-连接匝道connectingRamp：连接两条高速公路的匝道。例如高速公路路口。
+
+- 路肩shoulder：描述了道路边缘的软边界。
+
+ -边界border：描述了道路边缘的硬边界。其与正常可供行驶的车道拥有同样高度。
+
+- 驾驶driving：描述了一条“正常”可供行驶、不属于其他类型的道路。
+
+- 停stop：高速公路的硬路肩，用于紧急停车。
+
+- 无none：描述了道路最远边缘处的空间，并无实际内容。其唯一用途是在（人类）驾驶员离开道路的情况下，让应用记录OpenDRIVE仍在运行。
+
+- 限制restricted：描述了不应有车辆在上面行驶的车道。该车道与行车道拥有相同高度。通常会使用实线以及虚线来隔开这类车道。
+
+- 泊车parking：描述了带停车位的车道。
+
+- 分隔带median：描述了位于不同方向车道间的车道。在城市中通常用来分隔大型道路上不同方向的交通。
+
+- 自行车道biking：描述了专为骑自行车者保留的车道。
+
+- 人行道sidewalk：描述了允许行人在上面行走的道路。
+
+- 路缘curb：描述了路缘石。路缘石与相邻的行车道在高度有所不同。
+
+- 出口exit：描述了用于平行于主路路段的车道。主要用于减速。
+
+- 入口entry：描述了用于平行于主路路段的车道。主要用于加速。
+
+- 加速车道onramp：由乡村或城市道路引向高速公路的匝道。
+
+- 减速车道offRamp：驶出高速公路，驶向乡村或城市道路所需的匝道。
+
+- 连接匝道connectingRamp：连接两条高速公路的匝道。例如高速公路路口。
 
 高速公路的车道类型：
 
@@ -612,7 +642,7 @@ level, type
 <lane level="0" id="0" type="border">
 ```
 
-###### 2.7.1.1.1.1 Lanes -> laneSection -> center -> lane -> link
+###### 2.2.5.2.2 Lanes -> laneSection -> center -> lane -> link
 
 ```
 t_road_lanes_laneSection_lcr_lane_link
@@ -620,7 +650,7 @@ t_road_lanes_laneSection_lcr_lane_link
 
 在OpenDRIVE中，车道连接用`<lane>`元素里的`<link>`元素来表示。`<predecessor>`和`<successor>`元素在`<link>`元素内得到定义。
 
-###### 2.7.1.1.1.1.1 Lanes -> laneSection -> center -> lane -> link -> predecessor
+###### 2.2.5.2.2.1 Lanes -> laneSection -> center -> lane -> link -> predecessor
 
 ```
 t_road_lanes_laneSection_lcr_lane_link_predecessorSuccessor
@@ -629,8 +659,11 @@ t_road_lanes_laneSection_lcr_lane_link_predecessorSuccessor
 `<predecessor>`和`<successor>`元素在`<link>`元素内得到定义。
 
 要求：
+
 一条车道可（may）拥有另外一条车道作为其前驱或后继。
+
 只有当两条车道的连接明确时，它们才能（shall）被连接。若与前驱或后继部分的关系比较模糊，则必须（shall）使用交叉口。
+
 若车道结束于一个路口内或没有任何连接，则必须（shall）删除 `<link>` 元素。
 
 示例：
@@ -645,7 +678,7 @@ t_road_lanes_laneSection_lcr_lane_link_predecessorSuccessor
 </lane>
 ```
 
-###### 2.7.1.1.1.2 Lanes -> laneSection -> center -> lane -> width
+###### 2.2.5.2.2.2 Lanes -> laneSection -> center -> lane -> width
 
 ```
 t_road_lanes_laneSection_lr_lane_width
@@ -673,7 +706,6 @@ Width (ds) = a + b*ds + c*ds² + d*ds³
 
 ```
 <width b="0" sOffset="0" c="0" d="0" a="3.75"/>
-1
 ```
 
 ###### 2.7.1.1.1.3 Lanes -> laneSection -> center -> lane -> speed
@@ -843,7 +875,7 @@ t_road_lanes_laneSection_lcr_lane_roadMark_type_line
 tOffset (ds) = a + b*ds + c*ds² + d*ds³
 ```
 
-#### 2.7.1.2 Lanes -> laneSection -> left
+##### 2.2.5.3 Lanes -> laneSection -> left
 
 ```
 t_road_lanes_laneSection_left
@@ -851,25 +883,25 @@ t_road_lanes_laneSection_left
 
 为了能够便利地在OpenDRIVE的道路描述中进行查找，一个车道段内的车道可分为左、中和右车道。每个车道段均必须（shall）包含一个`<center>`元素和至少一个`<right>`或`<left>`元素。
 
-##### 2.7.1.2.1 Lanes -> laneSection -> left -> lane
+###### 2.2.5.3.1 Lanes -> laneSection -> left -> lane
 
 ```
 t_road_lanes_laneSection_left_lane
 ```
 
-#### 2.7.1.3 Lanes -> laneSection -> right
+###### 2.2.5.3.2 Lanes -> laneSection -> right
 
 ```
 t_road_lanes_laneSection_right
 ```
 
-##### 2.7.1.3.1 Lanes -> laneSection -> right -> lane
+###### 2.2.5.3.3 Lanes -> laneSection -> right -> lane
 
 ```
 t_road_lanes_laneSection_right_lane
 ```
 
-#### 2.7.2) Lanes -> laneOffset
+##### 2.2.5.4 Lanes -> laneOffset
 
 ```
 t_road_lanes_laneOffset
@@ -901,7 +933,45 @@ offset (ds) = a + b*ds + c*ds² + d*ds³
     <\lanes>
 ```
 
-## 3) junction 描述交叉路口属性 （可多个）
+#### 2.2.6 type
+
+```
+t_road_type
+```
+
+Road type 道路类型
+
+![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Wq3NTYeY-1608126737960)()]](https://img-blog.csdnimg.cn/20201216220101693.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
+
+示例：
+
+```xml
+<type s="0" type="motorway"/>
+```
+
+##### 2.2.6.1 type -> speed
+
+```
+t_road_type_speed
+```
+
+在OpenDRIVE中，速度限制用 `<type>` 元素里的 `<speed>` 元素来表示。
+
+![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-wCSWnhs4-1608126737961)()]](https://img-blog.csdnimg.cn/20201216220116541.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
+
+示例：
+
+```xml
+<speed max="-1" sOffset="0" unit="m/s"/>
+```
+
+#### 2.2.7 surface
+
+```
+t_road_surface_CRG
+```
+
+### 2.3 junction 描述交叉路口属性 （可多个）
 
 ```
 t_junction
@@ -913,9 +983,10 @@ t_junction
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201216220646789.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70)
 
 特点：
+
 与道路不同，交叉口并不具备任何前驱或后继交叉口。
 
-### 3.1) connection
+#### 2.3.1 connection
 
 在OpenDRIVE中，交叉口用 `<junction>` 元素来表示。联接道路则用 `<junction>` 元素中的 `<connection>` 元素来表示。OpenDRIVE并未特意将去路定义为元素或属性，来路也可被视作为去路，因此二者在此处可被相提并论。通往该道路的联接道路将此类道路隐性地定义为去路。
 
@@ -923,8 +994,6 @@ t_junction
 
 示意图：
 ![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-aXfuMjmV-1608126737969)()]](https://img-blog.csdnimg.cn/20201216220730885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
-
-属性：
 解释：
 
 1. incomingRoad 表示连接的两条车道的进入交叉路口的车道（Incoming roads）的id
@@ -942,7 +1011,7 @@ t_junction
 
 ![[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-u7cxQ7wm-1608126737970)()]](https://img-blog.csdnimg.cn/2020121622085636.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDEwODM4OA==,size_16,color_FFFFFF,t_70#pic_center)
 
-#### 3.1.1) connection -> laneLink
+##### 2.3.1.1 connection -> laneLink
 
 `t_junction_connection_laneLink`
 该属性提供了关于在一条来路和一条联接道路之间被连接的车道信息。强烈建议使用该元素。忽略`<laneLink>`元素的做法已经不符合时宜。
@@ -964,3 +1033,152 @@ t_junction
 </junction>
 ```
 
+## 3 OpenDRIVE中的坐标系
+
+OpenDRIVE使用三种类型的坐标系，如下图所示：
+
+![img](https://img-blog.csdnimg.cn/img_convert/54ae66c0718bf4d5af6095ed0d525872.png)
+
+- 惯性x/y/z坐标系
+- 参考线s/t/h坐标系
+- 局部u/v/z轴坐标系
+
+若无另外说明，对局部坐标系的查找与定位将相对于参考线坐标系来进行。对参考线坐标系位置与方向的设定则相对于惯性坐标系来开展，具体方法为对原点、原点的航向角/偏航角、横摆角/翻滚角和俯仰角的旋转角度及它们之间的关系进行详细说明。
+
+![img](https://img-blog.csdnimg.cn/20201130145409470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dodXpoYW5nMTY=,size_16,color_FFFFFF,t_70)
+
+### 3.1 惯性x/y/z坐标系
+
+惯性坐标系描述的是地图中具体某个点在当前参考坐标系下的位置。其中x y z坐标可以具体表示某一个点所在的位置。如在描述某一段道路时，道路起始点的位置就是由x y z坐标定义。道路就是在这个点开始，按一定方向和一定长度延伸。
+
+```xml
+<geometry s="4.9957524872074799e+02" x="4.9469346060416666e+02" y="5.3447643627860181e+01" hdg="5.8804473418180125e-02" length="6.2079164697363019e+01"> <line/> </geometry>
+```
+
+在上述例子中，x="4.9469346060416666e+02" 和y="5.3447643627860181e+01"描述的是此段道路的起始点在惯性坐标系中的位置。
+
+根据[ISO](https://so.csdn.net/so/search?q=ISO&spm=1001.2101.3001.7020) 8855惯性坐标系是右手坐标系，其轴的指向方向如下（见图7）：
+
+- x轴 ⇒ 右方
+- y轴 ⇒ 上方
+- z轴 ⇒ 指向绘图平面外
+
+以下惯例适用于地理参考：
+
+- x轴 ⇒ 东边
+- y轴 ⇒ 北边
+- z轴 ⇒ 上方
+
+通过依次设置航向角/偏航角（heading）、俯仰角（pitch）和横摆角/翻滚角（roll），元素（如物体、标志等）可被置于惯性坐标系中：
+
+![img](https://img-blog.csdnimg.cn/20201130145627958.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dodXpoYW5nMTY=,size_16,color_FFFFFF,t_70)
+
+图7展示了对应角的正轴与正方向。
+
+![img](https://img-blog.csdnimg.cn/20201130145754428.png)
+
+![img](https://img-blog.csdnimg.cn/20201130145808123.png)
+
+![img](https://img-blog.csdnimg.cn/20201130145827492.png)
+
+![img](https://img-blog.csdnimg.cn/20201130145846727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dodXpoYW5nMTY=,size_16,color_FFFFFF,t_70)
+
+x’/y’/(z’=z) 指的是以航向角/偏航角围绕z轴旋转x/y/z轴之后的坐标系。坐标系x’’/(y’’=y’)/z’’指的是以俯仰角围绕y’轴旋转x’/y’/z’轴之后的坐标系。最后，坐标系(x’’’=x’’)/y’’’/z’’’在用横摆角/翻滚角旋转x’’/y’’/z’’后获得。
+
+### 3.2 参考线s/t/h坐标系
+
+参考线坐标系适用于沿道路的参考线。它是一个右旋坐标系。s方向沿参考线的切线。需要注意的是，参考线总是位于惯性坐标系定义的x/y平面内。t方向与s方向正交。右手系统通过定义与x轴和y轴正交的上方向h来完成。
+
+![img](https://img-blog.csdnimg.cn/img_convert/12b0684d7aa4ae7f73f4350a40106418.png)
+
+如下为参考线坐标系的三个方向描述：
+
+- s方向：沿参考线的坐标，从道路起点开始测量，单位为[m]。参考线，在 xy 平面上计算（即，不考虑道路高程剖面图)
+- t方向：横向位置，从参考线出发，延与s方向正交的方向，指向s方向左侧。
+- h方向：在右手坐标系中与st平面正交
+
+```xml
+<geometry s="4.9957524872074799e+02" x="4.9469346060416666e+02" y="5.3447643627860181e+01" hdg="5.8804473418180125e-02" length="6.2079164697363019e+01"> <line/> </geometry>
+```
+
+在上述例子中，s="4.9957524872074799e+02"描述的是此段道路的起始点在参考线坐标系中的位置。
+
+### 3.3 三种坐标系的关系
+
+三种坐标系的关系可通过下图清晰展示，惯性坐标系、参考线坐标系和局部坐标系将在OpenDRIVE中同时被使用。图中的示例描述了三个坐标系相对于彼此的位置与方向设定。
+
+![img](https://img-blog.csdnimg.cn/img_convert/12f5744c2c19e5aad738e0479535d075.png)
+
+
+
+### 3.4 OpenDRIVE中的地理坐标参考
+
+空间参考系的标准化由欧洲石油调查组织(EPSG)执行，该参考系由用于描述大地基准的参数来定义。大地基准是相对于地球的椭圆模型的位置合集所作的坐标参考系。
+
+通过使用基于PROJ（一种用于两个坐标系之间数据交换的格式）的投影字符串来完成对大地基准的描述。该数据应标为CDATA，因为其可能包含会干预元素属性XML语义的字符。
+
+在OpenDRIVE中，关于数据集的地理参考信息在`<header>`元素的`<geoReference>`元素中得以呈现。Proj字符串（如以下XML示例中所示）包含了所有定义已使用的空间参考系的参数：
+
+关于proj字符串的细节信息，参见 https://proj.org/usage/projections.html
+
+投影的定义不能（shall）多于一个。若定义缺失，那么则假定为局部笛卡尔坐标系。
+
+这里强烈建议使用proj字符串的官方参数组（使用该链接查询字符串： https://epsg.io/ ）。参数不应（should）被改变。一些空间参考系如UTM具有隐东及北伪偏移，这里使用+x_0与+y_0参数对它们进行定义。
+
+若想应用偏移，请使用`<offset>`元素，而不是改变所有参数值。
+
+XML示例:
+
+```XML
+<geoReference>
+    <![CDATA[+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs]]>
+</geoReference>
+```
+
+![img](https://img-blog.csdnimg.cn/2020113015124997.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dodXpoYW5nMTY=,size_16,color_FFFFFF,t_70)
+
+规则：
+
+- `<offset>` 应使OpenDRIVE 的x和y坐标大致集中在(0;0)周围。在x和y坐标过大的情况下，由于IEEE 754双精度浮点数的精确度有限，在内部使用浮点坐标的应用可能无法对它们进行精确处理。
+
+## 4 OpenDrive格式地图数据解析
+
+> [OpenDrive格式地图数据解析_lyf's blog-CSDN博客_opendrive](https://blog.csdn.net/lewif/article/details/78575840)
+
+**OpenDrive地图解析代码可以参考，https://github.com/liuyf5231/opendriveparser**
+
+该xml文件中中包含了很多地图信息，例如Road、Junction等，下图是xml文件的主要结构，
+
+![这里写图片描述](https://img-blog.csdn.net/20171122102541888?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGV3aWY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+下图为绘制地图的一个简单思路，读取OpenDRIVE文件，即地图数据，构造路网，通过渲染展示给用户。
+
+![这里写图片描述](https://img-blog.csdn.net/20171122102613527?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGV3aWY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+下面结合OpenDRIVE文件中的数据，介绍如何构造路网。
+
+
+
+## 5 与其他标准的关联
+
+### 5.1 ASAM OpenDRIVE在ASAM标准系列中的角色
+
+ASAM OpenDRIVE是ASAM仿真标准的一部分，该标准专注于车辆环境的仿真数据。除了ASAM OpenDRIVE，ASAM还提供其他仿真领域的标准，例如ASAM OpenSCENARIO和ASAM OpenCRG。
+
+### 5.2 OpenDRIVE与OpenCRG以及OpenSCENARIO之间的关联
+
+ASAM OpenDRIVE为路网的静态描述定义了一种存储格式。通过与ASAM OpenCRG结合使用，可以将非常详细的路面描述添加至路网当中。OpenDRIVE和ASAM OpenCRG仅包含静态内容，若要添加动态内容，则需要使用ASAM OpenSCENARIO。三个标准的结合则提供包含静态和动态内容、由场景驱动的对交通模拟的描述。
+
+![img](https://img-blog.csdnimg.cn/20201126175442116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dodXpoYW5nMTY=,size_16,color_FFFFFF,t_70)
+
+图 OpenDRIVE, OpenCRG 以及 OpenSCENARIO之间的关联
+
+### 5.3 向后兼容早期版本
+
+OpenDRIVE 1.6版包含了在1.5版中出现过的元素，但这些元素与1.4版不兼容。为了确保能与1.4版和1.5版兼容，这些元素在1.6版的[XML](https://so.csdn.net/so/search?q=XML&spm=1001.2101.3001.7020)模式中从技术上被定义为可选。在UML模型的注释中，它们被标记为“向后兼容的可选”。
+
+## 6 OpenDRIVE高精地图查看器
+
+[OpenDRIVE地图在线查看 - BimAnt](http://opendrive.bimant.com/)是一个免费的OpenDRIVE高精地图在线查看工具，可以直接在浏览器网页内打开.xodr格式的高精地图并自动创建并显示相应的道路三维模型。
+
+地址：http://opendrive.bimant.com/
