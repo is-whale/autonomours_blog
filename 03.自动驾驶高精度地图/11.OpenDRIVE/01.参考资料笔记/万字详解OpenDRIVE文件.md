@@ -889,19 +889,19 @@ t_road_lanes_laneSection_left
 t_road_lanes_laneSection_left_lane
 ```
 
-###### 2.2.5.3.2 Lanes -> laneSection -> right
+##### 2.2.5.4 Lanes -> laneSection -> right
 
 ```
 t_road_lanes_laneSection_right
 ```
 
-###### 2.2.5.3.3 Lanes -> laneSection -> right -> lane
+###### 2.2.5.4.1 Lanes -> laneSection -> right -> lane
 
 ```
 t_road_lanes_laneSection_right_lane
 ```
 
-##### 2.2.5.4 Lanes -> laneOffset
+##### 2.2.5.5 Lanes -> laneOffset
 
 ```
 t_road_lanes_laneOffset
@@ -1014,6 +1014,7 @@ t_junction
 ##### 2.3.1.1 connection -> laneLink
 
 `t_junction_connection_laneLink`
+
 该属性提供了关于在一条来路和一条联接道路之间被连接的车道信息。强烈建议使用该元素。忽略`<laneLink>`元素的做法已经不符合时宜。
 
 联接道路将基于其车道对路线进行描述。联接道路详细说明了相同交叉口的来路和去路的车道之间的连接。如果该车道并没有被连接，就意味着这些车道之间的路线不通。
@@ -1156,8 +1157,6 @@ XML示例:
 ![这里写图片描述](https://img-blog.csdn.net/20171122102613527?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGV3aWY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 下面结合OpenDRIVE文件中的数据，介绍如何构造路网。
-
-
 
 ## 5 与其他标准的关联
 

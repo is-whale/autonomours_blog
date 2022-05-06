@@ -297,11 +297,17 @@ void OpenDriveParse::CreateLaneNodes()
 
 如下图所示，**主要读取“道路前驱和后继”和“车道前驱和后继”，以及“交叉口中的连接”**，然后把他们存储起来即可，同时，我在代码中还做了重复连接关系的检查等。注意：暂时假设所有的“同向车道”都是可以变道的，所以所有的同向车道也都是自身车道的邻居。
 
-![img](https://pic2.zhimg.com/80/v2-01599a35745fe9e10f6d875282322f55_720w.png)道路前驱和后继
+![img](https://pic2.zhimg.com/80/v2-01599a35745fe9e10f6d875282322f55_720w.png)
 
-![img](https://pic1.zhimg.com/80/v2-53579c9286874664869adbaeb4bb7268_720w.jpg)车道前驱和后继
+道路前驱和后继
 
-![img](https://pic3.zhimg.com/80/v2-d4518bbd890f3a67155a316e36fec7a6_720w.jpg)交叉口中的连接关系
+![img](https://pic1.zhimg.com/80/v2-53579c9286874664869adbaeb4bb7268_720w.jpg)
+
+车道前驱和后继
+
+![img](https://pic3.zhimg.com/80/v2-d4518bbd890f3a67155a316e36fec7a6_720w.jpg)
+
+交叉口中的连接关系
 
 **3、创建一个锚点**
 
