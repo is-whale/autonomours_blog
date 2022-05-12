@@ -40,15 +40,19 @@ C-V2X 主要包括 V2N（车辆与网络 / 云）、V2V（车辆与车辆）、V
 
 
 
-![img](https://pic3.zhimg.com/50/v2-f2f805738e63f3c20e035ab11a388135_720w.jpg?source=1940ef5c)![img](https://pic3.zhimg.com/80/v2-f2f805738e63f3c20e035ab11a388135_720w.jpg?source=1940ef5c) V2V 车辆间通信的两种模式
+![img](https://pic3.zhimg.com/50/v2-f2f805738e63f3c20e035ab11a388135_720w.jpg?source=1940ef5c)![img](https://pic3.zhimg.com/80/v2-f2f805738e63f3c20e035ab11a388135_720w.jpg?source=1940ef5c) 
+
+V2V 车辆间通信的两种模式
 
 
 
 C-V2X 还将持续平滑演进到 5G V2X，将对功能进一步增强，以支持低延迟和高可靠性 V2X 服务。
 
- 除了 PC5 和 Uu 接口，C-V2X 技术构架还包括 V2X 控制功能、边缘应用服务器和 V2X 应用服务器。
+除了 PC5 和 Uu 接口，C-V2X 技术构架还包括 V2X 控制功能、边缘应用服务器和 V2X 应用服务器。
 
-![img](https://pic3.zhimg.com/50/v2-05de703a26d7540f592f72e886842644_720w.jpg?source=1940ef5c)![img](https://pic3.zhimg.com/80/v2-05de703a26d7540f592f72e886842644_720w.jpg?source=1940ef5c)C-V2X 技术构架，来源 ngmn V2X 白皮书
+![img](https://pic3.zhimg.com/50/v2-05de703a26d7540f592f72e886842644_720w.jpg?source=1940ef5c)![img](https://pic3.zhimg.com/80/v2-05de703a26d7540f592f72e886842644_720w.jpg?source=1940ef5c)
+
+C-V2X 技术构架，来源 ngmn V2X 白皮书
 
 
 V2X 控制功能（V2X control function）位于核心网，其为实现 V2X 通信向 UE 提供必要的参数以执行相关网络动作。
