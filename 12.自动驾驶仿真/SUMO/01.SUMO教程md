@@ -1,0 +1,19 @@
+## 1 SUMO加载OpenDrive
+
+通过sudo的netconvert进行转换，然后打开sumo，File->Open Network加载.net.xml文件即可。
+
+```
+netconvert --opendrive myOpenDriveNetwork.xodr -o mySUMOnetwork.net.xml
+```
+
+- [netconvert](https://sumo.dlr.de/docs/netconvert.html) can also [write OpenDrive networks](https://sumo.dlr.de/docs/Networks/Further_Outputs.html#opendrive_road_networks).
+
+## 2 路网文件的生成
+
+- [SUMO学习入门 （二）路网文件的生成 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/164777831)
+
+SUMO的路网文件模拟车辆通过的道路和交叉口，通常“edges”代表道路，“junctions”代表交叉口，文件名的后缀为“net.xml”。SUMO中路网文件的编写可以手动编写，也可以用netconvert命令转换第三方来源中的复杂路网。
+
+总体包括道路、交叉口的id和位置信息、车道信息（数量、长度、最大速度、形状、功能等）、优先权信息、交通信号信息、交叉口信息等。
+
+这次总共介绍了七种生成SUMO路网文件的方法，分别是：**netconvert转换、运用网页浏览器下载城市地图、利用OSMWebWizard.py截取路网、openstreetmap官网中截取地图为osm文件、netedit画图、直接写路网文件、抽象路网netgenerate**。
