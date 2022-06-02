@@ -34,8 +34,6 @@
 
 5G 车路网协同开源项目 OpenV2X 是人工智能落地应用的一个积极尝试，相信 OpenV2X 项目能聚集起高校、IT 企业、车企和运营商等广泛的合作伙伴，构建了算力、算法、数据、场景和合规的一体化开放社区。
 
-
-
 ![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/Hl54p4MexNfoiahtcanI6XoOedpPGegSiaqGhnLVibf9vRfGVpu3Dy0YTb8VExTVI1yNBq5BNhDne7ictr9wrucdPg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
 **李松明，东揽（南京）智能科技有限公司 CEO。**
@@ -49,8 +47,6 @@
 **李志斌， 东南大学交通学院教授、博士生导师，运输与物流工程系主任、无人驾驶运输团队负责人。**
 
 5G 车路协同开源项目 OpenV2X 的发布让人感到振奋，OpenV2X 是全球首个面向车路协同场景的开源项目，完整覆盖了从数据感知、融合分析、模型计算、管理平台、场景应用的业务流程，在凝聚产业力量方面迈出了重要一步。
-
-
 
 ![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/Hl54p4MexNfoiahtcanI6XoOedpPGegSiasjibV7LYKcVfRPk8j3tn39icySDcLd2wQ8QxxL6uiaCcJhuyTRySmDZAQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
