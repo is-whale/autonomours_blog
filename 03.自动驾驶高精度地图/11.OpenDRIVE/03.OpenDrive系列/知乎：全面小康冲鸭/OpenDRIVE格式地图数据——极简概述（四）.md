@@ -218,7 +218,7 @@ for (int k = 0; k < sample_num + 1; k++)
 
 （3）下图是一个“**Arc**”型的道路中心线，
 
-![img](data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1259' height='42'></svg>)
+![img](https://pic2.zhimg.com/80/v2-b8e9d7ab597c64887dce27fc37dc2fb5_720w.png)
 
 这个实现较为麻烦，暂时还没有想到便捷的方法。
 
@@ -234,7 +234,7 @@ for (int k = 0; k < sample_num + 1; k++)
 
 代码暂时不贴，放一张图：
 
-![img](data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1037' height='872'></svg>)
+![img](https://pic3.zhimg.com/80/v2-e6cfb77de64fe1310447c5c4490d988a_720w.jpg)
 
 - 对于车道中心线，我们从<lane>元素里的<width>元素里可以获得车道的宽度的数学表示，进而结合前面算出来的道路中心线离散采样点可以推算出车道中心线上离散采样点的坐标。（OpenDRIVE官方文档里说也有另一种表示方法，即车道边界用<lane>元素中的<border>元素来表示，由于我暂时没有遇到这种表示的，暂不考虑。）
 
@@ -287,7 +287,7 @@ void OpenDriveParse::CreateLaneNodes()
 
 看图~
 
-![img](data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1894' height='1296'></svg>)
+![img](https://pic2.zhimg.com/80/v2-7629a5be89b66aba2b65f18a854e1f91_720w.jpg)
 
 该方法的主要作用是为了后面使用Astar算法（不了解Astar的去找一下资料吧）做全局路由，然而与一般的在栅格地图上做Astar算法不同的是，我们这里是道路网络。
 
