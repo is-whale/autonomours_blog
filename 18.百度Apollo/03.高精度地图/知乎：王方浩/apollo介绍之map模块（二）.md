@@ -26,19 +26,21 @@
 └── tools          // 工具
 ```
 
-
-
 apollo的高精度地图采用了opendrive格式，opendrive是一个统一的地图标准，这样保证了地图的通用性。其中map模块主要提供的功能是读取高精度地图，并且转换成apollo程序中的Map对象。直白一点就是说把xml格式的opendrive高精度地图，读取为程序能够识别的格式。
 
 map模块没有实现的功能是高精度地图的制作，简略的制图过程可以[参考]([王方浩：高精度地图制作](https://zhuanlan.zhihu.com/p/57958859))。
 
-由于opendrive格式是一个标准，可以它的参考官方网站。下面主要介绍下apollo是如何读取xml地图，并且使用的。
+由于opendrive格式是一个标准，可以它的参考官方网站。
+
+下面主要介绍下apollo是如何读取xml地图，并且使用的。
 
 地图的读取在adapter中，其中xml_parser目录提供解析xml的能力。而[http://opendrive_adapter.cc](https://link.zhihu.com/?target=http%3A//opendrive_adapter.cc)则实现了地图的加载，转换为程序中的Map对象。然后地图在[http://hdmap_impl.cc](https://link.zhihu.com/?target=http%3A//hdmap_impl.cc)中提供一系列api接口给其他模块使用。
 
 下面先介绍下地图消息格式，主要在proto目录
 
-map.proto 分为地图头部信息和结构体，头部信息主要介绍了地图的基本信息“版本，时间，投影方法，地图大小，厂家等”。结构体主要是道路的不同组成部分，包括“人行横道，路口区域，车道，停车观察，信号灯，让路标志，重叠区域，禁止停车，减速带，道路，停车区域，路边的小路，或者行人走的路”。
+map.proto 分为地图头部信息和结构体，头部信息主要介绍了地图的基本信息“版本，时间，投影方法，地图大小，厂家等”。
+
+结构体主要是道路的不同组成部分，包括“人行横道，路口区域，车道，停车观察，信号灯，让路标志，重叠区域，禁止停车，减速带，道路，停车区域，路边的小路，或者行人走的路”。
 
 首先是地图的基本信息
 
@@ -82,16 +84,12 @@ message Map {
 }
 ```
 
-
-
 map_crosswalk.proto 人行横道(google图片搜索出了彩虹人行横道和三维人行横道，就问深度学习该怎么办？)
 
 ```text
 message Crosswalk {
   optional Id id = 1;        //编号
-
   optional Polygon polygon = 2;  //多边形
-
   repeated Id overlap_id = 3;   //重叠ID
 }
 ```
@@ -103,9 +101,7 @@ map_junction.proto 路口，道路汇聚点
 ```text
 message Junction {
   optional Id id = 1;    //编号
-
   optional Polygon polygon = 2;     //多边形
-
   repeated Id overlap_id = 3;    //重叠id
 }
 ```
@@ -259,9 +255,7 @@ map_yield_sign.proto 让行标志（美国才有）
 ```text
 message YieldSign {
   optional Id id = 1;       //编号
-
   repeated Curve stop_line = 2;    //在哪里结束
-
   repeated Id overlap_id = 3;     //重叠id
 }
 ```
@@ -364,11 +358,8 @@ map_parking.proto 停车区域
 // ParkingSpace is a place designated to park a car.
 message ParkingSpace {
   optional Id id = 1;
-
   optional Polygon polygon = 2;
-
   repeated Id overlap_id = 3;
-
   optional double heading = 4;
 }
 ```
@@ -389,8 +380,6 @@ message Sidewalk {
 
 ![img](https://pic2.zhimg.com/80/v2-caa32a3d7116be5b201a0c7740f35dd9_720w.jpg)
 
-
-
 其中还剩下的4个没有介绍
 
 map_id.proto
@@ -403,8 +392,6 @@ message Id {
 }
 ```
 
-
-
 map_speed_control.proto 限制速度
 
 ```text
@@ -414,8 +401,6 @@ message SpeedControl {
   optional double speed_limit = 3;
 }
 ```
-
-
 
 map_geometry.proto 地图的几何形状？
 
@@ -447,25 +432,17 @@ message Curve {
 }
 ```
 
-
-
 map_pnc_junction.proto PNC路口（具体的场景是什么？？）
 
 ```text
 message PNCJunction {
   optional Id id = 1;
-
   optional Polygon polygon = 2;
-
   repeated Id overlap_id = 3;
 }
 ```
 
-
-
 上面只是简单的介绍了下地图的数据格式，具体的应用场景，还需要结合planning模块进一步学习。
-
-
 
 我们再回过头来看adapter模块，其中xml_parser就是针对道路的不同元素部分做的解析。
 
@@ -496,8 +473,6 @@ message PNCJunction {
 │       ├── util_xml_parser.cc
 │       └── util_xml_parser.h
 ```
-
-
 
 最后在看下hdmap_impl，主要实现了一系列的api来查找道路中的元素。由于实现的接口太多，后面有时间了看是否能够整理下api文档。
 
