@@ -38,6 +38,7 @@ MSF 定位模块结合 GPS + IMU + Lidar 实现的多传感器融合全局定位
 ## 1.1 MSF 定位模块原理框架
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/fc620b8fb0c74980a8243b588be2b6da.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 MSF 定位系统以多种传感器数据和离线制作的高精度 Lidar 定位地图为输入，其中 GNSS Localization 模块以车端 GPS 信号和基站数据为输入，输出高精度 RTK 定位结果。LiDAR Localization 模块以在线 lidar 扫描数据和高精度 Lidar 定位地图为输入，提供高精度 lidar 定位结果。SINS 模块利用IMU数据进行惯性导航。后端采用 Error-state Kalman filter 融合多种传感器量测信息。最后输出高精度的车辆位置和姿态。
 
 ## 1.2 MSF 定位模块的输入输出
@@ -133,8 +134,10 @@ cyber_recorder play -f record.*
 
 注意：DATA_PATH 下载定位 demo 数据的路径。
 正常显示如下
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/3bdc5670e9274bcbaffadcce21c8797c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/1da4b516c0694494b3075548a7e4c37e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 黑白的背景是地图，颜色表示环境中反射值：颜色越亮表示反射值越高，颜色越暗表示反射值越低，纯黑色表示没有被激光雷达扫描到的区域。
 
 白色车辆模型表示经过 MSF 融合算法得到的位置坐标，蓝色方框表示 GPS 位置，可以在视频中看到蓝色方框在不停跳动，但车辆位置比较稳定，说明融合定位算法提供了更好的平滑性。
@@ -162,6 +165,7 @@ cyber_launch start /apollo/modules/localization/launch/msf_visualizer.launch
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/0dea860c237c4aaea4cf12a0a61699e7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 而正常应该显示这样的结果
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/73039fe0837544018fb5b467efad64cf.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 灰色背景表示地图，绿色细线表示原始点云数据，红色粗线圆圈表示 LiDAR 定位的置信度，绿色粗线圆圈表示 MSF 定位的置信度。
 
 ------

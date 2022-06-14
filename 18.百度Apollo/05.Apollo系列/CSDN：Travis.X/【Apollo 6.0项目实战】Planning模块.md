@@ -69,10 +69,13 @@ cd apollo/
 ## 2.2 启动 LGSVL 仿真器
 
 启动LGSVL仿真器后，Dreamview 打开 Localization 、 Control、 Perception、Prediction、Routing、Planning 以及 Transform 模块，即可观察到可视化结果。图中的蓝绿色粗线代表着车辆规划出的轨迹，可以观察轨迹的状态定性的分析规划问题。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/36968639718849ca8ce892cba6c6c934.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/c6acd92e616d460385d806b842d35d71.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/835869af6785454ea337744a2e9180e4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 进一步精细化分析规划问题，可以打开 PNC monitor，界面右侧会显示路径规划和速度规划的相关定量图线，供开发者做进行的分析和问题定位。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/60c4db3d29874d9d9df56c5d86991850.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 2.3 视频演示
@@ -88,6 +91,8 @@ cd apollo/
 Dreamland 是 Apollo 基于大量的驾驶场景数据和大规模云计算能力提供打造的仿真引擎，它目前提供了大约200个场景案例、支持同时高效运行多个场景的执行方式、自动评分系统以及三维可视化。具体介绍参考[Dreamland 仿真平台介绍](https://studio.apollo.auto/introduction)。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/3dbd08ee92a04a4bb7bebf7c0a404e0e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+
 
 仿真平台服务状态申请中，使用教程后续再进行补充，可以先参考
 https://studio.apollo.auto/introduction?locale=zh-cn

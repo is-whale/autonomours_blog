@@ -43,12 +43,12 @@ Routing 模块是依赖于路由拓扑文件，通常称为 Apollo 中的 routin
 
 ```cpp
 bash scripts/generate_routing_topo_graph.sh
-1
 ```
 
 **注意**：关于 Routing 地图的制作可以参考该节 [【Apollo 6.0项目实战】HD-Map模块](https://blog.csdn.net/Travis_X/article/details/121486163)。
 
 Routing 模块的实现结构如下图所示。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/66e0c3efbcd243b3891253f51e280d81.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
 
 ------
@@ -76,6 +76,7 @@ cd apollo/
 启动 LGSVL 仿真器后，打开 Dreamview 的左侧栏 Module Controller，启动 Localization、Routing 和 Transform 模块。
 
 正常情况下，可以看到车辆和地图在 Dreamview 中的显示，点击左侧栏 Route Editing 选择目标点，最后目标点发送请求，即可观察到可视化结果，红线即是 Routing 模块规划出全局路径。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/5604956be5734423964aa7acb72463c5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/89f1d376f08540fcbb683640b58efdc6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 

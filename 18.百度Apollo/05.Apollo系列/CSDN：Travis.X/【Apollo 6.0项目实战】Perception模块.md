@@ -42,7 +42,9 @@
 # 二、激光雷达感知
 
 进入 svlsimulator 官网给自己的无人车添加激光雷达传感器，调整传感器的位置。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/78f14aa8ddcc46f1bb36ad226d206ba6.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 可以参考如下的车辆JSON配置：
 
 ```xml
@@ -99,6 +101,7 @@ vim modules/perception/production/dag/dag_streaming_perception.dag
 ```
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/f7a532777a2146ca98f0637869587207.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 修改第1行以及第5行与 LGSVL 中的设置保持一致。
 
 ```cpp
@@ -106,11 +109,13 @@ vim modules/perception/production/conf/perception/lidar/velodyne128_detection_co
 ```
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/80a007a587a34fca82d0fb05694b10fd.png#pic_center)
+
 完成激光雷达的设置后，启动Apollo Docker容器和 LGSVL 仿真器，打开Dreamview http://localhost:8888/，在上方选择对应的模式、车型以及地图（根据自己的仿真环境选择相应的地图）。
 
 在Module Controller标签页启动Perception模块。
 
 正常情况下的显示如下，可以看到感知模块对点云进行了处理，最终实现目标的识别。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/291582b929094d8bace4e3d54a3fcd06.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ------
@@ -123,19 +128,23 @@ Apollo 激光雷达感知模块输入输出如下图所示：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/c84740f076774d04bd66f46306e8858a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
 
 多传感器融合后感知模块的输入输出如下图所示：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/83464fd57c824aca87af59545786bd39.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
-对比上面三张图可以看出，检测红绿灯模块的输出话题为 **/apollo/perception/traffic_light**，检测障碍物模块的输出话题为 **/apollo/perception/obstacles** （具有航向、速度和分类信息的三维障碍物轨迹）和 **/perception/inner/PrefusedObjects** （输出给融合模块的障碍物信息）。
+
+对比上面三张图可以看出，检测红绿灯模块的输出话题为 **/apollo/perception/traffic_light**，检测障碍物模块的输出话题为 **/apollo/perception/obstacles** （具有航向、速度和分类信息的三维障碍物轨迹）和 **/perception/inner/PrefusedObjects** （输出给融合模块的障碍物信息)。
 
 LGSVL 仿真器提供了3D Ground Truth sensor 和 Signal sensor，分别用作障碍物检测（输出话题为/apollo/perception/obstacles）和交通灯检测（输出话题为/apollo/perception/traffic_light），**换句话说，如果添加以上两种传感器，就可以完全绕过 Apollo 的感知模块，直接获取到红绿灯检测的信息和障碍物信息。** 当然，这也就**没必要给车辆添加激光雷达、相机和毫米波雷达等传感器（如果是需要显示图像、点云信息的话还是得添加相关的传感器）**，同理Perception 和 Traffic light 模块也就没有启动的必要。
 
 ## 3.1 3D Ground Truth sensor
 
 3D Ground Truth sensor替换 Apollo 的对象检测模块。输出话题 **/apollo/perception/obstacles** 。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/5f836f333b1f4b53a58c3838115f5313.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
 
 ## 3.2 Signal sensor
 
 Signal sensor 替换 Apollo 的红绿灯检测模块。输出话题为 **/apollo/perception/traffic_light** 。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/0d3a0611099a4445bd9e0cbb0377eb41.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16)
 
 ## 3.3 视频演示
@@ -149,6 +158,9 @@ Signal sensor 替换 Apollo 的红绿灯检测模块。输出话题为 **/apollo
 # 参考
 
 【1】[Apollo视觉感知能力介绍](https://apollo.auto/Apollo-Homepage-Document/Apollo_Doc_CN_6_0/上机使用教程/上机实践Apollo视觉感知能力/Apollo视觉感知能力介绍)
+
 【2】[Apollo激光雷达感知介绍](https://apollo.auto/Apollo-Homepage-Document/Apollo_Doc_CN_6_0/上机使用教程/上机实践Apollo激光雷达感知能力/Apollo激光雷达感知介绍)
+
 【3】[Apollo感知融合能力介绍](https://apollo.auto/Apollo-Homepage-Document/Apollo_Doc_CN_6_0/上机使用教程/上机实践Apollo激光雷达感知能力/Apollo激光雷达感知介绍)
+
 【4】[LGSVL 仿真器官方文档](https://www.svlsimulator.com/docs/archive/2020.06/modular-testing/#3d-ground-truth-sensor-more-details)

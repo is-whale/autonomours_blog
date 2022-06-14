@@ -52,7 +52,9 @@ cyber_recorder record -a
 ```
 
 此时在当前目录下会产生一个路径文件，命名为path_demo_3.5.record.txt，内容如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/fa507cb851404bf889f3af7d9206414f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 运行以下指令查看生成的路径
 
 ```cpp
@@ -72,10 +74,13 @@ sudo apt-get install tcl-dev tk-dev python3-tk
 ```
 
 重新执行./bazel-bin/modules/tools/navigator/viewer_raw path_demo_3.5.record.txt 后会
+
 正常显示如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/da75f491e109444fa069fb2b7228fc3b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 对路径进行平滑处理，200 是平滑长度的参数，如果平滑失败，请尝试更改此参数以使
+
 平滑通过。首选数字在 150 到 200 之间，处理后会产生一个新的路径文件path_demo_3.5.record.txt.smoothed。
 
 ```cpp
@@ -121,6 +126,7 @@ bash scripts/navigator.sh path_demo_3.5.record.txt.smoothed
 ```
 
 完成后 DreamView 显示如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/e326eaf2f53e459c894a640e005b01f0.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ------
@@ -173,6 +179,7 @@ bash scripts/generate_routing_topo_graph.sh  --map_dir modules/map/data/demo_3.5
 ## 3.5 DreamView 显示
 
 启动Apollo后，在浏览器中访问 http://localhost:8888 显示 DreamView 界面，完成后 DreamView 显示如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/944be028402b49ac86bdafbc0f9335da.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ------
@@ -180,7 +187,11 @@ bash scripts/generate_routing_topo_graph.sh  --map_dir modules/map/data/demo_3.5
 # 参考
 
 【1】[Apollo详解之高精地图模块——相对地图模块](https://blog.csdn.net/weixin_49024732/article/details/118659068)
+
 【2】[Apollo详解之地图模块———制作高精地图](https://blog.csdn.net/weixin_49024732/article/details/118862027?spm=1001.2014.3001.5501)
+
 【3】[开发者说｜Apollo高精度地图离线制作](https://mp.weixin.qq.com/s/q6y-YbD7sDpAnYB6KzBAag)
+
 【4】[开发者说｜Apollo简易制图过程](https://mp.weixin.qq.com/s/fItXKlWZ4Z5BkGQ9OptzRw)
+
 【5】Apollo低速微型车自动驾驶套件软件使用手册

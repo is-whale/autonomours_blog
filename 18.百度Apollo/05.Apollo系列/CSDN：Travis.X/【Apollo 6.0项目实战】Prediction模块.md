@@ -72,6 +72,7 @@ cd apollo/
 ## 2. 启动 LGSVL 仿真器
 
 Dreamview 打开prediction 按钮，即可观察到可视化结果。图中的绿色线代表预测障碍物未来的运动轨迹。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/9b2eacf9b5b64a2fac30edbbec3a9945.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ------
@@ -79,4 +80,5 @@ Dreamview 打开prediction 按钮，即可观察到可视化结果。图中的�
 # 参考
 
 【1】[apollo预测模块分享（二十一）](https://zhuanlan.zhihu.com/p/367557601)
+
 【2】[Apollo预测能力介绍](https://apollo.auto/document_cn.html?target=/Apollo-Homepage-Document/Apollo_Doc_CN_6_0/)

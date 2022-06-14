@@ -29,6 +29,7 @@ GPS手机定位的精度非常低。大概都是五到十米，好一点的话�
 伪距差分的精度不会特别的高，大概在米级的这么一个量级，还不能满足要求。因此发展出实时动态的载波相位差分。
 
 载波相位差分最主要的是要估计一个载波相位的一个整周，定位精确基本上是在厘米级（小于5厘米）。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/9ca0e8f8f12b4f88a7a18d45329485ae.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 1.2 航迹推算
@@ -36,6 +37,7 @@ GPS手机定位的精度非常低。大概都是五到十米，好一点的话�
 航迹推算最有特点的就是IMU。航迹推算就是根据上一时刻“我“的”位置“和”姿态“，叠加一些测量信息可以知道现在的”位置“和”姿态“。IMU是一个惯性测量单元。它包含了加速度计和陀螺仪。加速度计会输出加速度的信息。但是不止加速度，它还包含重力加速度。陀螺仪是一个旋转，即是前面所讲到三个轴上的一个旋转。
 
 IMU的出频率非常的高，基本上都是200赫兹以上，这样有助于同步。因为它有精准的时间戳，它检测的数据传输过来之后可以精准知道它的时间戳，有精准的时间戳就可以给出精准的位姿，即它在全局坐标系下有自己的位置。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/d7366858d5fa41889647d931f190a5a0.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 1.3 环境特征匹配
@@ -69,6 +71,7 @@ IMU的出频率非常的高，基本上都是200赫兹以上，这样有助于�
 多传感器融合定位的核心是中间的卡尔曼滤波器，这是一个状态误差的卡尔曼滤波器。
 
 该滤波器接收惯性导航输出的递推，作为它的时间更新，保证滤波器往前走和高频的输出。还接受GPS、激光点云定位，或者是视觉定位的输出去做低频的状态更新。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/5e305f3f855142b388573e45f13d9daf.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ------
@@ -76,16 +79,19 @@ IMU的出频率非常的高，基本上都是200赫兹以上，这样有助于�
 # 二、坐标系
 
 下图给出了定位模块中输出的各个坐标系下的信息以及不同坐标系之间的关系。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2e67c7303cb145c79ee226418bfb8ed0.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 2.1 ECI地心惯性坐标系
 
 它是一个固定的坐标系。**IMU测量得到的加速度，角速度都是相对于这个坐标系的。**
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/ca4ea68b5a594b50a6fa549326677ae8.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 2.2 ECEF地心地固坐标系
 
 常用的如**WGS84坐标系**。其特点是与地球固定在一起，随地球一起转动。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/d114b49658844cfe97cf2c58942a2cf0.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 2.3 当地水平坐标系（局部坐标）
@@ -103,6 +109,7 @@ IMU的出频率非常的高，基本上都是200赫兹以上，这样有助于�
 ## 2.6 IMU坐标系
 
 IMU坐标系其实和车体坐标系基本上是一样。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/d61f5e2e58124bd7aa3a5cd3f148b9ee.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 2.7 相机坐标系
@@ -132,6 +139,7 @@ GNSS定位技术中最著名的是GPS。原理是测距，有三颗卫星就可�
 RTK的工作原理如下：卫星把观测数据给基站，也给车端的移动站。基站根据多个卫星的钟差计算出误差项，然后把误差项传递给车端，车端用这个误差项消除观测误差，得到精准的位置。它的问题是硬件成本高，需要建基站，需要4G通信的链路，需要基站传数据。
 
 PPP可以简单理解为一个很强的单点，它有很多种基础基站的建设。这些基站通过卫星数据，把这些误差都在基站做分离处理，再传递给卫星。卫星已经做了误差的消除，再去对车端进行定位，得到一个非常高精度的定位信息。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/dff54f9d6b1b4f63b85284ab899a92b1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 4.3 激光雷达定位
@@ -141,12 +149,15 @@ PPP可以简单理解为一个很强的单点，它有很多种基础基站的�
 点云定位里面会输出四个维度的信息，XYZ和Yaw（航向角）。
 
 首先做航向角的优化，然后SSD-HF做XY优化，Z则由定位地图提供。定位地图是一种数据的的存储方式。激光点云定位的输入还包括预测位姿和实时点云数据。输出信息将会给融合算法，进行更加精确的定位。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/bb8d6a7420a34690a7f5b98648220147.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 ## 4.4 视觉定位
 
 视觉定位的输出也是XYZ和Yaw，即位置和朝向。视觉定位通过摄像头识别图像中具有语义信息的稳定特征并与地图做匹配，得到位置和朝向信息。视觉定位算法的流程图如下所示。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/ac96b2815e86446ba1b09d13d22ac843.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAVHJhdmlzLlg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 视觉定位的流程主要包含三个部分，一是**3D特征地图的离线的生成**，第二是**图像特征的检测**，最后是**数据的整合输出**。
 
 首先是摄像头进行图像特征的检测，主要是进行车道线和杆状物的检测。通过GPS给出的初始位置，基于初始位置对3D地图和摄像头检查到的信息进行特征匹配。用IMU和轮速计去做姿势的预测，给出一个不错的姿势。最后的结果输出给融合模块，融合可以将GPS、视觉定位、IMU数据整合，优化定位结果并提供高频输出。
@@ -156,5 +167,7 @@ PPP可以简单理解为一个很强的单点，它有很多种基础基站的�
 # 参考
 
 【1】《Apollo进阶课程13 | Apollo无人车自定位技术入门》
+
 【2】《Apollo进阶课程14 | 三维几何变换和坐标系介绍》
+
 【3】《Apollo进阶课程15 | 百度无人车定位技术》
