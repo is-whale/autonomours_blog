@@ -1,4 +1,5 @@
 - [可能是知乎上已知最详细的Apollo6.0安装教程 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/425483403)
+- [Apollo6.0安装教程_vigigo的博客-CSDN博客_apollo dreamview 安装](https://blog.csdn.net/qq_40574123/article/details/121037037)
 
 基础准备：
 
@@ -11,8 +12,6 @@ asus FA5061I, Ubuntu 18.04, AMD R5, 16G RAM, 1660Ti
 正式安装开始
 
 ## 1.安装docker
-
-
 
 参考的官方文档：[https://www.svlsimulator.com/docs/system-und1er-test/apollo6-0-instructions/](https://link.zhihu.com/?target=https%3A//www.svlsimulator.com/docs/system-und1er-test/apollo6-0-instructions/)
 
@@ -35,8 +34,6 @@ It's ok 如果apt-get 返回没有packages被安装了，
 ```text
 sudo apt-get update
 ```
-
-
 
 ```text
  sudo apt-get install \ 

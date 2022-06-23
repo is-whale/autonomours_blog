@@ -1,4 +1,5 @@
 - [Apollo 高精地图解析 (qq.com)](https://mp.weixin.qq.com/s?__biz=MzI1NjkxOTMyNQ==&mid=2247484107&idx=1&sn=f3d79cb208afef14470622f0dd9b8dcf&scene=21#wechat_redirect)
+- [apollo 高精地图解析_xiaoma_bk的博客-CSDN博客_apollo 地图](https://blog.csdn.net/xiaoma_bk/article/details/122585733)
 
 关于Apollo高精地图，开发者有很多关心的问题。这篇文章会基于目前Apollo开放的地图数据部分，解析高精地图的数据格式。
 
