@@ -177,10 +177,6 @@ utm
 
 从OpenDRIVE 1.4 开始, 可以使用格式化为 “proj4”-字符串的投影定义对路网进行地理参照转化. [PROJ 是一种通用坐标变换软件](https://links.jianshu.com/go?to=https%3A%2F%2Fproj.org%2F), 它将地理空间坐标从一个坐标参考系统 (CRS) 转换为另一个坐标参考系统。这包括制图投影和大地测量转换。 geoReference元素定义了该文件使用的投影坐标系，其中地理坐标系为WGS-84。
 
-
-
-
-
 在OpenDRIVE数据中大量使用的位置信息都是投影后的xy坐标，而除了该投影坐标系，还定义了一种轨迹坐标系，如下所示，s坐标是沿着reference line的，关于reference line后面介绍，长度是在xy坐标下计算的。 t坐标，是相对于reference line的侧向位置，左正，右负。
 
 ![img](https:////upload-images.jianshu.io/upload_images/15863171-abe82c8b34a066a3.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/1039/format/webp)
