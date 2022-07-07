@@ -32,10 +32,13 @@
 **主要用到的传感器类型包括相机、激光雷达和毫米波雷达，相机和激光雷达的目标检测部分都是利用深度学习网络完成，然后都进行了目标跟踪，最后设计了一个融合模块，用来融合三种传感器跟踪后的目标序列，获得更加稳定可靠的感知结果**。
 
 感知模块大体上包括：
+
 3D障碍物感知： 主要有是三个主要部分提供3D障碍物感知：`lidar`、`radar`和`fusion`模块。
+
 Radar感知： 毫米波雷达检测与跟踪
-`Obstacle Results Fusion`：
-用来融合lidar和radar的检测结果。
+
+`Obstacle Results Fusion`：用来融合lidar和radar的检测结果。
+
 融合中有publish-[sensor](https://so.csdn.net/so/search?q=sensor&spm=1001.2101.3001.7020)的概念，apollo中`publish-sensor`是lidar，即对`radar`结果进行缓存，`lidar`结果用来触发融合动作，因此融合输出频率等于publish-sensor的频率。Apollo保留所有传感器结果，每个融合目标丢失存活时间根据传感器不同，一个目标必须至少有一个传感器结果存活。Apollo在近距离里提供`lidar`和`radar`的融合结果，在远距离只有radar结果。
 
 传感器结果到融合序列关联： ==传感器目标与融合目标进行匹配时，首先匹配相同传感器相同的跟踪ID，然后建立二分图，对没有匹配上的那些结果进行匈牙利匹配，距离损失矩阵是通过计算anchor点的欧氏距离完成。
@@ -69,17 +72,29 @@ perception
 ```
 
 `base`——整个感知模块公用的一些基础类型定义，比如表示感知目标的基础类类型；
+
 `camera`——相机处理子模块；
+
 `common`——整个感知模块公用的一些基础操作定义，如点云预处理、图像预处理等；
+
 `data`——感知模块用到的数据，目前只有相机的标定参数yaml文件；
+
 `fusion`——融合处理子模块；
+
 `interface`——整个感知模块的一些公用接口定义，目前里面好像都是视觉感知与显卡的一些的接口；
+
 `lib`——整个感知模块公用的一些算法定义，如config_manager参数配置操作；
+
 `datlidara`——激光雷达处理子模块；
+
 `map`——高精度地图的一些操作，主要在感知模块中用于提取感兴趣区域；
+
 `onboard`——上车运行程序，其中component文件夹可以认为是感知模块的入口；
+
 `production`——感知模块所有配置参数定义；
+
 `proto`——感知模块protobuf文件定义；
+
 `radar`——毫米波雷达处理子模块
 
 **1. production**
@@ -89,6 +104,7 @@ Apollo/modules/perception/production
 ```
 
 Launch文件定义了模块的启动，dag定义了模块的依赖关系。launch文件中包含了dag文件，每个dag文件中又包含了很多个子组件（component）、相应的动态库和配置文件，每个子组件对应的是相应的类实现。
+
 如 `launch/perception_all.launch`包含了如下：
 
 ```

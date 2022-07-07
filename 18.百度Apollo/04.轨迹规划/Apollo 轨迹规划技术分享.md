@@ -1,4 +1,4 @@
-- [分享回顾 | Apollo 轨迹规划技术分享 (qq.com)](https://mp.weixin.qq.com/s?__biz=MzI1NjkxOTMyNQ==&mid=2247487567&idx=1&sn=e5fa7dbc1499df205842ef16fbb41e18&chksm=ea1e023ddd698b2be88623ac8ba2603169392120245461787d7ccd4e1d84b43175e4c945c87d&scene=178&cur_album_id=1452509442129723396#rd)
+- [分享回顾 Apollo 轨迹规划技术分享 (qq.com)](https://mp.weixin.qq.com/s?__biz=MzI1NjkxOTMyNQ==&mid=2247487567&idx=1&sn=e5fa7dbc1499df205842ef16fbb41e18&chksm=ea1e023ddd698b2be88623ac8ba2603169392120245461787d7ccd4e1d84b43175e4c945c87d&scene=178&cur_album_id=1452509442129723396#rd)
 
 **轨迹规划**主要指考虑实际临时或者移动障碍物，考虑速度，动力学约束的情况下，尽量按照规划路径进行轨迹规划。
 

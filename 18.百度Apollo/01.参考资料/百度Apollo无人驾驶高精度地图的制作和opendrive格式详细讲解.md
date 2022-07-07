@@ -1,4 +1,4 @@
-- [百度Apollo|无人驾驶|高精度地图的制作和opendrive格式详细讲解 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/373769242)
+- [百度Apoll无人驾驶高精度地图的制作和opendrive格式详细讲解 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/373769242)
 
 ## １．如何制作高精度地图
 

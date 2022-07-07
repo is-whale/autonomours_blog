@@ -17,9 +17,12 @@ Apollo项目使用全球地理坐标系表示高精地图（ the high-definition
 - Y轴：指向北边
 - Z轴：指向天顶
   如下图所示：
-  ![2](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI4MTUxMTA3NDgx)
-  ENU局部坐标系采用三维直角坐标系来描述地球表面，实际应用较为困难，因此一般使用简化后的二维投影坐标系来描述。在众多二维投影坐标系中，统一横轴墨卡托（The Universal Transverse Mercator ，UTM）坐标系是一种应用较为广泛的一种。UTM 坐标系统使用基于网格的方法表示坐标，它将地球分为 60 个经度区，每个区包含6度的经度范围，每个区内的坐标均基于横轴墨卡托投影，如下图所示：
-  ![3](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI4MTUzMzE5NjE5)
+
+![2](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI4MTUxMTA3NDgx)
+
+ENU局部坐标系采用三维直角坐标系来描述地球表面，实际应用较为困难，因此一般使用简化后的二维投影坐标系来描述。在众多二维投影坐标系中，统一横轴墨卡托（The Universal Transverse Mercator ，UTM)坐标系是一种应用较为广泛的一种。UTM 坐标系统使用基于网格的方法表示坐标，它将地球分为 60 个经度区，每个区包含6度的经度范围，每个区内的坐标均基于横轴墨卡托投影，如下图所示：
+
+![3](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI4MTUzMzE5NjE5)
 
 ### （三）车身坐标系—右-前-天坐标（RFU）
 
@@ -32,6 +35,7 @@ Apollo项目使用全球地理坐标系表示高精地图（ the high-definition
   该坐标系一般用于感知模块。
 
 如下图所示：
+
 ![4](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI4MTUzOTI3NDk2)
 
 ### （四）车身坐标系—前-左-天坐标（FLU）
@@ -47,11 +51,13 @@ Apollo项目使用全球地理坐标系表示高精地图（ the high-definition
 ## 二、Frenet坐标系
 
 Frenet坐标系又称Frenet–Serret公式，Apollo项目文档未提及，但在规划模块中广泛使用。Frenet–Serret公式用于描述粒子在三维欧氏空间 R 3 ℝ^3R3内沿一条连续可微曲线的运动学特征，如下图所示：
+
 ![5](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI4MTU1MzU4Mzg5)
 
 ## 三、Frenet坐标系与笛卡尔坐标系的转换公式
 
 为什么要将笛卡尔坐标系转换为Frenet坐标系？因为可以这样可以将车辆的二维运动问题解耦合为两个一维运动问题。显然，一维问题比二维问题容易求解，这就是笛卡尔坐标系转换为Frenet坐标系的必要性。
+
 ![6](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMTI5MTQ1OTQ4MzE1)
 
 ## 四、Apollo项目中Frenet坐标系与笛卡尔坐标系转换代码

@@ -4,9 +4,11 @@
 
 由于cyber有些流程很长，导致看代码的时候喜欢画很复杂的流程图，**实际上把图画长难，把图画小更难**，百度apollo cyber的框图都很短小，但都直击要害，说出每个模块的具体功能。下面是简单的对比[[1\]](https://zhuanlan.zhihu.com/p/91322837#ref_1)。
 
-![img](https://pic4.zhimg.com/80/v2-faa4c3cd6166e2d7f6aaaff8e9ebd63b_720w.jpg)长流程图
+![img](https://pic4.zhimg.com/80/v2-faa4c3cd6166e2d7f6aaaff8e9ebd63b_720w.jpg)
 
-![img](https://pic2.zhimg.com/80/v2-2947ce303e7082e1d15f7e343785083d_720w.jpg)框图
+长流程图
+
+![img](https://pic2.zhimg.com/80/v2-2947ce303e7082e1d15f7e343785083d_720w.jpg)
 
 ## Cyber实现的功能
 

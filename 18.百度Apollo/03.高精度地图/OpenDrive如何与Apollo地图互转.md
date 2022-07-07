@@ -1,4 +1,4 @@
-- [百度Apollo|无人驾驶|高精度地图的制作和opendrive格式详细讲解 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/373769242)
+- [百度Apollo无人驾驶高精度地图的制作和opendrive格式详细讲解 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/373769242)
 
 百度Apollo地图包括base_map.bin、rouring_map. bin、sim_map. bin三个文件，是基于**OpenDrive**升级的，**Roadrunner**工具可以实现**OpenDrive**与Apollo互转，实现Carla输出的**OpenDrive**地图在Apollo中使用。
 

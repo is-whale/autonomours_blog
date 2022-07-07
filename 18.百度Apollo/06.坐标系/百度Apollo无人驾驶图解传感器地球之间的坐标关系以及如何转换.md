@@ -1,4 +1,4 @@
-- [百度Apollo|无人驾驶|图解传感器地球之间的坐标关系以及如何转换 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/377320096)
+- [百度Apollo无人驾驶图解传感器地球之间的坐标关系以及如何转换 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/377320096)
 
 [百度Apollo智能驾驶进阶课程--第三章 百度Apollo定位技术](https://link.zhihu.com/?target=https%3A//blog.csdn.net/dreautumn/article/details/107897196%3Fspm%3D1001.2014.3001.5501)
 

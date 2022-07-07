@@ -5,7 +5,9 @@
 ##### 无人车自定位系统
 
 相对一个坐标系，确定无人车的位置和姿态。
+
 位置：3个自由度，x、y、z
+
 姿态：3个自由度，三个方向的旋转：横滚（roll）、俯仰（pitch）、航向（yaw）
 
 自动驾驶汽车定位系统指标要求
@@ -19,6 +21,7 @@
 ##### 为什么无人车需要精确定位系统？
 
 与自动驾驶地图配合提供静态环境感知
+
 定位系统提供速度、角速度、加速度等信息，用于路线规划和车辆控制
 
 ##### 定位方法
@@ -49,9 +52,12 @@
    (4) 优点：六自由度信息；短时精度高；输出频率高200HZ以上、无延迟；无外部依赖输入
    (5) 缺点：误差随时间累积
 4. 多传感器融合定位（GNSS，激光定位，视觉定位，惯性导航）
-   ![多传感器融合定位](https://img-blog.csdnimg.cn/20200312152516740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21hYmluZ3lhbw==,size_16,color_FFFFFF,t_70)
-   核心模块KF：状态误差的卡尔曼滤波器，接收惯性导航的递推作为时间更新，保证滤波器能够有高频输出。
-   接收GPS、激光点云定位和视觉定位，得到位置和姿态的更新，做低频的状态的更新。
+
+![多传感器融合定位](https://img-blog.csdnimg.cn/20200312152516740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21hYmluZ3lhbw==,size_16,color_FFFFFF,t_70)
+
+核心模块KF：状态误差的卡尔曼滤波器，接收惯性导航的递推作为时间更新，保证滤波器能够有高频输出。
+
+接收GPS、激光点云定位和视觉定位，得到位置和姿态的更新，做低频的状态的更新。
 
 ### 2.相关基础知识
 
@@ -87,4 +93,5 @@
 | 激光雷达坐标系                | 原点：多线束中心旋转轴的交点处，z轴沿轴线向上；X、Y轴如俯视图所示 | 通过IMU坐标系到激光雷达坐标系的外参，以及IMU坐标系的姿态，可以得到激光雷达坐标系到世界坐标系的转换 | ![激光雷达坐标系](https://img-blog.csdnimg.cn/20200312153624566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21hYmluZ3lhbw==,size_16,color_FFFFFF,t_70) | /                                                            |
 
 无人车定位信息中涉及的坐标系
+
 ![无人车定位信息设计的坐标系](https://img-blog.csdnimg.cn/2020031215375982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21hYmluZ3lhbw==,size_16,color_FFFFFF,t_70)
