@@ -1,5 +1,7 @@
 > 整理Apollo中HDMAP的接口，hdmap.h。
 
+## 接口
+
 ```c++
   /**
    * @brief load map from local file
@@ -14,7 +16,7 @@
    * @return 0:success, otherwise failed
    */
   int LoadMapFromProto(const Map& map_proto);
-
+  //根据ID查询各种要素
   LaneInfoConstPtr GetLaneById(const Id& id) const;
   JunctionInfoConstPtr GetJunctionById(const Id& id) const;
   SignalInfoConstPtr GetSignalById(const Id& id) const;
@@ -40,6 +42,8 @@
    * @param lanes store all lanes in target range
    * @return 0:success, otherwise failed
    */
+  //获取指定范围内得所有车道
+  //坐标中心点	距离搜索半径		车道存储目标范围内的所有车道
   int GetLanes(const apollo::common::PointENU& point, double distance,
                std::vector<LaneInfoConstPtr>* lanes) const;
   /**
@@ -49,6 +53,7 @@
    * @param junctions store all junctions in target range
    * @return 0:success, otherwise failed
    */
+  //获取指定范围内所有junctions
   int GetJunctions(const apollo::common::PointENU& point, double distance,
                    std::vector<JunctionInfoConstPtr>* junctions) const;
   /**
