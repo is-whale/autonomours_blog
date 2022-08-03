@@ -17,9 +17,11 @@
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/4612addb3cd9434da6cbfc2d4f7a2942.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5YyX5Lqs5Y2O5pif5pm65o6n,size_15,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 如下图所示的定位空间，部署的时候如果要求较高的定位精度（10~30cm）需要按照长宽比尽量接近1:1的原则部署定位基站(图中红色圆圈代表定位基站)，1:1的意思就是说如果该空间的宽度10米那么部署基站长度方向最好也不要超过10米部署，原因在于长宽比过大会导致精度因子变差，定位精度变差。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/f71148a3230f440ab7894a5464c085fe.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5YyX5Lqs5Y2O5pif5pm65o6n,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 如下图所示的定位空间，部署的时候如果要求的定位精度不高。比如只需要1米内的定位精度，可以按照长宽比不超过1:3的原则部署定位基站(图中红色圆圈代表定位基站)。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/fa7cded9c253429987c16e8a89bd5077.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5YyX5Lqs5Y2O5pif5pm65o6n,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 部署基站的时候如果存在较大的设备遮挡需要增加基站密度，保证在需要定位的位置，标签都能和不少于3个基站可靠的测距。如下图所示，比如中间位置存在3米高的金属罐体，那么需要新增绿色基站使得在左右区域能够保证最基本的定位条件。
