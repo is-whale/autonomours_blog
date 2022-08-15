@@ -72,7 +72,6 @@ public class Graph {
         }
     }
 
-
     private LinkedList<Edge> adj[];// 邻接表
     private Vertex[] vertexes;//记录所有顶点的坐标
     private int v;// 顶点数
