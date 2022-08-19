@@ -1,0 +1,9 @@
+- [小鹏G3 XPilot ---APA自动泊车系统_打怪升级ing的博客-CSDN博客](https://blog.csdn.net/weixin_42229404/article/details/94021630)
+
+小鹏G3搭载了多达20个传感器，有12个超声波雷达、5个高清摄像头、3个毫米波雷达，对道路、车辆、行人、障碍物等进行精准识别，并反馈给智慧芯片，得到更适合中国路况的自动辅助驾驶和多场景全自动泊车方案，从而实现XPILOT 2.5级智能驾驶。
+
+ 
+
+![img](https://img-blog.csdnimg.cn/2019062817153460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)![img](https://img-blog.csdnimg.cn/20190628171555448.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)![img](https://img-blog.csdnimg.cn/20190628171606407.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)![img](https://img-blog.csdnimg.cn/20190628171621361.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)![img](https://img-blog.csdnimg.cn/20190628171643559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)![img](https://img-blog.csdnimg.cn/20190628171654498.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)![img](https://img-blog.csdnimg.cn/20190628171703976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)
+
+![img](https://img-blog.csdnimg.cn/20190628171721257.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIyOTQwNA==,size_16,color_FFFFFF,t_70)
