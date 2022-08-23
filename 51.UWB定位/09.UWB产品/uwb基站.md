@@ -1,0 +1,27 @@
+- [uwb基站_北京华星智控的博客-CSDN博客_uwb基站](https://blog.csdn.net/qq_35699674/article/details/103096038)
+
+UWB基站是一种基于超宽带（Ultra Wide Band，UWB）技术是一种无线载波通信技术设计研发的基站，这种基站主要的作用是用于定位，它的作用相当于GPS卫星，提供位置基准参考，在配合定位标签就能实现对目标对象的精确定位。
+
+UWB基站主要分为室内型和室外型2种，下图所示的为室外型基站，采用铝合金材质保证了基站的坚固，具有IP67的防护等级，可以用于室外灯恶劣环境。
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExOTY4ODQ4XyVFNiU4QSU4MCVFNiU5QyVBRiVFNyU4OSVCOSVFNyU4MiVCOS5wbmc?x-oss-process=image/format,png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20191116104329417.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1Njk5Njc0,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExNjcyNzAyXyVFNSVBRSU5QSVFNCVCRCU4RCVFNSU5RiVCQSVFNyVBQiU5OS0lRTYlOTclQTAlRTclQkElQkYlRTUlQUUlQTQlRTUlQTQlOTYlRTUlOUUlOEI0LnBuZw?x-oss-process=image/format,png)
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExNjcyNzAzXyVFNSVBRSU5QSVFNCVCRCU4RCVFNSU5RiVCQSVFNyVBQiU5OS0lRTYlOTclQTAlRTclQkElQkYlRTUlQUUlQTQlRTUlQTQlOTYlRTUlOUUlOEI1LnBuZw?x-oss-process=image/format,png)
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExOTY4ODM2XyVFOSVBMSVCOSVFNyU5QiVBRSVFNiVBMSU4OCVFNCVCRSU4Qi5wbmc?x-oss-process=image/format,png)
+
+下图所示的为室内定位基站，主要用于室内环境这种对防护等级要求不高的场景。
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExNjc2NDExX1VBLTMwMFcxLnBuZw?x-oss-process=image/format,png)
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExNjc2NDEyX1VBLTMwMFcyLnBuZw?x-oss-process=image/format,png)
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExNjc5ODAwX1FRJUU2JTg4JUFBJUU1JTlCJUJFMjAxODAzMTYxNjUxMzkucG5n?x-oss-process=image/format,png)
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExOTY4OTYyX0dJRi5naWY)
+
+![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy53ZXpoYW4uY24vY29udGVudC9zaXRlZmlsZXMvODg2NDYvaW1hZ2VzLzExOTY4ODIwXyVFOSVBMSVCOSVFNyU5QiVBRSVFNiVBMSU4OCVFNCVCRSU4Qi5wbmc?x-oss-process=image/format,png)
+
+定位基站加上定位标签在结合华星智控无线定位系统，采用先进的脉冲无线定位技术，通过在工作区域部置定位基站，检测进入生产现场的相关人员配置标签的方式，实现对进入生产现场人员的实时高精度定位，在这种复杂的应用场景下最高精度10~30cm，系统容量大，实时性好。该无线定位系统基于超窄脉冲技术，是国内领先的高精度无线定位产品。无线定位系统使用先进的超窄脉冲精确测量飞行时间技术，实现了底层的精确测距/计时；结合位置解算算法，实现了各层的精确定位。基于系统定位功能开发的电子围栏及SOS报警等功能，有利于现场作业人员的动态管理，避免发生不安全事件。
