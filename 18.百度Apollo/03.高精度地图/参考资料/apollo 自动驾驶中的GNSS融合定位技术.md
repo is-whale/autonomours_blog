@@ -1,6 +1,6 @@
 - [apollo 自动驾驶中的GNSS/融合定位技术_xiaoma_bk的博客-CSDN博客_自动驾驶融合定位](https://blog.csdn.net/xiaoma_bk/article/details/122621157)
 
-## 简介
+# 1 简介
 
 - 定位技术是自动驾驶技术解决方案中重要的一个部分，既有激光雷达、摄像头、超声波等其他技术的相对定位方式，也有GNSS高精度定位，多传感器融合定位。
 
@@ -22,7 +22,7 @@
   - 融合定位技术
   - GNSS/融合定位的挑战
 
-## [自动驾驶](https://so.csdn.net/so/search?q=自动驾驶&spm=1001.2101.3001.7020)方案的构成
+# 2 自动驾驶方案的构成
 
 - 目前主流的自动驾驶技术解决方案一般包括：高精度定位模块、感知模块和规划控制模块（就是PNC模块）。在这里把这三个过程和人类的驾驶行为过程做一个近似但不一定严密的对照。
 
@@ -40,7 +40,7 @@
 
 - 最后是规划控制，也就是`PNC`。人类通过大脑做完规划和决策后，指令双手、双脚完成指令；自动驾驶汽车需要结合地图提供的参考规划结果+车端实时规划来完整地整体操作。
 
-## 自动驾驶为何需要定位
+# 3 自动驾驶为何需要定位
 
 - 人类是基于记忆与经验的基础，结合眼睛与耳朵收集信息，经过大脑判断决策后，指挥手脚完成具体的指令操作，实现整个驾驶行为。但是人去开车，也是有一定的门槛要求的。
 - 针对当前L4/L5级别（SAE定义的自动驾驶的级别）自动驾驶为什么需要精确的定位系统？这里举一个具体的例子来进行说明。
@@ -51,7 +51,7 @@
   - 第二，感知得到的动态物体正确放入静态场景
   - 第三，位置和姿态用于路径规划和车辆控制
 
-## 高精度定位面临的挑战
+# 4 高精度定位面临的挑战
 
 - 定位本身需求：
   - **高精度**：需要达到厘米级的位置精度才能和`HDMAP`匹配使用，只有姿态和位置足够准了，红绿灯的映射才能在相机中找到较为合理的位置；
@@ -60,7 +60,7 @@
   - 人们常说GPS定位技术，以及后面会提到的RTK定位技术可以达到厘米级，足够精确，但是GNSS信号本身特别容易受到信号遮挡影响，地库、树下等场景基本不可行。
   - 我们会使用一些基于地图匹配的方式（比如LiDAR和相机）来实现定位，但是这些匹配在一些恶略天气、或者地面修葺后环境变更的场景，可能也有一定的难度等等。
 
-## 主要定位方式及特点
+# 5 主要定位方式及特点
 
 - 目前的定位方式主要包括：卫星定位，使用图像/`LiDAR`进行`map-match`的绝对定位和 `slam`类似的增量定位，惯性导航和轮速计等。
 
@@ -81,19 +81,21 @@
 
 - 为了更好地介绍GNSS和融合定位，我们简单介绍一下LiDAR和视觉DA4AD定位算法。
 
-**LiDAR定位**
+## 5.1 LiDAR定位
 
 - 激光雷达定位，主要就是在线点云与预制底图，基于预测`pose`在小的搜索范围内，按照滑动像素的方式，计算`features`（特征）之间的匹配度`cost value`，然后把`cost value`换算成概率，最终根据概率分布来进行位置计算。这里的`features`可以是反射值或者高度等信息，具体细节可以参考团队万博士在2018年ICRA的论文或者斯坦福大学塞巴斯蒂安团队的论文。
 - 激光定位：实时激光点云+预先建立的地图 -> 最有匹配
 
-**视觉定位**
+## 5.2 视觉定位
 
 - 目前百度也在内部上线了视觉定位技术。部分场景下，环境中的杆状物相对比较稳定，比如车道两边的一些路面可能因施工导致反射值变化，但是两边的一些树干、灯杆变化较少。基于这些杆状物的定位可以提供不错的稳定性。
-  ![视觉定位](https://img-blog.csdnimg.cn/01f18a75354a41e78eb6a098762a3e20.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![视觉定位](https://img-blog.csdnimg.cn/01f18a75354a41e78eb6a098762a3e20.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - `DA4AD`方案具体说就是离线制图训练时，通过`LFE`（局部特征提取模块）提取图像特征和描述子，再与3D点云关联，相当于选取了3D中的某些点，这些点都绑定了一些特征与描述子，将这些3D点及其特征与描述子写入文件，形成视觉定位地图。
 - 我们在线定位时，通过`predictive pose`（融合积分给出的概略位置）查询对应临近的`map key points`，与`online image`的特征/描述子之间构建匹配关系，最终获得最优`pose`。整个过程都是通过神经网络完成。
 
-## [Apollo](https://so.csdn.net/so/search?q=Apollo&spm=1001.2101.3001.7020) 最新定位技术框架
+# 6 Apollo最新定位技术框架
 
 Apollo最新定位技术[框架](https://so.csdn.net/so/search?q=框架&spm=1001.2101.3001.7020)，主要包括以下几个部分：
 
@@ -101,16 +103,17 @@ Apollo最新定位技术[框架](https://so.csdn.net/so/search?q=框架&spm=1001
 - 输出：位置/姿态/速度和对应置信度等信息；
 - 用户：主要是`PNC`和感知模块；
 - 定位内部：包括`RTK`算法、`LiDAR`匹配、视觉匹配模块以及`SINS`编排和融合模块。
-  ![多传感器融合定位](https://img-blog.csdnimg.cn/2e05fedacda1444db6bb8ea1c108640b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
-## 定位技术的离线应用
+![多传感器融合定位](https://img-blog.csdnimg.cn/2e05fedacda1444db6bb8ea1c108640b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+# 7 定位技术的离线应用
 
 - 关于`GNSS`/融合定位技术的一些应用，上文提到，我们的感知、规划控制，甚至我们的定位需要高精度地图的部分支持。下面简单介绍一下整体离线下高精度地图的生产流程。
   ![离线高精地图生产](https://img-blog.csdnimg.cn/3b853911cc8b47acb36249c32ec725f0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 - 主要包括：采集车上路道路采集、内业数据处理（`GNSS/IMU`的后处理提供初值），完成点云拼接和底图生成，之后就是一些基于深度学习的元素识别，人工质检，到最后的产品编译。
 - 其中，针对于很多或者说大部分场景下，`GNSS`的可用性较高，因此`GNSS+IMU`离线后处理作为初值，能够极大地提高我们大规模建图的效率，是整个流程的关键输入之一。
 
-## GNSS定位技术的基本原理
+# 8 GNSS定位技术的基本原理
 
 关于GNSS定位技术的基本原理：
 
@@ -130,20 +133,22 @@ GNSS 定位技术：
     - 本地钟差较大，设参估计
     - 以4颗卫星观测值估计：`XYZ` + 钟差`dt`，来实现定位、授时。
 
-### 定位误差差源与差分RTK定位
+# 9 定位误差差源与差分RTK定位
 
 - 实际上卫星位置和测距都包含较大的误差，导致这个用户计算的位置也有一定的误差。具体包括：
   - 起算点基准、卫星端：位置误差、卫星钟差（虽然卫星钟作为原子钟具有很强稳定性，但是也会有慢飘后）；
   - 信号传播路径上：包括电离层延迟、对流程延迟、多路径效应等；
   - 用户接收设备上，可以包括天线相位中心偏移与稳定度、接收机钟差与信号处理噪声等。
 - GNSS定位技术
-  ![定位误差源与差分RTK定位](https://img-blog.csdnimg.cn/1809a0bcd5274507a175bc15ec1cb750.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![定位误差源与差分RTK定位](https://img-blog.csdnimg.cn/1809a0bcd5274507a175bc15ec1cb750.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 以上误差的累积会导致用户定位最终出现偏差。目前各大卫星导航系统的`SPS`（标准定位服务）一般宣称`2 sigma 5 ～ 10 m` 。上个世纪80年代末/90年代初，`GPS`上线不久后就有学者提出RTK技术概念了。我们这里就聚焦于`RTK`。
 - `Real Time Kinematic，RTK`，在用户`Rover`端和基站端`Baser`（距离一般短于30km）构建差分观测值，消除或者削弱包括卫星端误差、传播路径误差、用户端误差等，在模糊度正确固定的前提下，实现厘米级定位。用户和基站需要足够“近”，就是为了保证与二者之间到卫星的视径足够相似，各项误差相关性足够强，认为基本等价。
 - 关于伪距和载波。目前接收机处理的信号一般包括载波、测距码和数字码。数字码解码出来就是前面提到的很多电文信息，测距码的就是通过窄相关等技术可以获得等效的地卫距，目前号称`0.3m～0.5m`左右的精度；再剥离测距码和数据码之后就剩下载波。
 - 用户设备的环路一般都能够获得精准相位差的相位差，精度在2mm左右，但是却无法知道从卫星到地面有多少个`cycles`，就是有一个未知整周在里面。所以，即使消除所有误差、用伪距，精度也无法达到10cm以内，用载波的话，就必须求解模糊度，也就是RTK提到的模糊度正确固定前提的原因。
 
-### 模型与RTK模糊度固定
+# 10 模型与RTK模糊度固定
 
 - 具体的数学模型过程包括：
   - 在伪距/载波量测上，构建单差方程；
@@ -159,39 +164,49 @@ GNSS 定位技术：
 - 实际应用中，可以要求积累足够数据后，解的强度，也就是最大失败率低于一定的门限时，才尝试固定模糊度。
 - 假设卫星的载波数据是包含半周跳的（信号处理机制导致载波非整周），即使强度非常强，任何搜索出来的整数解应该是有问题的。因此，我们需要从数据层面去检验整数解的正确性。
 - 目前业内有包括ratio假设检验、difference距离假设检验等验证方式。
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/a86148a5df50447ab7410afadb74f57a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/a86148a5df50447ab7410afadb74f57a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 我们先构造一个整数解与浮点解的马氏距离，作为我们的残差评价，在次最小/最小值构造比值，进行F分布假设检验。C值的选取，一般和当前的失败率与观测值个数相关，`Verhagen/Teunissen`团队也有相关的论文阐述该问题。当失败率较高、观测值个数较低时，一般c值会更大，反之亦然。那么在具体工程话实践中，我们该如何选取这些值呢？
 - 超参数设置？数据驱动下的测量参数装订与自动化数据回归
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/a4ed8842630244258fc7841f3b6348cc.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/a4ed8842630244258fc7841f3b6348cc.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 刚开始会有一些基础数据集，支持我们的研发；有大量的数据基础上，通过效果分析去评估`RTK`固定的正确率和错误率，然后逐步调整；上线后，我们有车队跑的数据，反过来可以通过和其它传感器数据一起分析后，挖掘出来一些`RTK`的`bad cases`，继续添加到我们的数据库，进一步优化我们的参数。
 - 即使我们通过大数据，慢慢找到了合理的门限来进行确认性架设检验，但是实际过程当中，我们会遇到这种情况，卫星观测值较多，整个观测值强度非常强，失败率非常低，但是如果载波数据受到一些`bias`影响，会导致基于`data-driven`的一些检验无法通过，迟迟进不了固定解。例如我们知道`GLONASS FDMA`的体制导致目前市场上不同接收机在`GLONASS`载波观测值上有一个`IFB（rate）`值。
 - 如果初值给的不够准确，就会导致部分模糊度的浮点解有偏差，那么整体类似ratio检验很难通过。另外，即使初值足够准确，在类似观测值中有个别半周跳，或者未检测修复情况下，浮点解可能也会有Bias。
 - 但大部分观测值还是正常的。这时就需要我们按照某种策略，尝试固定其中部分有效模糊度；从而整体提高RTK的固定率和固定速度。
 - 选取`Subset`的方法包括：如收到`GLONASS`的影响先不选取`GLONASS`的观测数据，而是先把`GPS`、伽利略、北斗的数据考虑进去；如果担心观测值受影响，是不是考虑高仰角的卫星，信号比较高的卫星，其质量比较有保障；最后的解算模型中要先考虑失败率比较低的；在浮点解的时候，计算每个模糊度的残差，残差小的是不是需要优先组合出来。这些都是可以在工程实践中尝试使用的，当然也有其他的一些方式。
 
-## 定位融合技术
+# 11 定位融合技术
 
-**在线融合定位**
+## 11.1 在线融合定位
 
 - 在线融合定位上下游
-  ![线融合定位上下游](https://img-blog.csdnimg.cn/0ea2b86fd5b143b9babdc88c5befb173.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![线融合定位上下游](https://img-blog.csdnimg.cn/0ea2b86fd5b143b9babdc88c5befb173.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 融合定位，主要输入就是IMU、轮速计和各个量测传感器的量测输入，输出包括给下游用户的感知和PNC模块。同时，也会将IMU的实时积分结果给到RTK引擎和LiDAR、视觉定位模块，这些量测子模块基于先验输入可以做一些预处理操作等。
 
-**后续处理融合定位技术**
+## 11.2 后续处理融合定位技术
 
 - 除了在线部分，融合定位技术也应用于我们离线的高精地图制作过程。
-  ![后续处理融合定位上下游](https://img-blog.csdnimg.cn/6f7ea1ff4ca64dab98f5422898c1a5b2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![后续处理融合定位上下游](https://img-blog.csdnimg.cn/6f7ea1ff4ca64dab98f5422898c1a5b2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 如图所示，左边的流水线图，是我们高精度地图的生产与验证流程，主要包括： 主道路采集、Pose后处理解算、点云拼接优化、底图生成与质检、HDMAP标注、仿真与测试等过程，最终发布使用。
 - 右边则是整体的后处理的流程。我们拿到`Record`数据后，`RTK`引擎基于`Obs`原始数据和`Rtk-eph`的星历数据完成RTK解算，`SINS engine`基于`IMU`数据完成捷联惯导编排，和轮速计一起，分别输入到前向和后向滤波中，前向和后向滤波的解，进入一个平滑滤波器，最终得到相关的结果。
 
-**SINS的捷联编排**
+## 11.3 SINS的捷联编排
 
 - 下是SINS的捷联编排的基本数学模型和实际的积分实现过程。
-  ![SINS的捷联编排](https://img-blog.csdnimg.cn/b3ee336379c34d94bf090c59db85016a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![SINS的捷联编排](https://img-blog.csdnimg.cn/b3ee336379c34d94bf090c59db85016a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 左边是当N系下的运动学模型，姿态的变化率和当前姿态与角速率相关，速度变化率应该在载体加速度姿态转换后，还需要考虑有害加速度和重力加速度的影响等。
 - 右边是具体的积分过程。绿色框是线上IMU输出的IMU坐标系下的加速度和角速率，通过零偏补偿后，再通过姿态转换到N系下，接着进行地球自转/位移角速率的补偿后，完成姿态的积分，然后进行速度积分，最后基于位移角速率完成位置积分。这就形成一个完整IMU周期内的姿态、速度和位移积分过程。
 
-**融合定位模型与流程**
+## 11.4 融合定位模型与流程
 
 - 目前，我们的融合定位函数选择了当地导航坐标系下的小角度误差模型作为基础。
 
@@ -227,18 +242,20 @@ GNSS 定位技术：
 有效数据闭环
 
 - 有效数据闭环示意图
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/30ec2873384541918fa6d7a9a639e192.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/30ec2873384541918fa6d7a9a639e192.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAeGlhb21hX2Jr,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+
 - 在基本的技术框架和工程实践实现之后，数据仍然是我们去优化整体融合定位表现的核心要素之一。
 - 具体来说，有一部分基础数据`raw data`，去支撑我们算法研发和调试，基于和真值的对比评估，我们会调整我们的参数（包括`IMU`的噪声参数）和一些具体的策略（包括卡方检测的一些门限）等。在达到一定的水平后，我们更新上线到车辆。这些车辆产生大量数据，我们做一些有价值的数据挖掘，再加入到我们的`benchmark`当中，最终形成一个闭环，完成`Corner cases`收集及自动化数据回归。
 - 这里给出一组我们这个流水线自动召回的一个有效case。
 - 车辆在测试的时候，可能我们的安全员司机是在手动开车的，那么可能这个时候，他没有太关注相关的一些`GUI`提示界面，这样在一些短暂的定位漂移的时候，刚好错过了，可能这个`bug`就漏掉了。但是数据回来后，我们会例行跑，就会根据一些逻辑召回出这个`case`。
 
-**离线后处理解算**
+## 11.5 离线后处理解算
 
 - 融合定位后处理本身框架和在线基本上是一致的，同时我们有一个后向解，其实是可以从`GNSS`固定层面上去提供一个新的尝试。在很多具体的场景下，去前向跑一个`RTK`固定解的话，可能因为策略设置问题而没有固定，但是如果我们能够从后向去跑一下的话，这些数据段可能是能够固定的。我们整个`GNSS`的固定的解比例是会有一定的提升的。
 - 基于后处理的结果，去完成点云拼接。可以看到，整个建筑物的边缘都非常清晰，车道线，还有杆状物的信息也非常清楚。这证明我们给出的位置精度和姿态精度是能够满足做点拼接需求。
 
-## GNSS/融合定位的挑战
+# 12 GNSS/融合定位的挑战
 
 最后我们探讨一下GNSS定位技术和融合定位技术的一些挑战，希望大家一起推动技术问题的解决和优化。
 

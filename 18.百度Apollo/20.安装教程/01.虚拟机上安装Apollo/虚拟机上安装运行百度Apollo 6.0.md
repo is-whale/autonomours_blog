@@ -6,7 +6,7 @@
 
 主要是参考[官网的教程](https://github.com/ApolloAuto/apollo/blob/master/docs/quickstart/apollo_software_installation_guide.md)， 但是我自己目前是在[vmware](https://so.csdn.net/so/search?q=vmware&spm=1001.2101.3001.7020)上跑而且GPU不能直连，所以安装教程里的GPU部分都跳过。
 
-**1. 先装好Ubuntu 18.04和Docker**
+# 1. 先装好Ubuntu 18.04和Docker
 
 > Ubunut系统中安装[Docker](https://so.csdn.net/so/search?q=Docker&spm=1001.2101.3001.7020)，因为apollo需要运行在Docker所创建的容器中。
 > [虚拟机](https://so.csdn.net/so/search?q=虚拟机&spm=1001.2101.3001.7020)不支持GPU那就先别装nvidia相关的（否则出错，还需要卸载nvdia相关的）
@@ -45,7 +45,7 @@ sudo usermod -aG docker *** (你的用户名)
 Log out
 ```
 
-**2. 下载Apollo 源**
+# 2. 下载Apollo 源
 
 ```c
 git clone https://github.com/ApolloAuto/apollo.git
@@ -55,7 +55,8 @@ git checkout master
 git clone --branch v2.5.0 github.com/ApolloAuto/apollo.git #下载指定版本
 ```
 
-**3. \**启动阿波罗开发容器Docker\****
+# 3. 启动阿波罗开发容器Docker
+
 在Apollo路径下（此时的命令窗口会显示前缀 ***@你的计算机名:~/apollo$）
 
 ```c
@@ -78,7 +79,7 @@ bash apollo.sh clean #需重新编译时，才会用到该命令
 ./apollo.sh build #编译apollo （apollo的编译是在容器内进行的）
 ```
 
-**4. 构建Apollo**
+# 4. 构建Apollo
 
 ```c
 ./apollo.sh clean
@@ -95,7 +96,7 @@ bash apollo.sh clean #需重新编译时，才会用到该命令
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210320112201361.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxMTI5MTkxNzY3MA==,size_16,color_FFFFFF,t_70)
 
-**5. 启动仿真环境Dreamview**
+# 5. 启动仿真环境Dreamview
 
 ```c
 bash ./scripts/bootstrap.sh
@@ -132,7 +133,7 @@ https://github.com/ApolloAuto/apollo/issues/6764
 
 > （这个可能遇到cyber_record 命令无法找到， 需要到apollo/cyber目录下运行 . setup.bash， 然后>>echo $PATH 路径应包含/ apollo / bazel-bin / cyber / tools / cyber_recorder / 再回到docs/demo_guide/下去） 就可以看到运行的了：
 
-**6. 结束deamview**
+# 6. 结束deamview
 
 ```c
 root@in-dev-docker:/apollo# ./scripts/bootstrap.sh stop
