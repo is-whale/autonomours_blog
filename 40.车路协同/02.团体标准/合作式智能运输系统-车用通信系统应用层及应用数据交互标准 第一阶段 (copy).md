@@ -1,8 +1,10 @@
 团体标准    				合作式智能运输系统	车用通信系统	应用层及应用数据交互标准（第一阶段）
 
-## 一、术语和定义
+T/CASE 53-2020 代替T/CASE 53-2017
 
-### 术语
+# 一、术语和定义
+
+## 1.1 术语
 
 #### 合作式智能运输系统 cooperative intel l i gent transportat ion systems,C-|TS
 
