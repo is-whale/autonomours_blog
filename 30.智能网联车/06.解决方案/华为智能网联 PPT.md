@@ -1,4 +1,5 @@
 - [华为智能网联 PPT (qq.com)](https://mp.weixin.qq.com/s/WgXwJXzimi0rTW3-pewx6A)
+- [智能网联解决方案 (qq.com)](https://mp.weixin.qq.com/s/J1F_aqUsIDd_VSTGXkZTcw)
 
 ![图片](https://mmbiz.qpic.cn/mmbiz_jpg/ZZicMHlkCqkMRc3KQqtMGkZKQz6T1bH7AVicCfPfzynZpfXyTPKvMq22qmoBg8vJo0TyhZWxOrpmRKJs2jmlgQnw/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&wx_co=1)
 
