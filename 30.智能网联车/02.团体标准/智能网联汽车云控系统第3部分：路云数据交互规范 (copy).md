@@ -100,7 +100,7 @@ UTC 协调世界时 Coordinated Universal Time
 
 总体架构见T/CSAE XXXX（第一部分），路云交互的架构范围见图1。
 
-![image-20221022150943067](https://www.lovebetterworld.com:8443/uploads/2022/10/22/635409b517876.png)
+![image-20221022150943067](https://img-blog.csdnimg.cn/img_convert/449f25f963b582e4eb0956e4a1ffa289.png)
 
 # 6 数据类型
 
@@ -157,7 +157,7 @@ UTC 协调世界时 Coordinated Universal Time
 
 可根据应用选择MQTT、HTTPS等传输协议，建议采用MQTT传输的数据协议。对于采用MQTT传输协议的，宜使用JSON格式，也可以根据消息集定义，采用protobuf，ASN.1等格式。当云端向路侧RSU下发数据时，路侧RSU应先向MQTT服务器订阅与指定RSU相关的TOPIC，并保持等待数据状态。云端根据心跳数据中的版本值向MQTT服务器发布对应TOPIC数据。当路侧RSU向云端上传BSM、心跳数据时，云端应先向MQTT服务器订阅与RSU相关的TOPIC（全局的），并保持等待数据状态。路侧RSU向MQTT服务器发布对应TOPIC数据。云端与路侧RSU数据交互见图2。
 
-![image-20221022151045044](https://www.lovebetterworld.com:8443/uploads/2022/10/22/635409b8689e5.png)
+![image-20221022151045044](https://img-blog.csdnimg.cn/img_convert/79ddf338da5a388a47a85f57621671f0.png)
 
 ### 7.2.2 MQTT 规则
 
@@ -205,7 +205,7 @@ RSU2CLOUD_RSI：vpub/rsu/rsi/<rsu_id>
 
 7.3.1.5 路侧 RCU-云端数据交互见图 3。
 
-![image-20221022151127141](https://www.lovebetterworld.com:8443/uploads/2022/10/22/635409bb796e6.png)
+![image-20221022151127141](https://img-blog.csdnimg.cn/img_convert/3c884c12398264c869d391c8814ae835.png)
 
 ### 7.3.2 TCP 传输时序
 
@@ -239,7 +239,7 @@ RSU2CLOUD_RSI：vpub/rsu/rsi/<rsu_id>
 
 一个完整的数据包应由起始符、数据报头（数据单元长度、数据类别、版本号、时间戳-毫秒、时间戳-分钟）、数据单元组成，数据包结构和定义见表3。
 
-![image-20221022151215300](https://www.lovebetterworld.com:8443/uploads/2022/10/22/635409bf109bc.png)
+![image-20221022151215300](https://img-blog.csdnimg.cn/img_convert/1d5a31d5d8e243c055c51ed7cb61e9ce.png)
 
 ### 7.3.4 命令单元
 
@@ -247,7 +247,7 @@ RSU2CLOUD_RSI：vpub/rsu/rsi/<rsu_id>
 
 采用TCP协议传输的数据类别分段定义见表4。
 
-![image-20221022151235181](https://www.lovebetterworld.com:8443/uploads/2022/10/22/635409c18552d.png)
+![image-20221022151235181](https://img-blog.csdnimg.cn/img_convert/440ea8b90ed5dcca558567612e44290b.png)
 
 #### 7.3.4.2 数据类别
 
@@ -293,11 +293,11 @@ RSI数据下发消息集见表6。
 | 2    | rsiId    | RSI编号    | JSON_INT    | 必填     | [0..255]平台给出的该RSI事件的编号，用于 和alertType/eventType一起表征同一事件。 |
 | 3    | msgCnt   | 计数器编号 | JSON_INT    | 必填     | [0..127]，RSU自己生成0～127循环。                            |
 
-![image-20221022151332711](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b3d8fd6d.png)
+![image-20221022151332711](https://img-blog.csdnimg.cn/img_convert/f2dabf35c7b7891873dc82fbc97bcc36.png)
 
-![image-20221022151352568](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b40be778.png)
+![image-20221022151352568](https://img-blog.csdnimg.cn/img_convert/d25c758fbf4b58ec794547a8cfb06f24.png)
 
-![image-20221022151434139](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b450abe5.png)
+![image-20221022151434139](https://img-blog.csdnimg.cn/img_convert/07cbdf0c496d09c233ef98262d976780.png)
 
 ### 8.1.3 应用场景分类
 
@@ -321,15 +321,15 @@ RSI数据下发消息集见表6。
 
 RSM数据下发消息集见表7。
 
-![image-20221022151604036](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b5697a8c.png)
+![image-20221022151604036](https://img-blog.csdnimg.cn/img_convert/a9c0a72cc8ec2cf7c9274bf7861cd74b.png)
 
-![image-20221022151615330](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b596099f.png)
+![image-20221022151615330](https://img-blog.csdnimg.cn/img_convert/b54456cec37f1ec9288ab5e428df912f.png)
 
-![image-20221022151645217](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b5bdf059.png)
+![image-20221022151645217](https://img-blog.csdnimg.cn/img_convert/1a19029c6769c9505e319156b54c1872.png)
 
-![image-20221022151656166](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b5ecb21d.png)
+![image-20221022151656166](https://img-blog.csdnimg.cn/img_convert/6a24f5f7db2b0fd115de9fff0c86f51b.png)
 
-![image-20221022151705085](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b65af63a.png)
+![image-20221022151705085](https://img-blog.csdnimg.cn/img_convert/2ca672dd627ded0bb4d403b09285250b.png)
 
 ## 8.3 MAP 数据下发（CLOUD2RSU_MAP）
 
@@ -343,19 +343,19 @@ RSM数据下发消息集见表7。
 
 MAP数据下发消息集见表8。
 
-![image-20221022151748096](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b691f950.png)
+![image-20221022151748096](https://img-blog.csdnimg.cn/img_convert/4073286360143e049a925b74fd4848ec.png)
 
-![image-20221022151755717](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b6b74f69.png)
+![image-20221022151755717](https://img-blog.csdnimg.cn/img_convert/6ba955501f46fef2e76991b157b4d20e.png)
 
-![image-20221022151821543](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b6d7f640.png)
+![image-20221022151821543](https://img-blog.csdnimg.cn/img_convert/c3032b17c08417a0760dba8eda13d650.png)
 
-![image-20221022151834150](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b701d02b.png)
+![image-20221022151834150](https://img-blog.csdnimg.cn/img_convert/769955a74c035015549a30b61ff2a2b4.png)
 
-![image-20221022151903278](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b729871e.png)
+![image-20221022151903278](https://img-blog.csdnimg.cn/img_convert/25cff11c28be7ed4cc4645ce5d8b5493.png)
 
-![image-20221022151915369](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b756e03b.png)
+![image-20221022151915369](https://img-blog.csdnimg.cn/img_convert/8f9e4667751f2edfc605006eeeae7a1b.png)
 
-![image-20221022151922435](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b783be85.png)
+![image-20221022151922435](https://img-blog.csdnimg.cn/img_convert/fc3f341091c01e1ecb2fbd9caea1bd6d.png)
 
 ## 8.4 SPAT 数据下发（CLOUD2RSU_SPAT）
 
@@ -369,13 +369,13 @@ MAP数据下发消息集见表8。
 
 SPAT数据下发消息集见表9。
 
-![image-20221022151946589](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b7c3c924.png)
+![image-20221022151946589](https://img-blog.csdnimg.cn/img_convert/4868ae9f6c00fea937681bf79143bb34.png)
 
-![image-20221022151956142](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b7e51741.png)
+![image-20221022151956142](https://img-blog.csdnimg.cn/img_convert/52fcfa0c05e39e6ae53df69e259e441e.png)
 
-![image-20221022152016501](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b808767c.png)
+![image-20221022152016501](https://img-blog.csdnimg.cn/img_convert/6e1622c2de7b7d3833c0274ea2a0266e.png)
 
-![image-20221022153943669](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b82eb047.png)
+![image-20221022153943669](https://img-blog.csdnimg.cn/img_convert/1179aee0398d8cd3544a0bbf088625c0.png)
 
 ## 8.5 BSM 数据上报（RSU2CLOUD_BSM）
 
@@ -387,17 +387,17 @@ RSU发送至云端RSU接收到的信号范围内车辆BSM数据，RSU每收到�
 
 BSM数据上报消息集见表10。
 
-![image-20221022154016771](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b855e7ab.png)
+![image-20221022154016771](https://img-blog.csdnimg.cn/img_convert/62fcbedb65e13d5c218ee08789e53509.png)
 
-![image-20221022154026367](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b8806f56.png)
+![image-20221022154026367](https://img-blog.csdnimg.cn/img_convert/c06442a4f03fb1cb5d0884d9a7e98297.png)
 
-![image-20221022154053303](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b8a29339.png)
+![image-20221022154053303](https://img-blog.csdnimg.cn/img_convert/9c16511c232bc96fb54c667f3479d3b7.png)
 
-![image-20221022154124854](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b8cb2003.png)
+![image-20221022154124854](https://img-blog.csdnimg.cn/img_convert/10498c829c4bf9c1f827e779a593e114.png)
 
-![image-20221022154135847](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b8ed3c04.png)
+![image-20221022154135847](https://img-blog.csdnimg.cn/img_convert/017e94f4496ad01b268c3d723519faa6.png)
 
-![image-20221022154225433](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540b93d501e.png)
+![image-20221022154225433](https://img-blog.csdnimg.cn/img_convert/37d5c283499eb9420e6641848bd6e078.png)
 
 ## 8.6 RSU 心跳数据上报（RSU2CLOUD_HEARTBEAT）
 
@@ -517,15 +517,15 @@ RSU数据确认的消息集见表13。
 | 5    | targetsNum | 目标数量     | WORD     | [0..65535]检测到的目标物总数。                               |
 | 6    | targets    | 目标数据包   | ——       | 目标信息数据格式和定义见表15。                               |
 
-![image-20221022161117292](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540c982f455.png)
+![image-20221022161117292](https://img-blog.csdnimg.cn/img_convert/f2f49151e4a1fb80018be726e6850cfd.png)
 
-![image-20221022161124731](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540c9be2592.png)
+![image-20221022161124731](https://img-blog.csdnimg.cn/img_convert/43cbd41bd121abcef3ef95ef3c3e0815.png)
 
-![image-20221022161133124](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540c9e113ed.png)
+![image-20221022161133124](https://img-blog.csdnimg.cn/img_convert/4d212ed6dcb0500652057428684a9926.png)
 
-![image-20221022161144542](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ca052f62.png)
+![image-20221022161144542](https://img-blog.csdnimg.cn/img_convert/b203de5b4e9682a100eff9197356107a.png)
 
-![image-20221022161155320](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ca37139c.png)
+![image-20221022161155320](https://img-blog.csdnimg.cn/img_convert/a8320ea3fa79cdfddd0bb17b67c44343.png)
 
 | 序号 | 字段名称        | 字段含义     | 数据类型 | 取值说明                                                     |
 | ---- | --------------- | ------------ | -------- | ------------------------------------------------------------ |
@@ -537,11 +537,11 @@ RSU数据确认的消息集见表13。
 | 6    | heading         | 航向角       | DWORD    | [0..3600001]360001表示无效，车头指向方向与正北方向顺时 针夹角，单位：1e-4 °。 |
 | 7    | headConfidence  | 航向精度等级 | BYTE     | [0..255]枚举，定义见附录J。                                  |
 
-![image-20221022161209643](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ca6c1120.png)
+![image-20221022161209643](https://img-blog.csdnimg.cn/img_convert/2684f2a4b097ca242f8a71e76bfb8467.png)
 
-![image-20221022161216716](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ca9747b4.png)
+![image-20221022161216716](https://img-blog.csdnimg.cn/img_convert/74c44e8422748fbb44563d14ad815b6a.png)
 
-![image-20221022161224299](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540cab852ca.png)
+![image-20221022161224299](https://img-blog.csdnimg.cn/img_convert/f65165f77accdc541599de979e0e15cf.png)
 
 ## 9.2 路侧感知事件上报与回应(RCU2CLOUD_EVENT)
 
@@ -706,7 +706,7 @@ UUID(即EventCode)：如：ET_0_2046A1043419_502_1574680367329_10000编码以下
 
 RSI调度策略类型说明见表B.1。
 
-![image-20221022164614949](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540cb34fcf0.png)
+![image-20221022164614949](https://img-blog.csdnimg.cn/img_convert/32b732a41f72daf949286b03ac18cca3.png)
 
 # 附 录 C（规范性）设备 ID 命名方式定义
 
@@ -884,13 +884,13 @@ G.1 标识标牌数据格式和定义见表 G.1。
 
 ## G.2 交通事件类型数据格式和定义见表 G.2。
 
-![image-20221022170234857](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ec85684c.png)
+![image-20221022170234857](https://img-blog.csdnimg.cn/img_convert/ae6807badee6ff22ccef5c29896fce66.png)
 
-![image-20221022170241222](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ecbf013d.png)
+![image-20221022170241222](https://img-blog.csdnimg.cn/img_convert/41180e93248f63d3ae80785ad6f496eb.png)
 
-![image-20221022170251376](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ece0086a.png)
+![image-20221022170251376](https://img-blog.csdnimg.cn/img_convert/e6d6c369079ea3f1403ac18e2c49abec.png)
 
-![image-20221022170259878](https://www.lovebetterworld.com:8443/uploads/2022/10/22/63540ed0d47a0.png)
+![image-20221022170259878](https://img-blog.csdnimg.cn/img_convert/63cb7a08ef02380edfa7356ac9f4f101.png)
 
 # 附 录 H（资料性）设备名称定义
 
@@ -1090,7 +1090,7 @@ a) 设备厂商见表 H.3；
 
 a) RCU 状态代码见表 N.1；
 
-![image-20221022170556706](https://www.lovebetterworld.com:8443/uploads/2022/10/22/6353b3996a8e9.png)
+![image-20221022170556706](https://img-blog.csdnimg.cn/img_convert/a898972b981e2ec82a2451f62fa46d79.png)
 
 e)目标状态代码见表 N.5。
 
@@ -1102,4 +1102,4 @@ e)目标状态代码见表 N.5。
 
 # 附 录 O（规范性）协方差矩阵数据定义
 
-![image-20221022170628896](https://www.lovebetterworld.com:8443/uploads/2022/10/22/6353b35952905.png)
+![image-20221022170628896](https://img-blog.csdnimg.cn/img_convert/2114fa52ad9ba452858a98d7443e6c86.png)
