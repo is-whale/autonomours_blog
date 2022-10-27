@@ -1,10 +1,10 @@
 - [V2X方案之OBU介绍_不懂汽车的胖子的博客-CSDN博客](https://blog.csdn.net/ChrisKKC/article/details/123055235?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-19-123055235.pc_agg_new_rank&utm_term=v2x协议栈&spm=1000.2123.3001.4430)
 
-## OBU概要
+# OBU概要
 
 OBU，直译就是车载单元的意思，就是采用DSRC技术，与RSU进行通讯的微波装置。在V2X方案中就是集C-V2X、高[精度](https://so.csdn.net/so/search?q=精度&spm=1001.2101.3001.7020)定位、4G/5G通信、等多功能V2X的5G智能车载终端，面向智能网联汽车、智慧交通领域，具有车路协同、智能计算、远程交互等功能。 基于C-V2X协议栈，与高级辅助驾驶ADAS、自动驾驶ADS深度融合，提供丰富的交通效率及安全等服务，满足高速公路场景下车辆主动安全，效率提升等需求，并支持拓展其他场景应用，满足对C-V2X技术在车联网IoV领域的应用需求。
 
-## V2X车路协同[架构](https://so.csdn.net/so/search?q=架构&spm=1001.2101.3001.7020)
+# V2X车路协同架构]
 
 ![img](https://img-blog.csdnimg.cn/img_convert/762002a12cc9d3d582e0e52d309eeedd.png)
 
@@ -22,7 +22,7 @@ RSU是C-V2X系统的路侧单元，通过无线Uu 口或者有线接口连接云
 
 运维云实现C-V2X系统设备的远程管理、升级等。
 
-## OBU特点
+# OBU特点
 
 一般OBU需满足以下需求：
 
@@ -48,26 +48,19 @@ RSU是C-V2X系统的路侧单元，通过无线Uu 口或者有线接口连接云
 - 支持对应app和数据管理平台开发
 - 车载以太网
 
-### OBU参数参考
+# OBU参数参考
 
 ![img](https://img-blog.csdnimg.cn/4d59d3acae734d9ba14aa8312beb58cf.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiN5oeC5rG96L2m55qE6IOW5a2Q,size_13,color_FFFFFF,t_70,g_se,x_16)
 
 ![img](https://img-blog.csdnimg.cn/442000003374486b96a3cd9533e3630c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiN5oeC5rG96L2m55qE6IOW5a2Q,size_13,color_FFFFFF,t_70,g_se,x_16)
 
-##  OBU功能
+#  OBU功能
 
 ![img](https://img-blog.csdnimg.cn/2680ab3a4eab49dabc742571818e5130.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiN5oeC5rG96L2m55qE6IOW5a2Q,size_14,color_FFFFFF,t_70,g_se,x_16)
 
-##  OBU射频性能
+#  OBU射频性能
 
 ![img](https://img-blog.csdnimg.cn/236973b3d8144bd58c63148937d58590.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiN5oeC5rG96L2m55qE6IOW5a2Q,size_14,color_FFFFFF,t_70,g_se,x_16)
 
 ![img](https://img-blog.csdnimg.cn/55a63a7ef7374d40ae670749103baca7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiN5oeC5rG96L2m55qE6IOW5a2Q,size_14,color_FFFFFF,t_70,g_se,x_16)
 
- 其他详细见以下链接：
-
-[V2X方案之OBU介绍![img](https://csdnimg.cn/release/blog_editor_html/release2.0.6/ckeditor/plugins/CsdnLink/icons/icon-default.png?t=M1H3)http://xn--v2xobu-d27ih8ak32mfmf9r3e/](http://xn--v2xobu-d27ih8ak32mfmf9r3e/)
-
-另有RSU介绍文档
-
-[V2X方案之RSU介绍![img](https://csdnimg.cn/release/blog_editor_html/release2.0.6/ckeditor/plugins/CsdnLink/icons/icon-default.png?t=M1H3)https://download.csdn.net/download/ChrisKKC/81875554](https://download.csdn.net/download/ChrisKKC/81875554)
