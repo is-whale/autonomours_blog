@@ -4,17 +4,19 @@
 
 车联网是以车内网、车际网和车载移动互联网（车云网）为基础，按照约定的通信协议和数据交互标准，在车-X（X：车、路、行人及互联网等）之间，进行无线通讯和信息交换的大系统网络；车联网（V2X）体系架构包含感知层、网络层和应用层，与之相对应，业界称之为“端、管、云”。
 
-​                       ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU0lDY1R0RjMyS090T2RKWDhzN0dCOHpyU1VDYU1udzg0RWRab096RmljMlplb1hxRUx6ZUpxT2cvNjQw?x-oss-process=image/format,png)
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU0lDY1R0RjMyS090T2RKWDhzN0dCOHpyU1VDYU1udzg0RWRab096RmljMlplb1hxRUx6ZUpxT2cvNjQw?x-oss-process=image/format,png)
 
-​                                    图1. 车内网、车际网与车云网
+ 图1. 车内网、车际网与车云网
 
 - 感知层：感知交通信息、天气状况、路况等信息。
 - 网络层：通过无线通讯技术、卫星定位导航系统来实现和互联网的连接，完成大量数据传输、分析和处理，实现相互通信和远程控制的目的。
 - 应用层：数据反馈，并根据网络层的渠道开发各类软件应用，如地图导航服务。
 
-​                        ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU3Z6M3RZSzl5TUhyb0JKamRDbW5QYnVZc1lEWE9RaWI2eVpUOU5iWVJ0bGgxZ2ljOXN5V2p5czlnLzY0MA?x-oss-process=image/format,png)
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU3Z6M3RZSzl5TUhyb0JKamRDbW5QYnVZc1lEWE9RaWI2eVpUOU5iWVJ0bGgxZ2ljOXN5V2p5czlnLzY0MA?x-oss-process=image/format,png)
 
-![img](https://img-blog.csdnimg.cn/2020071322084574.gif)                                   图2. LTE-V2X车联网系统体系架构示意图
+![img](https://img-blog.csdnimg.cn/2020071322084574.gif)
+
+图2. LTE-V2X车联网系统体系架构示意图
 
 何为“端、管、云”？
 
@@ -96,7 +98,9 @@ b、 直连通信业务应用 - 以网络层PC5广播通道为基础，在应用
 
 ### 3.1 蜂窝通信场景系统安全架构
 
- ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU0lNeXc3bGliTTJVQmx0YThqaWNlYnZneFhrWGVxVFQzYU5WcmJBWGZkQ0JjZ3ppYndRU09JZWV6Zy82NDA?x-oss-process=image/format,png)                           
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU0lNeXc3bGliTTJVQmx0YThqaWNlYnZneFhrWGVxVFQzYU5WcmJBWGZkQ0JjZ3ppYndRU09JZWV6Zy82NDA?x-oss-process=image/format,png)
+
+​                        
 
 图3. 蜂窝移动通信场景下LTE-V2X安全架构
 
@@ -118,9 +122,11 @@ b、 直连通信业务应用 - 以网络层PC5广播通道为基础，在应用
 
 ### 3.2 直连通信场景系统安全架构
 
-​               ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU1BpYXd1YTZ2VHZxNlVnTVNVak9tZnNUb0VOYzRYMGp6YWlhTUpXaDkzaWNyUHJYelpZc2paSEtkUS82NDA?x-oss-process=image/format,png)![img](https://img-blog.csdnimg.cn/2020071322084584.gif)
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU1BpYXd1YTZ2VHZxNlVnTVNVak9tZnNUb0VOYzRYMGp6YWlhTUpXaDkzaWNyUHJYelpZc2paSEtkUS82NDA?x-oss-process=image/format,png)
 
-​                               图4. 直连通信场景下的LTE-V2X安全架构
+![img](https://www.lovebetterworld.com:8443/uploads/2022/10/30/635e400b176b4.gif)
+
+图4. 直连通信场景下的LTE-V2X安全架构
 
 直连通信场景下，LTE-V2X车联网系统安全架构包含如下五个安全域：
 
@@ -138,11 +144,11 @@ b、 直连通信业务应用 - 以网络层PC5广播通道为基础，在应用
 
 车联网安全运营及管理体系是一套完整的系统安全解决方案，基本结构如下图所示，它从采集、检测、发现、评估、调查和响应等环节对车联网安全事件进行生命周期的检测和管理。
 
-​                 ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU2VnVDBOaHZjSnJqTGVpYzREb0o5OEhkTnpHNW5JREZoTjEycEtidTBWUGFZQlF4YmFKTk9HQ2cvNjQw?x-oss-process=image/format,png)
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy9wQWljVDVqRnJrbWV5OWljVkxLeTk2TFJHc2FHWEZnaWFLU2VnVDBOaHZjSnJqTGVpYzREb0o5OEhkTnpHNW5JREZoTjEycEtidTBWUGFZQlF4YmFKTk9HQ2cvNjQw?x-oss-process=image/format,png)
 
-​                                    图5. 车联网安全运营及管理体系
+​                
 
- 
+图5. 车联网安全运营及管理体系
 
 车联网安全运营与管理体系包含以下三个层次：
 
