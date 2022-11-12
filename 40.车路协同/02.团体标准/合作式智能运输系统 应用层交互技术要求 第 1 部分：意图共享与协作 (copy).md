@@ -1,0 +1,1402 @@
+# 1 范围
+
+本文件规定了意图共享与意图协作类业务应用层交互的技术要求，包括通用要求、意图共享和意图协作功能的场景要求、流程要求、数据交互要求和消息集技术要求等内容。
+
+本文件适用于支持意图共享与意图协作类功能的智能网联汽车和路侧基础设施等实体。
+
+# 2 规范性引用文件
+
+下列文件对于本文件的应用是必不可少的。凡是注日期的引用文件，仅所注日期的版本适用于本文件。凡是不注日期的引用文件，其最新版本（包括所有的修改单）适用于本文件。
+
+YD/T 3709-2020 基于LTE的车联网无线通信技术 消息层技术要求
+
+GAT 1743—2020 道路交通信号控制机信息发布接口规范
+
+T/CSAE 157-2020 合作式智能运输系统 车用通信系统应用层及应用数据交互标准（第二阶段）
+
+# 3 术语、定义和缩略语
+
+## 3.1. 术语和定义
+
+T/CSAE 157-2020界定的以及下列术语和定义适用于本文件。
+
+### 3.1.1.主车 host vehicle，HV
+
+装有车载单元且运行应用程序的目标车辆，本文件中特指发送意图信息或者意图请求的V2X车辆。
+
+### 3.1.2.远车 remote vehicle，RV
+
+与主车配合能定时广播V2X消息的背景车辆，本文件中特指接收意图信息或者意图请求的V2X车辆。
+
+### 3.1.3.请求方 Intent Initiator
+
+发送意图请求的车辆。
+
+### 3.1.4.协作方 Intent Collaborator
+
+在请求方的相关车道一定范围内，影响请求方执行意图的、支持协作业务的RV。
+
+### 3.1.5.路侧引导方 Roadside Coordinator
+
+支持协作业务，可配合请求方完成请求的意图的路侧基础设施，必选包含路侧设备，可选包含MEC等。
+
+### 3.1.6.相关车道 Related Lanes
+
+与主车的行驶意图相关联的车道，变道场景下，一般指主车所在车道及目标车道；汇入场景下，一般指主车所在车道及合流车道的相邻车道；无信号灯交叉口通行场景下，一般指主车所在车道、对向车道及两侧向车道等；有信号灯交叉口协作式通行场景下，一般指主车所在车道、对向车道及两侧向车道等。
+
+### 3.1.7.合流 Lane Merging
+
+两条分开的基本平行的车流运行于同一方向，合并或统一组成一条车流的过程。
+
+### 3.1.8.道路合流区 Lane Merging Area
+
+高速公路和城市快速路汇入口的合流区段，存在大量车辆换道行为，由主路车道、加速车道组成，
+
+见附 录 E。
+
+### 3.1.9.最晚响应时间 Latest Response Time
+
+发送方发送消息后，等待对方回复该条消息或执行相应动作的最晚时间。
+
+### 3.1.10.预期响应时间 Expected Response Time
+
+发送方发送消息后，希望对方回复该条消息或执行相应动作的最晚时间。
+
+注：若同时存在预期响应时间和最晚响应时间，应以预期响应时间为准。预期响应时间应不大于最晚响应时间。
+
+## 3.2. 缩略语
+
+以下缩略语适用于本文件：
+
+ASN.1：抽象语法记法一 （Abstract Syntax Notation One）
+
+BSM：基本安全消息（Basic Safety Message）
+
+DE：数据元素（Data Element）
+
+DF：数据帧（Data Frame）
+
+ID：标识（IDentification）
+
+ISM：意图共享消息（IntentionSharingMessage）
+
+MEC：多接入边缘计算子系统（Multiple-Access Edge Computing）
+
+NV：未装载通信系统的普通车辆（Normal Vehicle）
+
+OBU：车载单元（On-Board Unit）
+
+RSC：路侧协调消息（Road Side Coordination）
+
+RSU：路侧单元（Road Side Unit）
+
+SAM：业务能力公告消息（Service Announcement Message）
+
+SSP：服务特定许可（Service Specific Permission）
+
+UPER：非对齐压缩编码规则（Unaligned Packet Encoding Rules）
+
+VIR：车辆意图和请求（Vehicle Intention And Request）
+
+# 4 通用要求
+
+## 4.1. 系统架构
+
+意图共享与协作类业务的架构图如图 1所示，包括车载子系统、路侧子系统、多接入边缘计算平台与中心子系统四部分。
+
+![image-20221110211638380](https://img-blog.csdnimg.cn/img_convert/4cb9aeff6fcdcf8d8f38be22c971d89f.png)
+
+其中，本文件仅给出车载子系统与路侧子系统的要求，具体业务功能要求如下：
+
+a) 车载子系统：安装在车辆上，负责V2X通信的实体，应包含OBU；
+
+b) 路侧子系统：安装在路侧设备上，负责V2X通信的实体，应包含路侧单元（RSU），可包含路侧感知设备以及其它路侧交通控制设施（如：信号灯）。
+
+A1~A7为上述四个部分之间应用消息层数据交互接口，其中：
+
+a) A1接口：车载子系统与车载子系统之间接口；
+
+b) A2接口：车载子系统与路侧子系统之间接口；
+
+c) A3接口：车载子系统与多接入边缘计算子系统之间接口；
+
+d) A4接口：路侧子系统与多接入边缘计算子系统之间接口；
+
+e) A5接口：车载子系统与中心子系统之间接口；
+
+f) A6接口：路侧子系统与中心子系统之间接口；
+
+g) A7接口：多接入边缘计算子系统与中心子系统之间接口。
+
+注：本文件描述范围仅包括A1和A2接口。
+
+## 4.2. 功能分类
+
+意图共享与协作类应用场景含两种功能类别：
+
+a) 意图共享类：主车发送意图信息，不需要其它交通参与者反馈信息；
+
+b) 意图协作类：请求方发送意图请求，与其它协作方或者路侧引导方交互引导信息，请求方根据引导信息，完成当前意图。完成意图的过程中，可有协作方配合执行，也可无协作方配合。
+
+## 4.3. 应用场景
+
+意图共享类应用场景包括：变道意图共享、汇入意图共享和交叉口意图共享三个场景；
+
+意图协作类应用场景包括：协作式变道、协作式车辆汇入、无信号灯交叉口协作式通行和有信号灯交叉口协作式通行四个场景。
+
+不同场景适用的道路条件如表 1所示：
+
+表1 不同场景适用的道路条件
+
+| 应用场景                                 | 适用道路条件                                         |
+| ---------------------------------------- | ---------------------------------------------------- |
+| 变道意图共享、协作式变道                 | 高速公路，以及两车道以上的城市道路、郊区、封闭园区等 |
+| 汇入意图共享、协作式车辆汇入             | 高速公路/城市快速路入口、服务区出口及其它合流车道等  |
+| 交叉口意图共享、无信号灯交叉口协作式通行 | 城市道路、郊区、封闭园区等无信控机的路口             |
+| 交叉口意图共享、有信号灯交叉口协作式通行 | 城市道路、郊区、封闭园区等有信控机的路口等           |
+
+# 5 意图共享
+
+## 5.1. 场景要求
+
+### 5.1.1. 变道意图共享
+
+变道意图共享的场景要求如表 2 所示：
+
+![image-20221112181058223](https://img-blog.csdnimg.cn/img_convert/a6140027401a92f79c9881f99d254909.png)
+
+### 5.1.2. 汇入意图共享
+
+汇入意图共享的场景要求如表 3 所示：
+
+![image-20221110211759993](https://img-blog.csdnimg.cn/img_convert/4079c778b8d1f90dbf28291eb6c59359.png)
+
+### 5.1.3. 交叉口意图共享
+
+车辆在通过交叉口时，无论有无信号灯都应满足交叉口意图共享的场景要求，如表 4 所示：
+
+![image-20221110211814912](https://img-blog.csdnimg.cn/img_convert/23274d8ac8e70c6264480cfb8ee0f8b4.png)
+
+## 5.2. 流程要求
+
+### 5.2.1. 状态转换要求
+
+意图共享功能中，车辆的状态转换如图 2 所示：
+
+![image-20221110214247604](https://img-blog.csdnimg.cn/img_convert/167c3d6359600bcb1f0651ab8af41963.png)
+
+满足触发条件时，车辆应从初始状态切换为共享状态；满足结束条件时，车辆应从共享状态切换为初始状态。车辆在不同状态下应满足如下要求：
+
+a) 初始状态：车载子系统初始化完成后的状态，在此状态下应识别车辆的意图；
+
+b) 共享状态：意图信息发送状态，在此状态下，应根据识别到的实时的车辆意图，周期性发送意图信息；
+
+### 5.2.2. 通信过程要求
+
+共享状态下，车辆的通信过程如图 3 所示：
+
+![image-20221110214301426](https://img-blog.csdnimg.cn/img_convert/208d7af7e095e4e8d7fa5915819fd11a.png)
+
+消息 1： HV 发送意图共享信息，广播发送，触发时，以不低于 10Hz 的频率周期性发送。
+
+## 5.3. 数据交互要求
+
+共享状态下，车辆通信过程的数据交互要求如表 5 所示：
+
+![image-20221110214321173](https://img-blog.csdnimg.cn/img_convert/189a11048c362bcbcdf0857d0cc43ff8.png)
+
+![image-20221110214330259](https://img-blog.csdnimg.cn/img_convert/54a50b4c9dc79c818cc75764aadabd23.png)
+
+![image-20221110214343555](https://img-blog.csdnimg.cn/img_convert/bae435793dce503de5e1223f9744d725.png)
+
+# 6 意图协作
+
+## 6.1. 概述
+
+请求方 HV 可通过与协作方 RV 的交互实现车车协作（6.2），也可通过与路侧引导方路侧设备的交互实现车路协作引导（6.3）。具体触发何种协作方式应由请求方 HV 决策，不在本文件范围内。
+
+意图协作功能应基于稳定、可靠的端到端连接。
+
+意图协作支持的场景如表 6 所示：
+
+表6 意图协作类支持的细分场景
+
+| 细分应用场景                          |
+| ------------------------------------- |
+| 协作式变道-车车协作                   |
+| 协作式变道-车路协作引导               |
+| 协作式车辆汇入-车车协作               |
+| 协作式车辆汇入-车路协作引导           |
+| 无信号灯交叉口协作式通行-车车协作     |
+| 无信号灯交叉口协作式通行-车路协作引导 |
+| 有信号灯交叉口协作式通行-车路协作引导 |
+
+不同协作方式下，包含的角色不同：
+
+a) 车车协作应含请求方和协作方；
+
+b) 车路协作引导应含请求方、路侧引导方，可含协作方。
+
+注 1：车路协作引导过程中，请求方不与协作方直接交互。
+
+注 2：交互过程中，请求方、协作方的车辆临时 ID 应保持不变。
+
+## 6.2. 车车协作
+
+### 6.2.1. 场景要求
+
+#### 6.2.1.1 协作式变道
+
+协作式变道-车车协作的场景要求如表 7 所示：
+
+![image-20221110220653938](https://img-blog.csdnimg.cn/img_convert/8d9a833c1e88c3e4415c79c1f7751347.png)
+
+#### 6.2.1.2 协作式车辆汇入
+
+协作式车辆汇入-车车协作的场景要求如表 8 所示：
+
+![image-20221110220727757](https://img-blog.csdnimg.cn/img_convert/65643102279ba88b3430a9483736c79a.png)
+
+#### 6.2.1.3 无信号灯交叉口协作式通行
+
+无信号灯交叉口协作式通行-车车协作的场景要求如表 9 所示：
+
+![image-20221110220748355](https://img-blog.csdnimg.cn/img_convert/c1c46f4c4932e96c7805b204e13d4143.png)
+
+### 6.2.2. 流程要求
+
+#### 6.2.2.1 状态转换要求
+
+车车协作过程中应包括请求方的状态转换和协作方的状态转换，请求方和协作方独立维护状态机，具体要求如下：
+
+a) 请求方的状态转换如图 4 所示，包括初始状态、协商状态、执行状态。
+
+1) 初始状态：车辆正常行驶状态，应维护周围车辆能力列表的集合。当满足 5.1 意图共享触发条件，且集合内有协作方，且请求方发起意图请求时，应切换为协商状态；
+
+2) 协商状态：请求方与协作方交互的状态。当集合内所有协作方均同意协作时，切换为执行状态；当集合内有新增协作方、或集合内协作方在定时器有效期内未响应、或集合内任一协作方响应为拒绝、或意图结束时，应切换为初始状态；
+
+3) 执行状态：请求方调整自身驾驶行为完成意图的状态。当意图结束、或集合内无协作方、或集合内有新增协作方、或无法继续执行意图时，应切换为初始状态。
+
+![image-20221110220821409](https://img-blog.csdnimg.cn/img_convert/d42391de5d05c1e57bb96a0f133bcc20.png)
+
+b) 协作方的状态转换如图 5 所示，应包括初始状态、协商状态、执行状态等。
+
+1) 初始状态：车辆正常行驶状态，发送业务能力公告，接收周围车辆的请求，当收到与自车相关的意图请求时，转换为协商状态；
+
+2) 协商状态：协作方与请求方交互的状态，
+
+i. 若同意协作，则在定时器有效期内，接收到请求方发送开始执行的消息时，应转换为执行状态；在接收到请求方取消信息，或收到上层应用的取消指令时，应切换为初始状态；
+
+ii. 若拒绝协作，则在向请求方回复消息后，转换为初始状态；
+
+3) 执行状态：协作方按照协商状态的决策调整自身驾驶行为，配合请求方完成意图协作的状态。当请求方意图结束、或接收到协作方上层应用的取消指令时，应切换为初始状态。
+
+![image-20221110220922379](https://img-blog.csdnimg.cn/img_convert/b9287782ec8b98b2fa850b6b454f913a.png)
+
+#### 6.2.2.2 通信过程要求
+
+##### 6.2.2.2.1. 概述
+
+车车协作的通信过程应包括发现过程（6.2.2.2.2）、协商过程（6.2.2.2.3）、执行过程（6.2.2.2.4）和取消过程（6.2.2.2.5）。
+
+a) 发现过程：即请求方发现协作方的过程，请求方根据接收到周围车辆的业务能力公告、BSM消息、意图共享消息、以及自身情况，应至少获取到车辆的能力、标识和位置信息，找到一个或多个协作方，生成协作方集合。请求方和协作方在初始状态下进行发现过程；
+
+b) 协商过程：即请求方与协作方进行车车协商过程，请求方向协作方发送意图协作请求，协作方根据自身情况做出协作响应。请求方和协作方在协商状态下进行协商过程；
+
+c) 执行过程：即协作方配合请求方完成意图的过程，请求方根据协作方的协作响应结果和自身情况，决策并执行相应的驾驶行为，请求方给协作方发送开始执行消息，待执行完成后，请求方给协作方发送意图完成消息，请求方和协作方在执行状态下进行执行过程；
+
+d) 取消过程：即请求方与协作方取消协作的过程，请求方发送意图取消通知协作方停止本次协作，或者协作方向请求方发送取消协作的请求，请求方向协作方发送取消确认信息，请求方和协作方通过取消过程转换为初始状态。
+
+不同过程中的通信过程如图 6 所示：
+
+![image-20221110224147249](https://img-blog.csdnimg.cn/img_convert/241931b362bd8b8aa984ee26edae199e.png)
+
+##### 6.2.2.2.2. 发现过程
+
+车车协作的发现过程即请求方 HV 发现协作方 RV 的过程，在意图触发后的所有状态，应持续进行。请求方可通过两步筛选出协作方 RV：
+
+a) RV 在道路上行驶时，根据应用层指令开启和停止周期性发送业务能力公告；
+
+b) HV 根据自车情况、RV 发送的业务能力公告、意图共享等信息，筛选出周围支持本场景的协作方车辆集合。
+
+##### 6.2.2.2.3. 协商过程
+
+意图协作的车车协作场景的协商过程的交互流程如图 6 所示：
+
+消息 2：请求方 HV 发送意图协作请求，协作方可以为一个或多个，可包含协作方响应消息（消息3）的预期响应时间；
+
+消息 3：协作方 RV 发送协作响应，可拒绝也可同意，同意时，应包含具体的协作决策，可包含协作决策的有效期（消息 5 的预期响应时间）；拒绝时可包含拒绝的原因和调整建议；
+
+注：若请求方为高优先级车辆，如执行任务过程中的救护车、警车、消防车等，协作方应同意协作；若请求方为中优先级车辆，如进站公交车等，协作方宜同意协作；若请求方为低优先级车辆，如普通车辆等，协作方可同意协作。
+
+消息 4：请求方发送开始执行的信息。
+
+**请求方应符合如下要求：**
+
+a) 确认所有协作方，目标车辆应包含集合内所有协作方的目标 ID、生成请求标识 reqID、reqStatus（置为 request(1)），可填写包含目标信息的消息 3 的预期响应时间，发送消息 2，同时开启定时器 T101，开始监听消息 3；
+
+1) 在定时器 T101 的有效期内，若接收到含目标信息的消息 3，且消息 3 响应的内容均为同意协作后，则停止定时器 T101，停止监听消息 3，发送消息 4，消息 4 应包括集合内所有协作方的 ID，请求标识 reqID 与消息 2 相同，reqStatus 置为 execute(5)，进入执行过程（6.2.2.2.4）；
+
+注：目标消息指，targetOBU 与接收方的 ID 相同或包含接收方的 ID，车辆 ID 与接收方即将发送或已经发送的 taretOBU相同，且 reqID 与消息 1 中的相同。
+
+2) 否则，应停止监听消息 3，停止定时器 T101，提交应用层处理。
+
+**协作方应符合如下要求：**
+
+a) 接收到消息 2，根据应用层的协作决策，填写消息 3 并发送，其中消息 3 的目标 ID 与消息 2中的请求方 ID 相同，请求标识 reqID 与消息 2 相同，如果决策方接受协作，应将 reqStatus置为 accept(6)，应填写协作决策，可填写决策预期有效期，可填写消息 5 的预期响应时间，否则应将 reqStatus 置为 reject(7)，可填写拒绝理由或改进建议：
+
+1) 若消息 3 中 reqStatus 为 accept(6)，则开启定时器 T102，开始监听消息 4：
+
+i) 在定时器 T102 有效期内，若接收到消息 4，则停止定时器 T102，停止监听消息 4，进入执行过程（6.2.2.2.4）；
+
+ii) a.1.2) 若超出定时器 T102 有效期，则停止定时器 T102，停止监听消息 4，提交应用层处理。
+
+2) 若消息 3 中 reqStatus 为 reject(7)，则协作过程结束，提交应用层处理。
+
+##### 6.2.2.2.4. 执行过程
+
+意图协作车车协作场景的执行过程的交互流程如图 6 所示。在执行过程中，请求方可周期性发送消息，请求方和协作方通过 BSM 消息和 VIR 消息保证双方安全。
+
+消息 5：请求方发送意图完成的信息。
+
+**请求方应符合如下要求：**
+
+请求方在完成当前意图后，应发送消息 5，消息 5 应包含集合内所有协作方的 ID，请求标识 reqID与消息 2 相同，reqStatus 置为 complete(4)。
+
+**协作方应符合如下要求：**
+
+a) 协作方应开启定时器 T103，并持续监听消息 5；
+
+b) 在 T103 的有效期内，若接收到包含目标信息的消息 5，则停止定时器 T103，停止监听消息 5，协作过程结束：
+
+c) 若超出 T103 的有效期，则停止定时器 T103，停止监听消息 5，应提交应用层处理。
+
+##### 6.2.2.2.5. 取消过程
+
+若协作方的消息 3 中的协作响应为同意，则在此之后交互过程中，请求方和协作方在任意时刻都可发起取消通知，如图 6 所示。
+
+消息 6：请求方取消当前意图时，发送的消息。
+
+消息 7：协作方取消当前协作时，发送的消息。
+
+**请求方应符合如下要求：**
+
+a) 请求方可在接收到上层指令或接收到任一协作方发送的协作取消消息 7 后，向所有协作方发送协作取消消息 6，也可直接停止发送消息，发送完成后，可停止当前进行的状态机，不需要等待协作方的响应；
+
+b) 消息 6 中，目标车辆应包含集合内所有协作方的 ID，请求标识 reqID 与消息 2 相同，reqStatus置为 cancel(3)。
+
+**协作方应符合如下要求：**
+
+a) 协作方在发送同意的“协作响应”后，可向请求方发送消息 7 取消该协作，消息 7 中的目标ID 为请求方 ID，请求标识 reqID 与消息 2 相同，reqStatus 置为 revoke(8)，同时，停止协作过程。
+
+### 6.2.3. 数据交互要求
+
+#### 6.2.3.1 请求方
+
+车车协作请求方数据交互要求如表 10 所示：
+
+![image-20221110224321387](https://img-blog.csdnimg.cn/img_convert/c60ab13eb8a2eebcaf1d31d926c2b8fa.png)
+
+![image-20221110224339242](https://img-blog.csdnimg.cn/img_convert/4a025c8a5d91b144253bdd283f8c926e.png)
+
+![image-20221112181311302](https://img-blog.csdnimg.cn/img_convert/0dcfb1d92b0fac4982573878c4695834.png)
+
+#### 6.2.3.2 协作方
+
+协作方数据交互要求如表 11 所示：
+
+![image-20221112181330753](https://img-blog.csdnimg.cn/img_convert/7952bc647970485bbcb31bbdb46a8602.png)
+
+## 6.3. 车路协作引导
+
+### 6.3.1. 场景要求
+
+#### 6.3.1.1 协作式变道
+
+协作式变道-车路协作引导的场景要求如表 12 所示：
+
+![image-20221112181347075](https://img-blog.csdnimg.cn/img_convert/a7a4325133c172f6964d73091fe9f1ef.png)
+
+#### 6.3.1.2 协作式车辆汇入
+
+协作式车辆汇入-车路协作引导的场景要求如表 13 所示：
+
+![image-20221110230535052](https://img-blog.csdnimg.cn/img_convert/384c5eeb1d8bfbf35e134541600a724e.png)
+
+#### 6.3.1.3 无信号灯交叉口协作式通行
+
+无信号灯交叉口协作式通行-车路协作引导的场景要求如表 14 所示：
+
+![image-20221110230552933](https://img-blog.csdnimg.cn/img_convert/dad8c35b84bbf139cc38d8582655fc2d.png)
+
+#### 6.3.1.4 有信号灯交叉口协作式通行
+
+有信号灯交叉口协作式通行-车路协作引导的场景要求如表 15 所示：
+
+![image-20221110230616013](https://img-blog.csdnimg.cn/img_convert/c4f3bcb1aa909e5740eab1348823f8ee.png)
+
+### 6.3.2. 流程要求
+
+#### 6.3.2.1 状态转换要求
+
+车路协作引导交互过程中，包含请求方与路侧引导方的协作，以及路侧引导方与协作方的协作。
+
+a) 请求方的状态转换如图 7 所示，包括初始状态、协商状态和执行状态。
+
+1) 初始状态：车辆正常行驶状态，应维护周围路侧单元能力列表的集合。当满足 5.1 意图共享触发条件、且集合内存在路侧引导方并发起意图请求时，应切换为协商状态；
+
+2) 协商状态：请求方与路侧引导方交互的状态。当路侧引导方同意引导时，应切换为执行状态；当请求方意图结束、或有路侧引导方变更或定时器有效期内路侧引导方未响应或路侧引导方响应为拒绝时，应切换为初始状态；
+
+3) 执行状态：请求方调整自身驾驶行为完成意图的状态。当意图结束、或无路侧引导方、或路侧引导方变更、或路侧引导方取消引导、或请求方无法继续执行意图时，应切换为初始状态。
+
+![image-20221110230645739](https://img-blog.csdnimg.cn/img_convert/aec0bf2818380ce2a68303cc4394da5f.png)
+
+b) 路侧引导方的状态转换如图 8 所示，包括初始状态、协商状态、执行状态。
+
+1) 初始状态：路侧设备正常工作状态，接收周围车辆的请求。广播业务能力公告，维护周围车辆业务能力列表集合，收到与自身相关的意图引导请求时，应转换为协商状态；
+
+2) 协商状态：应包括路侧引导方与请求方交互，可包含路侧引导方与协作方交互，路侧引导方与协作方交互的结果可作为路侧引导方回复请求方引导请求的参考信息；
+
+i. 若同意引导，则在接收到请求方开始执行的消息时，应转换为执行状态；在请求方意图结束、或接收不到请求方的意图信息、或定时器超时后，应转换为初始状态；
+
+ii. 若拒绝引导，则在回复请求方消息后，应转换为初始状态；
+
+3) 执行状态：路侧引导方根据 HV 的行驶状态信息、周围环境中车辆的行驶状态信息、意图信息，为 HV 生成实时的引导建议，当引导建议变更时，应将变更后的引导建议发送给 HV，引导请求方完成意图协作的状态。当请求方意图结束、或收到路侧引导方上层应用的取消指令时，路侧引导方应切换为初始状态。
+
+![image-20221110230708155](https://img-blog.csdnimg.cn/img_convert/480954e6e2ffd0f11785a4ec4137cc18.png)
+
+c) 协作方的状态转换如图 9 所示，包括初始状态、协作状态、执行状态。
+
+1) 初始状态：车辆正常行驶状态，接收路侧引导方的协作请求，发送业务能力公告。收到与自车相关的协作请求时，转换为协商状态，当完成协作请求中的要求、或拒绝路侧引导方的协作请求时，都应转换为初始状态；
+
+2) 协作状态：协作方与路侧引导方交互的状态：
+
+i. 若同意协作，则应转换为执行状态；
+
+ii. 若拒绝协作，则应回复拒绝后，转换为初始状态；
+
+3) 执行状态：协作方按照引导请求的内容调整自身驾驶行为，配合路侧引导方完成协作引导的状态。在完成引导请求的内容后，转换为初始状态。
+
+![image-20221110230728020](https://img-blog.csdnimg.cn/img_convert/d77f323ea346ff74348eb282db1bec0f.png)
+
+#### 6.3.2.2 请求方与路侧引导方通信过程要求
+
+##### 6.3.2.2.1. 概述
+
+车路协作引导过程中，请求方与路侧引导方的通信过程可包含以下发现过程（6.3.2.2.2）、协商过程（6.3.2.2.3）、执行过程（6.3.2.2.4），各过程的主要任务如下：
+
+a) 发现过程：即请求方发现路侧引导方的过程，请求方和路侧引导方在初始状态下进行发现过程；
+
+b) 协商过程：即请求方与路侧引导方进行车路协商的过程，请求方、路侧引导方在协商状态下进行协商过程：
+
+1) 请求方向路侧引导方发送意图协作请求，接收路侧引导方发送的引导响应；
+
+2) 路侧引导方根据当前路况，生成请求方的引导建议，向请求方回复引导响应；
+
+c) 执行过程：即请求方按照路侧方的引导建议完成意图的过程，请求方、路侧引导方在执行状态下进行执行过程：
+
+1) 请求方向路侧引导方发送开始执行消息，待执行完成后，请求方给路侧引导方发送意图完成消息；
+
+2) 路侧引导方根据情况向请求方发送实时的引导建议，并监控请求方的执行状态；
+
+不同过程中的通信过程如图 10 所示：
+
+![image-20221112165631729](https://img-blog.csdnimg.cn/img_convert/d4753e9ba02ae0e2110f83afdb5d1e97.png)
+
+##### 6.3.2.2.2. 发现过程
+
+发现过程即请求方发现路侧引导方的过程。
+
+路侧引导方根据应用层指令开始和停止周期性发送业务能力公告；
+
+请求方根据接收到周围路侧设备的业务能力公告、以及自身情况，筛选得到一个路侧引导方；
+
+##### 6.3.2.2.3. 协商过程
+
+请求方应与路侧引导方进行协商过程，交互流程如图 10 所示。
+
+请求方与路侧引导方协商过程交互包括图 10 中消息 8、9、11：
+
+消息 8：请求方 HV 发送意图协作请求，接收方为路侧引导方 RSU；
+
+消息 9：路侧引导方 RSU 发送路侧引导响应（同意/引导建议、或拒绝/拒绝理由）；
+
+消息 11：请求方 HV 发送开始执行消息，接收方为路侧引导方 RSU；
+
+**请求方应符合如下要求：**
+
+a) 确认路侧引导方 ID，生成请求标识 reqID，reqStatus 置为 request(1), 发送消息 8，消息 8中可包含消息 9 的预期响应时间，同时开启定时器 T201, 开始监听消息 9；
+
+b) 在定时器 T201 的有效期内，若接收到消息 9 的目标 RSC 消息，则停止定时器 T201，停止监听消息 9；
+
+1) 若接收到的消息 9 中的引导响应为同意，发送消息 11，消息 11 的目标 ID 为路侧引导方ID，请求标识reqID与消息8相同，reqStatus置为execute(5)，进入执行过程（6.3.2.2.4）；
+
+2) 若接收到的消息 9 中的引导响应为拒绝，则提交应用层处理；
+
+c) 若定时器 T201 已超时，则停止监听消息 9，停止定时器 T201，提交应用层处理；
+
+**路侧引导方应符合如下要求：**
+
+a) 接收到消息 8，根据应用层的引导决策，发送消息 9，消息 9 中的目标 ID 与消息 8 中的请求方 ID 相同，请求标识与消息 8 中的请求标识相同：
+
+1) 若应用层决策拒绝引导请求方，消息 9 中的 reqStatus 置为 reject(7)，可填写拒绝理由，引导过程结束，提交应用层处理；
+
+2) 若应用层决策同意引导请求方，消息 9 中的 reqStatus 置为 accept(6)，并填写具体的引导建议，可包含消息 11 的预期响应时间，可包含引导决策的有效期；开启定时器 T202，开始监听消息 11：
+
+i) 在定时器 T202 的有效期内，若接收到含目标信息的消息 11，则停止定时器 T202，停止监听消息 11，进入执行过程（6.3.2.2.4）；
+
+ii) 否则，应提交应用层处理。
+
+注：路侧引导方对请求方的引导为单车级引导。
+
+##### 6.3.2.2.4. 执行过程
+
+请求方与路侧引导方在执行过程交互包括图 10 中消息 12：
+
+消息 12：请求方 HV 发送意图完成消息，接收方为路侧引导方。
+
+**请求方应符合如下要求：**
+
+请求方 HV 在完成当前意图后，发送消息 12，消息 12 的目标 ID 为路侧引导方 ID，请求标识 reqID与消息 8 相同，reqStatus 置为 complete(4)。
+
+**路侧引导方应符合如下要求：**
+
+a) 路侧引导方应开启定时器 T203，并持续监听消息 12；
+
+b) 在 T203 的有效时间内，若接收到含目标信息的消息 12，则停止定时器 T203，停止监听消息12，引导过程结束；
+
+c) 若超出 T203 的有效时间，则停止定时器 T203，停止监听消息 12，应反馈应用层处理。
+
+d) 在执行过程中，路侧引导方可按需发送更新的引导建议（消息 9）。
+
+##### 6.3.2.2.5. 取消过程
+
+若协作方的消息 9 中的引导响应为同意，则在此之后交互过程中，请求方和路侧引导方在任意时刻都可发起取消通知，如图 10 所示。
+
+消息 13：请求方取消当前意图时，发送的消息。
+
+消息 14：路侧引导方取消当前引导时，发送的消息。
+
+**请求方应符合如下要求：**
+
+a) 请求方可在接收到上层指令后，向路侧引导方发送意图取消消息 13，也可直接停止发送消息，发送完成后，可停止当前进行的状态机，不需要等待路侧引导方的响应；
+
+b) 消息 13 中，目标 RSU 为路侧引导方的 ID，请求标识 reqID 与消息 8 相同，reqStatus 置为cancel(3)。
+
+ **路侧引导方应符合如下要求：**
+
+a) 路侧引导方在发送同意的“引导响应”后，可向请求方发送消息 14 取消该引导，消息 14 中的目标 ID 为请求方 ID，请求标识 reqID 与消息 8 相同，reqStatus 置为 reject(7)，同时，停止引导过程。
+
+#### 6.3.2.3 路侧引导方与协作方通信过程要求
+
+##### 6.3.2.3.1. 概述
+
+车路协作引导过程中，路侧引导方与协作方的通信过程可包含发现过程（6.3.2.3.2）、协商过程（6.3.2.3.3）、执行过程（6.3.2.3.4），各过程的主要任务如下：
+
+a) 发现过程：即路侧引导方发现协作方的过程，路侧引导方和协作方在初始状态下进行发现过程；
+
+b) 协商过程：即路侧引导方与协作方协商配合请求方完成协作的过程，路侧引导方发送协作请求，协作方根据自身情况决策是否同意协作，并回复确认消息，并在同意协作时，按照协作请求调整自车的驾驶行为；
+
+c) 执行过程：即协作方按照路侧方的引导建议完成协作的过程。
+
+不同过程中的通信过程如图 11 所示：
+
+![image-20221112165821227](https://img-blog.csdnimg.cn/img_convert/3eda22fde05aa60adddd6612d024c189.png)
+
+##### 6.3.2.3.2. 发现过程
+
+发现过程即路侧引导方发现协作方的过程。
+
+车辆 RV 根据应用层指令开始和停止发送业务能力公告；
+
+路侧引导方根据接收到的周围车辆的业务能力公告、BSM 消息、意图共享消息，结合请求方的 BSM消息、意图协作消息，筛选得到一个或多个协作方集合。
+
+##### 6.3.2.3.3. 协商过程
+
+路侧引导方与协作方的协商过程的交互流程如图 11所示，包括消息15、16：
+
+消息 15：路侧引导方发送协作请求，接收方为一个或者多个协作方；
+
+消息 16：一个或者多个协作方发送协作响应（确认协作/执行时间、或拒绝协作/拒绝理由）；
+
+**路侧引导方应符合如下要求：**
+
+a) 发送协作请求消息 15，请求标识 reqID 与消息 8 中的 reqID 相同同时开启定时器 T204，开始监听消息 16；
+
+1) 在定时器 T204 的有效期内，若接收到消息 16 的目标 VIR 消息，则停止定时器 T204，停止监听消息 16，若消息 16 中同意协作，则进入 6.3.2.3.4 执行过程，否则，提交应用层处理。
+
+2) 若定时器 T204 已超时，则提交应用层处理。
+
+b) 根据消息16中的内容，以及周围车辆的行驶状态信息、意图信息等，为6.3.2.2.3或6.3.2.2.4中的请求方生成引导建议。
+
+**协作方应符合如下要求：**
+
+a) 接收到消息 15，根据应用层的协作决策，填写消息 16 并发送，其中，消息 16 中的目标 ID 与消息 15 中路侧引导方的 ID 相同，请求标识与消息 8 的请求标识相同。
+
+1) 若协作方同意按照路侧引导方的引导建议行驶，则消息16中的reqStatus为accept(6)，进入 6.3.2.3.4 执行过程；
+
+2) 若协作方拒绝按照路侧引导方的引导建议行驶，则消息16中的reqStatus为reject(7)，填写拒绝理由，恢复初始状态。
+
+注：路侧引导方对协作方的引导为单车级引导。
+
+##### 6.3.2.3.4. 执行过程
+
+路侧引导方与协作方在执行过程中不需要交互新的消息，路侧引导方通过协作方发送的 BSM 消息实现对协作方驾驶行为的监控，并根据协作方的 BSM 消息来调整请求方的引导建议。
+
+##### 6.3.2.3.5. 取消过程
+
+本文件中，路侧引导方与协作方的交互过程不设计取消通知。若协作方在同意协作响应后，取消当前协作，可直接停止协同即可；路侧引导方应持续监测协作方的行为，若协作方取消协同，则路侧引导方应更新 6.3.2 中的引导建议。
+
+### 6.3.3. 数据交互要求
+
+#### 6.3.3.1 请求方
+
+请求方与路侧引导方的数据交互要求与表 10 基本相同，区别如表 16 所示：
+
+![image-20221112165915609](https://img-blog.csdnimg.cn/img_convert/2feb7ca533ff4a53efbd455d49a51322.png)
+
+#### 6.3.3.2 路侧引导方
+
+路侧引导方与请求方及协作方的数据交互要求如表 17 所示：
+
+![image-20221112165935740](https://img-blog.csdnimg.cn/img_convert/a3494e20f4a0172568725591390cd788.png)
+
+![image-20221112181431964](https://img-blog.csdnimg.cn/img_convert/9aa5df2225f6f9199c1ab67a8c3a1467.png)
+
+路侧引导方与信控机的数据交互要求（消息 10）应符合《GAT 1743—2020 道路交通信号控制机信息发布接口规范》。
+
+#### 6.3.3.3 协作方
+
+协作方与路侧引导方的数据交互要求与表 11 基本相同，区别如表 18 所示：
+
+![image-20221112173223217](https://img-blog.csdnimg.cn/img_convert/261897eb1b1d7257bad304794911a1c7.png)
+
+# 7. 消息层技术要求
+
+## 7.1. 消息层基本介绍和要求
+
+消息层数据集用 ASN.1 标准进行定义，遵循“消息帧-消息体-数据帧-数据元素”层层嵌套的逻辑制定。
+
+数据集交互的编解码方式遵循非对齐压缩编码规则 UPER。
+
+本文件仅对本文件所列场景中新出现的或在二阶段（T/CSAE 157-2020，以下简称“二阶段”）基础上扩展的消息体、数据帧与数据元素进行定义，其余消息体、数据帧与数据元素参考二阶段标准。
+
+## 7.2. 消息层数据集定义
+
+### 7.2.1. 概述
+
+本文件定义的消息层数据集，以统一的消息帧格式打包；消息帧包含 YD/T 3709-2020 中定义的 5个消息体，以及 T/CSAE 157-2020 中定义的 9 个消息体，以及本文件定义的 2 个新增消息体，如图 12和图 13 所示。
+
+![image-20221112173255372](https://img-blog.csdnimg.cn/img_convert/ca55655f5d187b20b3787b8f5db44ac9.png)
+
+![image-20221112173304594](https://img-blog.csdnimg.cn/img_convert/72fff96810941f5eece0793714864363.png)
+
+本文件中应使用 ISM 消息实现意图共享功能的数据交互；应使用 VIR 和 RSC 消息实现意图协作功能协商过程、取消过程和执行过程的数据交互；可使用 SAM 消息实现意图协作功能发现过程中的数据交互。
+
+注：本文件中提及的SAM消息仅作为业务能力公告的一种实现方式，也可使用其它方式实现业务能力公告。
+
+### 7.2.2. 消息帧
+
+消息帧是单个应用层消息的统一打包格式，是数据编解码的唯一操作对象。消息帧由不同类别的消息体组成，并支持扩展。
+
+【ASN.1 代码】
+
+```ASN.1
+-- Main message frame
+MessageFrame ::= CHOICE {
+    bsmFrame BasicSafetyMessage,
+    mapFrame MapData,
+    rsmFrame RoadsideSafetyMessage,
+    spatFrame SPAT,
+    rsiFrame RoadSideInformation,
+    …,
+    --
+    -- Day 2 & new added message frames
+    --
+    	msgFrameExt MessageFrameExt,
+    … 
+}
+```
+
+### 7.2.3. 消息体
+
+#### 7.2.3.1 Msg_MessageFrameExt
+
+【定义】
+
+二阶段及新增的扩展应用层及应用数据交互标准消息。
+
+```ASN.1
+MessageFrameExt ::= SEQUENCE {
+    messageId MESSAGE-ID-AND-TYPE.&id({MessageTypes}),
+    value MESSAGE-ID-AND-TYPE.&Type({MessageTypes}{@.messageId}),
+    …
+}
+MESSAGE-ID-AND-TYPE::=CLASS{
+    &id ExmsgID UNIQUE,
+    &Type
+    }WITH SYNTAX {&Type IDENTIFIED BY &id}
+    MessageTypes MESSAGE-ID-AND-TYPE::={
+        {VehIntentionAndRequest IDENTIFIED BY virData } |
+        {RoadsideCoordination IDENTIFIED BY rscData } |
+        {IntentionSharingMessage IDENTIFIED BY ismData}|
+        {ServiceAnnouncementMessage IDENTIFIED BY samData},
+    …
+}
+ExtMsgID::=INTEGER(0..32767)
+rscData ExtMsgID ::= 11
+virData ExtMsgID ::= 13
+ismData ExtMsgID::=27
+samData ExtMsgID::=28
+```
+
+#### 7.2.3.2 Msg_ISM
+
+【定义】
+
+车辆意图共享消息。用来进行车辆驾驶意图等信息的传递。
+
+【ASN.1 代码】
+
+```ASN.1
+IntentionSharingMessage ::= SEQUENCE {
+    msgCnt MsgCount,
+    id OCTET STRING (SIZE(8)),
+    -- temperary vehicle ID
+    -- same as id in BSM
+    secMark DSecond,
+    refPos Position3D,
+    -- vehicle real position relates to secMark
+    currentPos PathPlanningPoint OPTIONAL,
+    -- current position in MAP
+     path-Planning PathPlanning OPTIONAL,
+    -- real time path planning that is shared with neighbors
+    -- list in chronological order
+    currentBehavior DriveBehavior OPTIONAL,
+    -- drive behavior related to the path planning
+    intShare DriveIntention,
+    ...
+}
+```
+
+#### 7.2.3.3 Msg_RSC
+
+【定义】
+
+路侧单元进行车辆协作或引导的消息，通常用于广播、组播或单播，给车辆提供引导信息和驾驶决策支持。消息可以针对单车进行引导，也可以面向特定的路段和车道符合条件的车辆进行引导。
+
+```ASN.1
+RoadsideCoordination ::= SEQUENCE {
+    msgCnt MsgCount,
+    id OCTET STRING (SIZE(8)),
+    -- temperary RSU ID
+    secMark DSecond,
+    refPos Position3D,
+    -- Reference position of this RSC message
+    coordinates SEQUENCE (SIZE(1..16)) OF VehicleCoordination OPTIONAL,
+    -- Coordination with single vehicle
+    laneCoordinates SEQUENCE (SIZE(1..8)) OF LaneCoordination OPTIONAL,
+    -- Lane or link level coordination
+    ...
+}
+```
+
+#### 7.2.3.4 Msg_SAM
+
+【定义】
+
+业务能力公告消息。用来进行车辆或路侧设备当前支持业务能力等信息的传递。
+
+```ASN.1
+ServiceAnnouncementMessage ::= SEQUENCE {
+    msgCnt MsgCount,
+    id OCTET STRING (SIZE(8)),
+    -- temperary vehicle ID, same as id in BSM
+    -- or RSU id
+    secMark DSecond, 
+    maneuverCooperation ManeuverCooperation OPTIONAL,
+    ...
+}
+```
+
+#### 7.2.3.5 Msg_VIR
+
+【定义】
+
+车辆意图及请求消息。用来进行车辆驾驶意图、优先请求、协作请求，以及协作方响应意图请求消息等信息的传递。
+
+```ASN.1
+VehIntentionAndRequest ::= SEQUENCE {
+    msgCnt MsgCount,
+    id OCTET STRING (SIZE(8)),
+    -- temperary vehicle ID
+    -- same as id in BSM
+    secMark DSecond,
+    refPos Position3D,
+    -- vehicle real position relates to secMark
+    intAndReq IARData,
+    -- vehicle intention and request
+    ...
+}
+```
+
+### 7.2.4. 新增数据帧
+
+#### 7.2.4.1 DF_CoorVehInfoList
+
+【定义】
+
+定义引导车辆基本信息的列表。
+
+```ASN.1
+CoorVehInfoList ::=SEQUENCE (SIZE(1..32)) OF CoorVehInfo
+```
+
+#### 7.2.4.2 DF_CoorVehInfo
+
+【定义】
+
+定义引导车辆的基本信息。
+
+```ASN.1
+CoorVehInfo ::=SEQUENCE {
+    secMark DSecond,
+    pos Position3D,
+    transmission TransmissionState,
+    speed Speed,
+    heading Heading,
+    size VehicleSize,
+    vehicleClass VehicleClassification,
+    -- VehicleClassification includes BasicVehicleClass and other extendible type
+    info ReqInfo OPTIONAL,
+    currentBehavior DriveBehavior OPTIONAL,
+    -- drive behavior related to the path planning
+     …
+}
+```
+
+#### 7.2.4.3 DF_DriveRequest
+
+【定义】
+
+定义车辆发出的请求信息。
+
+包括此次请求消息的标识 ID、请求消息的操作状态，可选字段包括请求的优先级、目标车辆的临时标识集合、目标 RSU 的临时标识、请求的内容、消息的有效期等。
+
+```ASN.1
+DriveRequest ::= SEQUENCE {
+    reqID INTEGER (0..255),
+    -- local ID of this request
+    -- same request in serial VIR messages should keep the same reqID
+    status ReqStatus,
+    reqPriority OCTET STRING (SIZE(1)) OPTIONAL,
+    -- The lower five bits are reserved and shall be set to zero
+    -- Value from B00000000 to B11100000 represents the lowest to the highest level
+    targetVehList VehTempIDList OPTIONAL,
+    -- the temporary ID of target vehicles
+    targetRSU OCTET STRING (SIZE(8)) OPTIONAL,
+    -- the temporary ID of target RSU
+    info ReqInfo OPTIONAL,
+    lifeTime TimeOffset OPTIONAL,
+    -- Lifetime of this request
+    -- Time offset is calculated from secMark of this message
+    ...
+}
+```
+
+#### 7.2.4.4 DF_DriveResponse
+
+【定义】
+
+车辆发出的协作响应信息。包括响应的请求消息的标识 ID、响应消息的操作状态，可选字段包括目标车辆的临时标识、目标 RSU 的临时标识、响应的请求的内容、消息的有效期等。
+
+```ASN.1
+DriveResponse::= SEQUENCE {
+    respID INTEGER (0..255),
+    -- local ID of this response
+    -- same request in serial VIR messages should keep the same reqID
+    respStatus ReqStatus,
+    reqVeh OCTET STRING (SIZE(8)) OPTIONAL,
+    -- the temporary ID of target vehicle
+    reqRSU OCTET STRING (SIZE(8)) OPTIONAL,
+    -- the temporary ID of target RSU
+    respInfo CoordinationInfoOPTIONAL,
+    lifeTime TimeOffset OPTIONAL,
+    -- Lifetime of this request
+    -- Time offset is calculated from secMark of this message
+    rejectReason Reason OPTIONAL,
+    ...
+}
+```
+
+#### 7.2.4.5 DF_DriveIntention
+
+【定义】
+
+车辆发出的意图共享信息。包括意图的来源、目标车道、目标路口、意图的目的以及车辆的扩展信息等。
+
+```ASN.1
+DriveIntention ::= SEQUENCE {
+    source IntentionSource OPTIONAL, 
+    currentRd RdInfo, 
+    targetRd RdInfo OPTIONAL,
+    ...
+}
+```
+
+#### 7.2.4.6 DF_IARData
+
+【定义】
+
+定义车辆的行驶计划和请求信息。
+
+包括车辆当前在地图中的位置、规划的行驶路线、相关的驾驶行为、请求消息、响应消息等。
+
+```ASN.1
+IARData ::= SEQUENCE {
+    currentPos PathPlanningPoint OPTIONAL,
+    -- current position in MAP
+     path-Planning PathPlanning OPTIONAL,
+    -- real time path planning that is shared with neighbors
+    -- list in chronological order
+    currentBehavior DriveBehavior OPTIONAL,
+    -- drive behavior related to the path planning
+    reqs SEQUENCE (SIZE(1..8)) OF DriveRequest OPTIONAL,
+    resp SEQUENCE (SIZE(1..8)) OF DriveResponse OPTIONAL,
+    ...
+}
+```
+
+#### 7.2.4.7 DF_ManeuverCooperation
+
+【定义】
+
+意图协作功能进行业务公告时的信息，包括设备类型、感知区域及业务类型等。
+
+```ASN.1
+ManeuverCooperation ::=SEQUENCE {
+    equipmentType EquipmentType,
+    detectedRegion DetectedRegion OPTIONAL,
+    intCooperation IntentCooperation OPTIONAL
+}
+```
+
+#### 7.2.4.8 DF_RdInfo
+
+【定义】
+
+道路的相关信息，包括上下游路段节点标识 ID、目标车道标识 ID 等。
+
+```ASN.1
+RdInfo ::= SEQUENCE {
+    upstreamNode NodeReferenceID OPTIONAL,
+    -- Upstream node of the link
+    downstreamNode NodeReferenceID OPTIONAL,
+    -- Downstream node of the link
+    laneID LaneID OPTIONAL,
+    -- lane ID
+    ...
+}
+```
+
+#### 7.2.4.9 DF_ReqInfo
+
+【定义】
+
+定义车辆的请求消息。
+
+包括车道变更请求、汇入请求、无信号灯交叉口通行请求、道路清空请求、信号优先请求、感知信息共享请求、场站入场请求等。
+
+```ASN.1
+ReqInfo ::= CHOICE {
+    laneChange Req-LaneChange,
+    vehMerge Req-LaneChange,
+    no-signalIntersectionPassing Req-SignalPriority,
+    clearTheWay Req-ClearTheWay,
+    signalPriority Req-SignalPriority,
+    --signalIntersectionPassing also use this
+    sensorSharing Req-SensorSharing,
+    parking Req-ParkingArea,
+    ...
+}
+```
+
+#### 7.2.4.10 DF_Req-SignalPriority
+
+【定义】
+
+定义信号灯优先请求信息。
+
+包括请求信号灯优先的交叉路口标识 ID、信号灯相位，预计到达的时间、距离交叉路口的距离、公交车的载客率以及晚点时间。
+
+```ASN.1
+Req-SignalPriority ::= SEQUENCE {
+    intersectionId NodeReferenceID,
+    -- Intersection id indicating the target traffic signal
+    requiredMov MovementEx,
+    -- Movement info. required including remote intersection id, target phase id and turning direction
+    estimatedArrivalTime TimeOffset OPTIONAL,
+    -- Estimated arrival time to the intersection
+    distance2Intersection INTEGER (0..10000) OPTIONAL,
+    -- Unit 0.1m
+     …,
+    busLoadFactor INTEGER (0..100) OPTIONAL, 
+     -- passenger load factor in bus
+     busDelayTime INTEGER (0..120) OPTIONAL,
+     -- minutes of bus delay
+     --120 means equal or more than 120 minutes
+    ...
+}
+```
+
+#### 7.2.4.11 DF_Resp-SPInfo 
+
+【定义】
+
+定义车辆信号优先请求的响应信息。
+
+```ASN.1
+Resp-SPInfo:= SEQUENCE {
+    signalPriorityType Resp-PriorityType OPTIONAL,
+    -- singal priority type
+    signalPriorityTime TimeOffset OPTIONAL,
+    -- signal priority time
+    ...
+}
+```
+
+#### 7.2.4.12 DF_VehicleCoordination
+
+【定义】
+
+定义 RSU 对某单一车辆的协调规划信息。包括车辆的临时标识 ID，请求标识，请求状态，拒绝理由以及 RSU 提供的驾驶建议和路径规划等信息。
+
+```ASN.1
+VehicleCoordination ::= SEQUENCE {
+    vehId OCTET STRING (SIZE(8)),
+    -- Temp ID of the target vehicle
+    reqID INTEGER (0..255),
+    status ReqStatus,
+    reqPriority OCTET STRING (SIZE(1)) OPTIONAL,
+    -- The lower five bits are reserved and shall be set to zero
+    -- Value from B00000000 to B11100000 represents the lowest to the highest level
+    driveSuggestion DriveSuggestion OPTIONAL,
+    pathGuidance PathPlanning OPTIONAL,
+    -- Coordination using path guidance
+    info CoordinationInfo OPTIONAL,
+    -- Detailed use cases related to current coordination
+     ...,
+     signalPriorityInfo Resp-SPInfo OPTIONAL,
+    rejectReason Reason OPTIONAL,
+    coorVehInfoList CoorVehInfoList OPTIONAL,
+    ...
+}
+```
+
+### 7.2.5. 新增数据元素
+
+#### 7.2.5.1 DE_IntentCooperation
+
+【定义】
+
+定义支持的业务类型，包括车车协作类业务（协作方发送）和车路协作类业务（路侧引导方和协作方发送），可支持多种业务。
+
+```ASN.1
+IntentCooperation ::= BIT STRING {
+    vehCoopLaneChange(0),
+    -- vehicle cooperating requester send
+    vehCoopLaneMerge(1),
+    -- vehicle cooperating requester send
+    vehCoopNonSignalIntersection(2),
+    -- vehicle cooperating requester send
+    rsuCoopLaneChange(3),
+    -- vehicle cooperating rsu send
+    -- or rsu coordinating requester send
+    rsuCoopLaneMerge(4),
+    -- vehicle cooperating rsu send
+    -- or rsu coordinating requester send
+    rsuCoopNonSignalIntersection(5),
+    -- vehicle cooperating rsu send
+    -- or rsu coordinating requester send
+    rsuCoopSignalIntersection(6)
+    -- vehicle cooperating rsu send
+    -- or rsu coordinating requester send
+}(SIZE(7,...))
+```
+
+#### 7.2.5.2 DE_IntentionSource
+
+【定义】
+
+车辆意图的来源。包括转向灯、导航地图、轨迹预测或多种方式融合后的数据。
+
+```ASN.1
+IntentionSource ::= ENUMERATED{
+    unknown(0),
+    light(1),
+    navi(2),
+    prediction(3),
+    manual(4),
+    integrated(5),
+    ...
+}
+```
+
+#### 7.2.5.3 DE_Reason
+
+【定义】
+
+车辆当前行为的原因。包括撤销之前响应的原因，车辆无法支撑协作的原因，如正在占用、车辆故障、更高优先级的请求需响应、当前环境不安全等。
+
+```ASN.1
+Reason ::=ENUMERATED{
+    unknown(0),
+    planChanged(1),
+    -- revoke its acception
+    engaged(2),
+    -- is engaged, and can't provide service
+    malfunction(3),
+    -- can't work normally
+    higherPriority(4),
+    -- should cooperate with other higher priority vehicle
+    notSafe(5),
+    -- the safe conditions are not fulfilled
+    ...
+}
+```
+
+#### 7.2.5.4 DE_ReqStatus
+
+【定义】
+
+定义请求消息的状态，以及响应消息的状态。
+
+```ASN.1
+ReqStatus ::= ENUMERATED {
+    unknown(0),
+    request(1),
+    -- raise the request and not comfirmed by the target devices yet
+    comfirmed(2),
+    -- this request is already comfirmed through some methods
+    cancel(3),
+    -- vehicle claims to cancel this request
+    complete(4),
+    -- vehicle has just completed this driving behavior
+    execute(5),
+    accept(6),
+    reject(7),
+    revoke(8),
+    -- vehicle claims to cancel this response
+    ...
+}
+```
+
+#### 7.2.5.5 DE_Resp-PriorityType
+
+【定义】
+
+定义车辆信号优先请求的响应类型。
+
+```ASN.1
+Resp-PriorityType:= ENUMERATED {
+    redTruncation(0), -- red light truncation
+    greenExtension(1), -- green light extension
+    phaseMaintain(2), -- traffic signal phase maintain
+    phaseInsertion(3), -- traffic signal phase insertion
+    ...
+}
+```
+
+#### 7.2.5.6 DE_VehTempIDList
+
+【定义】
+
+定义包含车辆临时 ID 列表。
+
+```ASN.1
+VehTempIDList ::= SEQUENCE (SIZE(1..128)) OF VehTempID
+```
+
+#### 7.2.5.7 DE_VehTempID
+
+【定义】
+
+定义车辆临时 ID。
+
+```ASN.1
+VehTempID ::= OCTET STRING (SIZE(8))
+```
+
+# 附 录 A（资料性）与 T/CSAE 157-2020 应用场景对应关系
+
+本系列标准与T/CSAE 157-2020标准中的12个应用场景的映射关系如表A. 1所示：
+
+表A.1 本系标准与T/CASE 157-2020标准中应用场景对应关系
+
+| 本系列标准              | 包括T/CSAE 157-2020中的应用场景                              |
+| ----------------------- | ------------------------------------------------------------ |
+| 第1部分：意图共享与协作 | 协作式变道、协作式车辆汇入、协作式交叉口通行、协作式优先车辆通行（协作式信号灯优先通行） |
+| 第2部分：感知数据共享   | 感知数据共享                                                 |
+| 第3部分：管理与优先     | 动态车道管理、协作式优先车辆通行（车道预留、车道封闭/禁行）  |
+| 第4部分：高级信息服务   | 差分数据服务、浮动车数据采集                                 |
+| 第5部分：弱势交通参与者 | 弱势交通参与者安全通行                                       |
+
+本文件与T/CSAE 157-2020标准中的应用场景及其子场景的对应关系如表A. 2所示：
+
+![image-20221112180408605](https://img-blog.csdnimg.cn/img_convert/31e6ce61d25efb3bc0e31d9c773eae8b.png)
+
+# 附 录 B（规范性）系统配置要求
+
+## B.1 定时器参数配置要求
+
+本文件6小节中根据最晚响应时间确定定时器时长，具体参数设置要求如表B. 1所示：
+
+![image-20221112180423122](https://img-blog.csdnimg.cn/img_convert/c0c0c53d0fbda4959db89160e7175caa.png)
+
+## B.2 reqStatus 配置要求
+
+本文件6小节中，请求方、路侧引导方和协作方均使用reqStatus进行协商、执行和取消过程，本文件中使用的字段设置如表B. 2所示：
+
+![image-20221112180437232](https://img-blog.csdnimg.cn/img_convert/231ace49a164f0d699d1ceecccb5fbe9.png)
+
+# 附 录 C（规范性）业务应用标识
+
+## C.1 业务应用标识
+
+业务应用标识用于识别不同的业务类型。业务应用标识应符合表 C. 1 的规定。
+
+![image-20221112180450696](https://img-blog.csdnimg.cn/img_convert/ba2a3dc46c9a903b699eede76fa2f3a3.png)
+
+## C.2 安全风险分析
+
+意图共享类应用场景如第 5 节中的描述，包含变道意图共享、汇入意图共享和交叉口意图共享三类，三类应用场景的描述类似，因此在表 C. 2 中进行统一分析：
+
+![image-20221112180501729](https://img-blog.csdnimg.cn/img_convert/0e77d34c736d9e22562f48ed52004226.png)
+
+意图协作类的车车协作应用场景如第 6.2 小节中的描述，包含协作式变道-车车协作、协作式车辆汇入-车车协作、无信号灯交叉口协作式通行-车车协作三类，三类应用场景的描述类似，因此在表 C. 3 中进行统一分析：
+
+![image-20221112180527469](https://img-blog.csdnimg.cn/img_convert/23715f293b625b7268bec69efffdd59f.png)
+
+意图协作类的车路协作应用场景如第 6.3 小节中的描述，包含协作式变道-车路协作引导、协作式车辆汇入-车路协作引导、无信号灯交叉口协作式通行-车路协作引导、有信号灯交叉口协作式通行-车路协作引导四类，四类应用场景的描述类似，因此在表 C. 4 中进行统一分析：
+
+![image-20221112180548805](https://img-blog.csdnimg.cn/img_convert/7f79daad17f7f2acad0e3e468f60cab5.png)
+
+## C.3 活动分组和 SSP 设计
+
+本文件中的 SSP 设计由一组变长的字符串组成，其中固定的 8bit 表示版本号，1bit 用于表示路侧引导方。其它活动可通过新的 bit 来扩展。本文件中 SSP 的设计如表 C. 5 所示：
+
+表C.5 本文件中SSP的设计
+
+![image-20221112180602936](https://img-blog.csdnimg.cn/img_convert/3e4f922c3b07ad311992e14a75657065.png)
+
+- Bit1~Bit8：版本编号，设为 1（0b0000 0001）；
+
+- Bit9：SSP 活动 bit 设置；
+
+- 未定义其它 bit。
+
+# 附 录 D（资料性）协作方选择
+
+## D.1 变道
+
+HV 在变道过程中，应根据当前所处的车道以及周围车辆的情况选择合适的协作方，两种可能的情况如图 D. 1 所示：
+
+![image-20221112180631992](https://img-blog.csdnimg.cn/img_convert/b633daa082ee9fc9da9e6257086bd9d4.png)
+
+a) 从中间车道向最右侧车道变道：
+
+HV 应与 RV 配合，待 RV 同意与前车保持安全的插入间距后，HV 再执行变道。
+
+b) 从最右侧车道向中间车道变道：
+
+HV 应同时向 RV2 和 RV1 发起请求，待 RV2 同意与前车保持安全的插入间距，且 RV1 同意不向中间车道变道后，HV 再执行变道。
+
+## D.2 汇入
+
+HV 在行驶过程中需要合流，应根据当前所处的车道以及周围车辆的情况选择合适的协作方，两种可能的情况如图 D. 2 所示：
+
+![image-20221112180648183](https://img-blog.csdnimg.cn/img_convert/bcc9c32c1b04b78f9f2899f50b0b5b03.png)
+
+a) 从辅道并入主道合流：
+
+辅道 HV 应与主道 RV 配合，待 RV 同意在道路合流区前让行，并与前车保持安全的插入间距后，HV 再执行合流。
+
+b) 两车道变成单车道合流：
+
+HV 应向 RV 发起请求，待 RV 同意在道路合流区前让行，并且与前车保持安全的插入间距后，HV 再执行合流。
+
+## D.3 无信号灯交叉口
+
+HV 在通过无信号灯交叉口时，应根据当前所处的车道、自车通过交叉口的意图以及周围车辆的行驶情况选择合适的协作方，两种可能的情况如图 D. 3 所示：
+
+![image-20221112180708069](https://img-blog.csdnimg.cn/img_convert/c4849adcdbf3aa15a91e6b960faba733.png)
+
+HV 直行/左转通过交叉口，HV 应与侧向车辆 RV1、RV2、RV3 和对向车辆 RV4 交互，待 RV1、RV2、RV3 和 RV4 均同意在进入路口前让行， HV 再通过路口。
+
+## D.4 有信号灯交叉口
+
+HV 在通过有信号灯交叉口时，路侧引导方可提前引导 HV 换道行驶，也可在通过交叉口时，与对向车道的车辆进行协同。RSU 根据 HV 当前所处的车道、通过交叉口的意图以及周围车辆的行驶情况选择合适的协作方，两种可能的情况如图 D. 4 和图 D. 5 所示：
+
+![image-20221112180722376](https://img-blog.csdnimg.cn/img_convert/7d5015537efa3e52bea1569202a6aa20.png)
+
+![image-20221112180729143](https://img-blog.csdnimg.cn/img_convert/d19adaeb7a2371580ac4c7e8ef3ab46f.png)
+
+a) HV 直行通过交叉口
+
+路侧引导方 RSU 应与对向左转的 RV 交互，待 RV 同意在进入路口前让行， RSU 再引导 HV 通过路口。
+
+b) HV 左转通过交叉口
+
+路侧引导方 RSU 应与对向直行的 RV 交互，待 RV 同意在进入路口前让行， RSU 再引导 HV 通过路口。
+
+c) RSU 引导 HV 换道行驶
+
+路侧引导方 RSU 应与相邻车道的 RV 交互，待 RV 同意让行，并且与前车保持安全的插入间距后，RSU 再引导 HV 驶入相邻车道。
+
+# 附 录 E（资料性）道路合流区确定
+
+车辆从车速较低的匝道经加速车道，即经合流区驶入车速较高的主线车道即为合流。合流发生区域可包含如下场景：
+
+a) 高速公路或快速公路入口，车辆通过匝道汇入主路；
+
+b) 高速公路或快速公路出口，车辆通过匝道与辅路车辆合流；
+
+c) 服务区或加油站等出口，车辆通过匝道与高速公路主路车辆合流；
+
+加速车道分为直接式与平行式两类。
+
+直接式加速车道的示例如图 E. 1 和图 E. 2 所示：
+
+![image-20221112180758748](https://img-blog.csdnimg.cn/img_convert/f393df90c3eae67effa742141b060bf1.png)
+
+![image-20221112180808112](https://img-blog.csdnimg.cn/img_convert/7a3eb0447107d4a5188e61af4f4c2aee.png)
+
+平行式加速车道的示例如图 E. 3 所示：
+
+![image-20221112180818825](https://img-blog.csdnimg.cn/img_convert/a59033efba5996e08f6bcc7ec9b2cdf0.png)
+
+注 1：实心圆表示车辆路径规划至少应包含的点及路径；空心圆表示 MAP 至少应包含的 Node 点；
+
+注 2：若无道路合流区，则合流始端与合流末端为同一点。
+
+经匝道行驶与主线道路合流的车辆应触发汇入意图共享或协作式车辆汇入功能。
+
+# 附 录 F（资料性）车辆优先级确定
+
+车辆优先级可按照表 F. 1 所示选择：
+
+![image-20221112180836112](https://img-blog.csdnimg.cn/img_convert/ad477e69671026df08fc4baaf2c0008f.png)
+
+# 附 录 G（资料性）意图协作异常情况处理
+
+## G.1 车车协作异常情况
+
+车车协作过程中，可能存在的异常情况及处理方式如表 G. 1 所示：
+
+![image-20221112180854308](https://img-blog.csdnimg.cn/img_convert/75e082d8feb2af3bb36b42c33423a2f9.png)
+
+## G.2 车路协作异常情况
+
+车路协作过程中，可能存在的异常情况及处理方式如表 G. 2 所示：
+
+![image-20221112180907056](https://img-blog.csdnimg.cn/img_convert/2d5d2219d2220a6651623702f11a74c8.png)
