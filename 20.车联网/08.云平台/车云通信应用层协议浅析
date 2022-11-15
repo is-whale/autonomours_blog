@@ -1,0 +1,79 @@
+- [FOTA技术专栏—车云通信应用层协议浅析 (qq.com)](https://mp.weixin.qq.com/s/PswyKFr3XV-bRQqWNgj3nQ)
+
+车联网配置的普及，使得车端与云端的交互日益频繁。车云通信协议作为车联业务的底层，随着接入车辆总数的不断增长，设计时必须考虑健壮性和拓展性。
+
+早期网联应用较少，因此不少车厂采用基于TCP/IP的私有化协议。但随着车联网业务场景的快速演变，私有协议弊端也开始凸显，例如：
+
+（1）开发新车型或新控制器都需定制或适配协议栈，这会导致开发重点从业务转移到通信中间件，增加了人力成本和测试复杂性；
+
+（2）私有协议具有封闭性、排他性等特点，一般是为了某些早期的特定业务场景而设计，缺乏灵活性和扩展性；
+
+（3）接入车辆数的增多，也更易碰到性能的瓶颈，消息可靠性亦无保障，对上层业务影响较大。
+
+因而一个轻量化、高可靠、可拓展的物联网协议是主机厂车云通信的不二选择。本文主要通过比较常见的物联网协议，并详细阐释MQTT协议在车云通信中的优势。
+
+# 请求响应模式
+
+首先介绍请求响应模式的物联网协议，即“一问一答”的形式，包括HTTP和CoAP。
+
+![图片](https://mmbiz.qpic.cn/mmbiz_png/AAPqbJEf3f5Ra8jVTAgRyGdjibt0Awqgw6MblYTHU6ibAQwVrekzjiaW16MpTQcH4VDVxKHergUiauRc1kicMhLplFQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+## 一、HTTP
+
+读者最为熟悉的是HTTP，在早期也的确有不少设备采用基于REST风格的HTTP协议作为云端与设备端的应用层协议。其传输层采用TCP、网络层采用IPv4/IPv6。
+
+然而HTTP协议是无状态、无连接的，一般由设备主动请求，云端难以主动向客户端推送消息，不能满足日益变化的车联业务需求。对于本就珍贵的车端运算和存储能力，HTTP较重的协议字段也增大了性能开销。与此同时，HTTP协议采用的传输层协议TCP并不支持多播或者广播，在数据分发上也具有瓶颈。
+
+因此如果HTTP如承担车云的通信协议，是存在短板的。
+
+## 二、CoAP
+
+CoAP（Constrained Application Protocol），即受限制的应用协议，协议小巧，协议字段可选，数据包最小仅4字节。对于那些算力和内存小的设备，或现有Web服务器架构的设备，CoAP协议是一个更好的解决方案。
+
+同为请求响应工作模式，CoAP保留了HTTP快速开发的特点，并减小了网络开销，实现了收发数据异步，提高了设备的响应速度。CoAP可与HTTP兼容，请求方法类似，包括了GET、POST、PUT、DELETE。
+
+基于REST风格设计，相较于HTTP协议，传输层从TCP变为了UDP、网络层为6LowPAN（基于IPv6的低速无线个域网标准，即IPv6 over IEEE 802.15.4）。由于UDP允许广播和多播，CoAP协议降低了分发数据的带宽要求。但CoAP局限应用于局域网中，限制了其在车联网的应用。
+
+# 发布订阅模式
+
+物联网不少协议的设计模式为发布订阅模式，当前物联网云平台主流使用的发布订阅模式协议为DDS和MQTT。
+
+## 一、DDS
+
+DDS(Data Distribution Service for Real-Time Systems)，为新一代分布式实时通信中间件协议，用于节点之间发送和接收数据、事件和命令。分发百万条消息的性能达到秒级。DDS采用无代理的发布/订阅体系架构，实现了以数据为中心的数据共享，提供多达22种QoS（Quality of Service，服务质量）策略，以保障数据进行实时、高效、灵活地分发，可满足各种分布式实时通信应用需求。这也是它适用于国防军事、工业控制这些高可靠性、可安全性应用领域的原因。
+
+DDS的特性源于其底层实现了一个抽象的全局数据空间域，如下图所示，DDS的基本架构由域构成，域将各应用组合在一起进行通信。域是一个范围概念，由域ID唯一标识，只有在同一个域内的通信实体才能通信。域参与者作为数据分发服务的入口，包含若干个发布者，订阅者和主题，负责创建，删除，管理这些实体。
+
+![图片](https://mmbiz.qpic.cn/mmbiz_png/AAPqbJEf3f5Ra8jVTAgRyGdjibt0AwqgwozQbEn2cUTOzwrNI4iaRcdgroJ34iaGIsxdPbPWZF2XfOHA9xEic7lpQQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+目前DDS的实施主要通过有线网络。如车端在车载以太通过网DDS中间件实现SOA架构，可应用于智驾领域，以满足其高响应，强实时的要求。然而大部分车联业务，如FOTA，蓝牙钥匙、远程控制，对车云通信的实时性要求并不高，综合实施成本和实现方式考虑，DDS协议的轻量级和开发成本不如MQTT。
+
+## 二 MQTT
+
+MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）协议是一种基于TCP/IP，采用发布订阅模式的轻量级物联网通信协议。MQTT协议通过代理（Broker）服务器实现数据的交互，是轻量、简单、开放和易开发的。这些特点使它成为互联网设备之间的通信的首选，实现了低带宽下与云端的数据传输。应用领域除车联网通信之外，还包括了物联网大数据采集、消息推送、智能家电等。源代码的开放进一步推动了MQTT的发展。
+
+![图片](https://mmbiz.qpic.cn/mmbiz_png/AAPqbJEf3f5Ra8jVTAgRyGdjibt0AwqgwHYhwKHoWvgJBqYNfMKWfwGDibtP0edWkxCJ8ibUvML5iabVbbJqyzwoxQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+MQTT协议能适应针对低带宽网络，低计算能力的设备应用场景，主要设计特点如下。
+
+（1）发布订阅模式方便车云的交互，数据通过Topic发布，支持多对多的通信；
+
+（2）协议报文结构紧凑，性能开销小，负载的格式灵活，能有效减少车端的网络流量；
+
+（3）提供三个可选的 QoS 等级，分别是“至多一次”，“至少—次”，“只有一次”。实际开发过程中，消息可以在用户定义的任何 QoS等级被发送出去，并且客户端也可订阅任何 QoS等级的主题。客户端会选择最高的QoS等级进行消息的发布和订阅，根据业务要求调整消息的服务质量，适应车端不同的网络环境；
+
+（4）由于MQTT可适应不可靠网络的场景，通过遗嘱消息提供在线状态感知与会话保持能力，用来告知其他客户端本客户端的网络已经异常断开。在设备与服务端连接时，通过CONNECT报文指定，当出现socket异常断开或者保活超时时，服务端应当立即发布遗嘱消息，以确保尽快通知订阅者。
+
+Mosquito是一款实现了MQTT的开源软件，开发人员可以利用 Mosquitto提供的API进行应用程序的开发。Mosquitto同时为MQTT实现了诸如SSL/TLS安全、线程管理等功能。
+
+![图片](https://mmbiz.qpic.cn/mmbiz_png/AAPqbJEf3f5Ra8jVTAgRyGdjibt0AwqgwsHAia0jTpnaVVGaNceY41Wg9yMtgEtZH0DSVlQqwmsmMVbxiax9TLaXw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+
+
+
+
+# 比较与总结
+
+最后我们对比上文所述的多种通信协议，如下表所示。在车联网场景中，MQTT能够以最小的网络开销，胜任未来海量车端设备的灵活、快速、安全接入，并保证复杂网络环境下消息实时性、可靠性。
+
+![图片](https://mmbiz.qpic.cn/mmbiz_png/AAPqbJEf3f5Ra8jVTAgRyGdjibt0AwqgwIpvc8RicXho5liaY2MwyTmFpl5dtGl1ibM0IFgRnCMwIs7BUTaBBSKPpg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
