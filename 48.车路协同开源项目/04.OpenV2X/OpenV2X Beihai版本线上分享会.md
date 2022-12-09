@@ -1,0 +1,1 @@
+- [OpenV2X Beihai版本线上分享会 (qq.com)](https://mp.weixin.qq.com/s/qN3wf26niE0DCwzNkwH0cQ)
