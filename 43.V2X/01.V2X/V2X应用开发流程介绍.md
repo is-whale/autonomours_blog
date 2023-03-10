@@ -46,9 +46,9 @@ Apollo中的v2x消息协议定义在"**modules/v2x/proto**"中，实现了RSI，
 
 标准中还定义了17类应用场景，包括安全、效率和信息服务3大类，下面是具体的应用场景。
 
-![img](https://pic2.zhimg.com/80/v2-f58bc72c147629dc7d162993b9f6b8e1_720w.jpg)V2X 3大类应用场景
+![img](https://pic2.zhimg.com/80/v2-f58bc72c147629dc7d162993b9f6b8e1_720w.jpg)
 
-
+V2X 3大类应用场景
 
 最后我们通过分析上述的一个应用场景来了解V2X的开发流程。
 

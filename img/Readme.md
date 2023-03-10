@@ -19,42 +19,6 @@ Email：1090239782@qq.com
 
 因阿里云盘内容太多，没办法直接一个网盘进行分享，遂对某部分感兴趣的，可以加好友，单独分享。
 
-
-
-![gitee](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e3573784.png)![CSDN](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e380a63f.png)![alyp](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e3a9e011.png)
-
-
-
-![标准规范](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e3cee5f3.png)
-
-
-
-
-
-
-
-![视频文件](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e3f97472.png)
-
-
-
-
-
-![相关论文](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e42ed6d9.png)
-
-
-
-
-
-![语雀](630e0e452d738.png)
-
-
-
-
-
-![语雀详细信息](https://www.lovebetterworld.com:8443/uploads/2022/08/30/630e0e4823086.png)
-
-
-
 ## 免责声明
 
 - 本站所有文章为了记录工作、编程及生活随笔，不当之处，仅供参考；

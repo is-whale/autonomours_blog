@@ -35,9 +35,9 @@ Groupcast模式通信仅在基于NR的PC5参考点上受支持，适用于所有
 
 仅在基于NR的PC5参考点上支持单播通信模式。图5.2.1.4-1说明了PC5单播链路的示例。
 
+![img](https://pic2.zhimg.com/80/v2-88d92cca39bc550ea18aa91c5d7a5ded_720w.jpg)
 
-
-![img](https://pic2.zhimg.com/80/v2-88d92cca39bc550ea18aa91c5d7a5ded_720w.jpg)Figure 5.2.1.4-1: Example of PC5 Unicast Links
+Figure 5.2.1.4-1: Example of PC5 Unicast Links
 
 当V2X通信通过PC5单播链路传输时，以下原则适用：
 
